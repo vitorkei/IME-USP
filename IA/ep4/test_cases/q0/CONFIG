@@ -1,0 +1,14 @@
+header: QUESTION #0
+
+dataset: wine
+label: 1
+
+dataset: car
+label: 0
+
+dataset: ionosphere
+label: 1
+
+pointsPerCase: 1
+
+totalQuestion: 1

@@ -1,0 +1,128 @@
+\documentclass{article}
+
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{MnSymbol}
+\usepackage{wasysym}
+\usepackage{mdframed}
+\usepackage[a4paper, total={6in, 10.5in}]{geometry}
+
+\title{\textbf{MAC425/5739 - Inteligência Artificial}}
+\author{\textbf{Vítor Kei Taira Tamada - 8516250}}
+\date{\textbf{Lista de exercícios 1 - Busca e lógica proposicional}}
+
+\begin{document}
+
+\maketitle
+
+\textbf{Exercício 3.6:}
+
+\quad a.
+
+\qquad$\bullet$ Início: Todas as regiões do mapa estão pintadas com a mesma cor
+
+\qquad$\bullet$ Meta: Nenhuma região faz fronteira com outra de mesma cor
+
+\qquad$\bullet$ Ação: Dada uma região A, mudar a cor da região adjacente B tal que as regiões A e B tenham cores diferentes
+
+\qquad$\bullet$ Custo: Número de ações
+
+\bigskip
+\quad b.
+
+\qquad$\bullet$ Início: Macaco não tem nenhuma bananda
+
+\qquad$\bullet$ Meta: Macaco pegou todas as bananas
+
+\qquad$\bullet$ Ação: Empilhar os engradados embaixo de uma banana
+
+\qquad$\bullet$ Custo: Número de ações
+
+\bigskip
+\quad c.
+
+\qquad$\bullet$ Início: Nenhum registro de entrada alimentando o arquivo
+
+\qquad$\bullet$ Meta: Registro de entrada inválido encontrado
+
+\qquad$\bullet$ Ação: Alimentar o programa com um registro de entrada
+
+\qquad$\bullet$ Custo: Número de ações
+
+\bigskip
+\quad d.
+
+\qquad$\bullet$ Início: Três jarras vazias
+
+\qquad$\bullet$ Meta: Pelo menos uma das jarras contém um litro
+
+\qquad$\bullet$ Ação: Transferir parcial ou completamente o conteúdo de uma jarra para outra ou de uma jarra para o chão
+
+\qquad$\bullet$ Custo: Número de ações
+
+\begin{flushright}
+$\blacksquare$
+\end{flushright}
+
+% ************************
+
+\bigskip
+\textbf{Exercício 3.11:}
+
+\quad R) Nó de busca é uma estrutura auxiliar utilizada em buscas, possuindo um custo, uma ação e uma altura associados a ele.
+
+\begin{flushright}
+$\blacksquare$
+\end{flushright}
+
+% ************************
+
+\bigskip
+\textbf{Exercício 3.14:}
+
+\bigskip
+\quad a) Falso, pois a busca em profundidade pode, por acaso, encontrar o caminho de menor custo em sua primeira ramificação, enquanto a busca A*, dependendo da heurística, pode expandir os nós de um caminho que se mostra ruim após alguns passos.
+
+\bigskip
+\quad b) Falso. $h(n) = 0$ não é uma heurística admissível para o quebra cabeça de 8 peças pois esse valor faria com que uma busca informada agisse de maneira idêntica a busca de custo uniforme - uma busca cega. O valor de $h(n)$ deve ser zero apenas quando n é a meta do problema.
+
+\bigskip
+\quad c)
+
+\bigskip
+\quad d) Verdadeiro, pois a busca em largura independe do custo de cada ação.
+
+\bigskip
+\quad e) Verdadeiro, uma vez que
+
+\begin{flushright}
+$\blacksquare$
+\end{flushright}
+
+% ************************
+
+\bigskip
+\textbf{Exercício 1 - P1 (2015):}
+
+\bigskip
+\quad 1.
+
+\qquad$\bullet$ Início: Agente encontra-se na célula 6
+
+\qquad$\bullet$ Meta: Agente está na célula 14 ou na célula 18
+
+\qquad$\bullet$ Ação: Mover-se para a célular de cima, de baixo, da esquerda ou da direita
+
+\qquad$\bullet$ Custo: O custo de uma ação para a célula 18 é de 4; caso contrário, o custo é de 2
+
+\qquad$\bullet$ Tamanho do espaço de estados: 
+
+\begin{flushright}
+$\blacksquare$
+\end{flushright}
+
+% ************************
+
+\end{document}

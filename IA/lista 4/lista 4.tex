@@ -1,0 +1,439 @@
+\documentclass{article}
+
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{MnSymbol}
+\usepackage{wasysym}
+\usepackage{mdframed}
+\usepackage[a4paper, total={6in, 10.5in}]{geometry}
+
+\title{\textbf{MAC425/5739 - Inteligência Artificial}}
+\author{\textbf{Vítor Kei Taira Tamada - 8516250}}
+\date{\textbf{Lista de exercícios 4}}
+
+\begin{document}
+
+\maketitle
+
+\textbf{\Large{Exercício 1}}
+
+\quad \textbf{a)} Um motivo para um agente inteligente utilizar algoritmos de aprendizagem é o fato de o programador do agente não saber ou ser capaz de prever todas as situações e mudanças possíveis que o agente enfrentará ao longo do tempo. Outro motivo é o programador não saber como programar a solução para certos casos. Em ambas as situações, o agente não teria acesso a todos as informações de antemão.
+
+Se algum desses problemas surgir, os outros algoritmos (busca, lógica e MDP) se tornam muito difíceis se não impossíveis de se implementar pois exigem conhecimento do ambiente, ações, modelos de probabilidade, solução, dentre outras informações.
+
+\bigskip
+\quad \textbf{b)} A principal diferença entre aprendizado supervisionado e aprendizado não-supervisionado é que, apesar de ambos buscarem uma função $Y = f(X) + \epsilon$ que aproxime $f(X)$, o supervisionado recebe um conjunto de pontos $(x_{1}, y_{1}), ..., (x_{n}, y_{n})$ com $y_{i}$ dados, enquanto o não-supervisionado não. Ou seja, o aprendizado supervisionado busca aprender as relações, padrões (possui um "professor" que fornece \textit{feedback}) e regularidades enquanto o não-supervisionado precisa descobri-las (não possui tal "professor").
+
+\bigskip
+\quad \textbf{c)} Aprendizado por reforço pode ser considerado não-supervisionado, pois, diferente do aprendizado supervisionado, o por reforço não aprende por um conjunto de pares entrada-resposta (\textit{input-response}). Além disso, ao fazer uso de aprendizado por reforço, o agente precisa explorar e experimentar o ambiente para aprender como se comportar nele (inferir o valor de cada ação em cada estado), enquanto, no supervisionado, algumas dessas informações (valores) são fornecidas.
+
+\begin{flushright}
+$\blacksquare$
+\end{flushright}
+
+\textbf{\Large{Exercício 2}}
+
+\bigskip
+\quad \textbf{c)} A taxa de erro no conjunto de treinamento não é considerada uma boa medida de desempenho de um classificador, pois essa taxa pode ser baixa devido ao fato de o classificador já ter feito o conjunto de treinamento em questão, o que significa que já é esperado que ele saiba as soluções ou parte delas.
+
+\quad Por outro lado, a taxa de erro no conjunto de testes é considerada uma boa medida, pois é uma indicação de o quão bem o classificador aprendeu sobre o problema.
+
+\bigskip
+\quad \textbf{d)} Dado que um modelo é uma representação do problema em questão, temos que:
+
+\quad Viés determina o quão próximo o modelo é do problema: viés baixo significa que o modelo é próxima do problema e vice-versa.
+
+\quad Variância determina a diferença entre os diferentes modelos gerados para o problema: variância baixa significa que os modelos tem pouca diferença entre si e vice-versa.
+
+\bigskip
+\quad \textbf{e)} \textit{Overfitting} é um problema que consiste em um classificador tornar-se mais complexo do que o requisitado pelo problema. Por ele ser mais complexo do que o necessário, o custo computacional aumenta e o poder de generalização diminui.
+
+\quad \textit{Underfitting}, por outro lado, é um problema que consiste em um classificador tão simples que acaba tendo performance baixo até mesmo no conjunto de treinamento. Por conta da simplicidade, apesar de exigir pouco do computador, também tem poder de generalização baixo.
+
+\begin{flushright}
+$\blacksquare$
+\end{flushright}
+
+\textbf{\Large{Exercício 3}}
+
+\quad \textbf{a)} Dado que o \textit{Naive Bayes} considera que os atributos são condicionalmente independentes uns dos outros, temos que:
+
+\quad $\bullet$ \underline{Atividade = Festa}
+
+\quad P(Atividade = Festa | prazo próximo, sem festa, cansado)
+
+\quad $= \alpha$ $\times$ P(prazo próximo | Atividade = Festa) $\times$ P(sem festa | Atividade = Festa) $\times$ P(cansado | Atividade = Festa) $\times$ P(Atividade = Festa)
+
+\quad $= \alpha \times 2/5 \times 0/5 \times 3/5 \times 5/10$
+
+\quad $= 0$
+
+\bigskip
+\quad $\bullet$ \underline{Atividade = Estudar}
+
+\quad P(Atividade = Estudar | prazo próximo, sem festa, cansado)
+
+\quad $= \alpha$ $\times$ P(prazo próximo | Atividade = Estudar) $\times$ P(sem festa | Atividade = Estudar) $\times$ P(cansado | Atividade = Estudar) $\times$ P(Atividade = Estudar) 
+
+\quad $= \alpha \times 1/3 \times 1 \times 1/3 \times 3/10$
+
+\quad $= \alpha \times 1/30$
+
+\bigskip
+\quad $\bullet$ \underline{Atividade = Bar}
+
+\quad P(Atividade = Bar | prazo próximo, sem festa, cansado)
+
+\quad $= \alpha$ $\times$ P(prazo próximo | Atividade = Bar) $\times$ P(sem festa | Atividade = Bar) $\times$ P(cansado | Atividade = Bar) $\times$ P(Atividade = Bar)
+
+\quad $= \alpha \times 0 \times 1 \times 1 \times 1/10$
+
+\quad $= 0$
+
+\bigskip
+\quad $\bullet$ \underline{Atividade = TV}
+
+\quad P(Atividade = TV | prazo próximo, sem festa, cansado)
+
+\quad $= \alpha$ $\times$ P(prazo próximo | Atividade = TV) $\times$ P(sem festa | Atividade = TV) $\times$ P(cansado | Atividade = TV) $\times$ P(Atividade = TV)
+
+\quad $= \alpha \times 1 \times 1 \times 1 \times 1/10$
+
+\quad $= \alpha \times 1/10$
+
+\bigskip
+\quad \textbf{Nota: $\alpha$ = (P(prazo próximo) $\times$ P(sem festa) $\times$ P(cansado))$^{-1}$}
+
+\bigskip
+\quad Portanto, a entrada "prazo próximo, sem festa, cansado" classifica-se como TV, pois é a que tem a maior probabilidade.
+
+\bigskip
+\quad \textbf{b)} A entropia de uma variável aleatória $V$ de valores $v_{k}$ é dada por:
+
+\begin{center}
+$H(V) = -\underset{k}{\Sigma}P(v_{k})log_{2}P(v_{k})$
+\end{center}
+
+\quad Dados atributos
+
+\quad $\bullet$ Prazo = \{Urgente, Próximo, Nenhum\}
+
+\quad $\bullet$ Festa = \{Sim, Não\}
+
+\quad $\bullet$ Cansado = \{Sim, Não\}
+
+\bigskip
+\quad e o objetivo
+
+\quad $\bullet$ Atividade = \{Festa, Estudar, Bar, TV\}
+
+\bigskip
+\quad temos as seguintes probabilidades para cada valor de cada atributo dado o conjunto de dados inicial:
+
+\quad \underline{Prazo}
+
+\qquad P(Prazo = Urgente) $= 3/10 = 0.3$
+
+\qquad P(Prazo = Próximo) $= 4/10 = 0.4$
+
+\qquad P(Prazo = Nenhum) $= 3/10 = 0.3$
+
+\bigskip
+\quad \underline{Festa}
+
+\qquad P(Festa = Sim) $= 5/10 = 0.5$
+
+\qquad P(Festa = Não) $= 5/10 = 0.5$
+
+\bigskip
+\quad \underline{Cansado}
+
+\qquad P(Cansado = Sim) $= 6/10 = 0.6$
+
+\qquad P(Cansado = Não) $= 4/10 = 0.4$
+
+\bigskip
+\quad e as seguintes probabilidades para o objetivo
+
+\quad \underline{Atividade}
+
+\qquad P(Atividade = Festa) $= 5/10 = 0.5$
+
+\qquad P(Atividade = Estudar) $= 3/10 = 0.3$
+
+\qquad P(Atividade = Bar) $= 1/10 = 0.1$
+
+\qquad P(Atividade = TV) $= 1/10 = 0.1$
+
+\bigskip
+\quad Logo, a entropia de cada atributo é:
+
+\bigskip
+\quad \underline{Prazo}
+
+\qquad $H_{0}(Prazo) = -(0.3 \times log_{2}0.3 + 0.4 \times log_{2}0.4 + 0.3 \times log_{2}0.3) = 1.571$
+
+\bigskip
+\quad \underline{Festa}
+
+\qquad $H_{0}(Festa) = -(0.5 \times log_{2}0.5 + 0.5 \times log_{2}0.5) = 1$
+
+\bigskip
+\quad \underline{Cansado}
+
+\qquad $H_{0}(Cansado) = -(0.6 \times log_{2}0.6 + 0.4 \times log_{2}0.4) = 0.971$
+
+\bigskip
+\quad e do objetivo é
+
+\qquad $H_{0}(Atividade) = -(0.5 \times log_{2}0.5 + 0.3 \times log_{2}0.3 + 0.1 \times log_{2}0.1 + 0.1 \times log_{2}0.1) = 1.686$
+
+\bigskip
+\quad Portanto, o ganho de informação inicial para cada atributo é:
+
+\bigskip
+\quad \underline{Prazo}
+
+\qquad $Gain_{0}(Prazo) = H_{0}(Atividade) - H_{0}(Prazo) = 1.686 - 1.571 = 0.115$
+
+\quad \underline{Festa}
+
+\qquad $Gain_{0}(Festa) = H_{0}(Atividade) - H_{0}(Festa) = 1.686 - 1 = 0.686$
+
+\quad \underline{Cansado}
+
+\qquad $Gain_{0}(Cansado) = H_{0}(Atividade) - H_{0}(Cansado) = 1.686 - 0.971 = 0.715$
+
+\bigskip
+\quad Logo, o primeiro nó da árvore (raíz) é o atributo "Cansado".
+
+\quad Recalculando as probabilidades, temos:
+
+\bigskip
+\quad \underline{Cansado = Sim}
+
+\qquad $\bullet$ \underline{Prazo}
+
+\quad \qquad P(Prazo = Urgente) = 2/6
+
+\quad \qquad P(Prazo = Próximo) = 3/6 = 0.5
+
+\quad \qquad P(Prazo = Nenhum) = 1/6
+
+\bigskip
+\qquad $\bullet$ \underline{Festa}
+
+\quad \qquad P(Festa = Sim) = 3/6 = 0.5
+
+\quad \qquad P(Festa = Não) = 3/6 = 0.5
+
+\bigskip
+\qquad $\bullet$ \underline{Atividade}
+
+\quad \qquad P(Atividade = Festa) $= 3/6 = 0.5$
+
+\quad \qquad P(Atividade = Estudar) $= 1/6$
+
+\quad \qquad P(Atividade = Bar) $= 1/6$
+
+\quad \qquad P(Atividade = TV) $= 1/6$
+
+\bigskip
+\quad \underline{Cansado = Não}
+
+\qquad $\bullet$ \underline{Prazo}
+
+\quad \qquad P(Prazo = Urgente) = 1/4 = 0.25
+
+\quad \qquad P(Prazo = Próximo) = 1/4 = 0.25
+
+\quad \qquad P(Prazo = Nenhum) = 2/4 = 0.5
+
+\bigskip
+\qquad $\bullet$ \underline{Festa}
+
+\quad \qquad P(Festa = Sim) = 2/4 = 0.5
+
+\quad \qquad P(Festa = Não) = 2/4 = 0.5
+
+\bigskip
+\qquad $\bullet$ \underline{Atividade}
+
+\quad \qquad P(Atividade = Festa) $= 2/4 = 0.5$
+
+\quad \qquad P(Atividade = Estudar) $= 2/4 = 0.5$
+
+\quad \qquad P(Atividade = Bar) $= 0/6 = 0$
+
+\quad \qquad P(Atividade = TV) $= 0/6 = 0$
+
+\bigskip
+\quad Recalculando as entropias, temos:
+
+\bigskip
+\quad \underline{Cansado = Sim}
+
+\bigskip
+\qquad \underline{Prazo}
+
+\qquad $H_{1}(Prazo) = -(2/6 \times log_{2}(2/6) + 0.5 \times log_{2}0.5 + 1/6 \times log_{2}(1/6)) = 1.459$
+
+\bigskip
+\qquad \underline{Festa}
+
+\qquad $H_{1}(Festa) = -(0.5 \times log_{2}0.5 + 0.5 \times log_{2}0.5) = 1$
+
+
+\bigskip
+\qquad \underline{Atividade}
+
+\qquad $H_{1}(Atividade) = -(0.5 \times log_{2}0.5 + 1/6 \times log_{2}(1/6) + 1/6 \times log_{2}(1/6) + 1/6 \times log_{2}(1/6)) = 1.793$
+
+\bigskip
+\qquad Portanto, o ganho de informação desta etapa para cada atributo é:
+
+\bigskip
+\qquad \underline{Prazo}
+
+\quad \qquad $Gain_{1}(Prazo) = H_{1}(Atividade) - H_{1}(Prazo) = 1.793 - 1.459 = 0.334$
+
+\qquad \underline{Festa}
+
+\quad \qquad $Gain_{1}(Festa) = H_{1}(Atividade) - H_{1}(Festa) = 1.793 - 1 = 0.793$
+
+\bigskip
+\qquad Logo, o segundo nó da árvore (raíz) é o atributo "Festa".
+
+\bigskip
+\quad \underline{Cansado = Não}
+
+\bigskip
+\qquad \underline{Prazo}
+
+\qquad $H_{1}(Prazo) = -(1/4 \times log_{2}(1/4) + 1/4 \times log_{2}(1/4) + 2/4 \times log_{2}(2/4)) = 1.5$
+
+\bigskip
+\qquad \underline{Festa}
+
+\qquad $H_{1}(Festa) = -(0.5 \times log_{2}0.5 + 0.5 \times log_{2}0.5) = 1$
+
+\bigskip
+\qquad \underline{Atividade}
+
+\qquad $H_{1}(Atividade) = -(0.5 \times log_{2}0.5 + 0.5 \times log_{2}(0.5) + 0 \times log_{2}0 + 0 \times log_{2}0) = 1$
+
+\bigskip
+\qquad Portanto, o ganho de informação desta etapa para cada atributo é:
+
+\bigskip
+\qquad \underline{Prazo}
+
+\quad \qquad $Gain_{1}(Prazo) = H_{1}(Atividade) - H_{1}(Prazo) = 1 - 1.5 = -0.5$
+
+\qquad \underline{Festa}
+
+\quad \qquad $Gain_{1}(Festa) = H_{1}(Atividade) - H_{1}(Festa) = 1 - 1 = 0$
+
+\bigskip
+\qquad Logo, o segundo nó da árvore (raíz) é o atributo "Festa".
+
+\bigskip
+\quad Recalculando as probabilidades, temos:
+
+\bigskip
+\quad \underline{Cansado = Sim, Festa = Sim}
+
+\qquad $\bullet$ \underline{Prazo}
+
+\quad \qquad P(Prazo = Urgente) = 1/3
+
+\quad \qquad P(Prazo = Próximo) = 2/3
+
+\quad \qquad P(Prazo = Nenhum) = 0/3 = 0
+
+\bigskip
+\qquad $\bullet$ \underline{Atividade}
+
+\quad \qquad P(Atividade = Festa) $= 3/3 = 1$
+
+\quad \qquad P(Atividade = Estudar) $= 0/3 = 0$
+
+\quad \qquad P(Atividade = Bar) $= 0/3 = 0$
+
+\quad \qquad P(Atividade = TV) $= 0/3 = 0$
+
+\bigskip
+\quad \underline{Cansado = Sim, Festa = Não}
+
+\qquad $\bullet$ \underline{Prazo}
+
+\quad \qquad P(Prazo = Urgente) = 1/3
+
+\quad \qquad P(Prazo = Próximo) = 1/3
+
+\quad \qquad P(Prazo = Nenhum) = 1/3
+
+\bigskip
+\qquad $\bullet$ \underline{Atividade}
+
+\quad \qquad P(Atividade = Festa) $= 0/3 = 0$
+
+\quad \qquad P(Atividade = Estudar) $= 1/3$
+
+\quad \qquad P(Atividade = Bar) $= 1/3$
+
+\quad \qquad P(Atividade = TV) $= 1/3$
+
+\bigskip
+\quad \underline{Cansado = Não, Festa = Sim}
+
+\qquad $\bullet$ \underline{Prazo}
+
+\quad \qquad P(Prazo = Urgente) = 0/2
+
+\quad \qquad P(Prazo = Próximo) = 0/2
+
+\quad \qquad P(Prazo = Nenhum) = 2/2 = 1
+
+\bigskip
+\qquad $\bullet$ \underline{Atividade}
+
+\quad \qquad P(Atividade = Festa) $= 2/2 = 1$
+
+\quad \qquad P(Atividade = Estudar) $= 0/2 = 0$
+
+\quad \qquad P(Atividade = Bar) $= 0/2 = 0$
+
+\quad \qquad P(Atividade = TV) $= 0/2 = 0$
+
+\bigskip
+\quad \underline{Cansado = Não, Festa = Não}
+
+\qquad $\bullet$ \underline{Prazo}
+
+\quad \qquad P(Prazo = Urgente) = 1/2 = 0.5
+
+\quad \qquad P(Prazo = Próximo) = 1/2 = 0.5
+
+\quad \qquad P(Prazo = Nenhum) = 0/2 = 0
+
+\bigskip
+\qquad $\bullet$ \underline{Atividade}
+
+\quad \qquad P(Atividade = Festa) $= 0/2 = 0$
+
+\quad \qquad P(Atividade = Estudar) $= 2/2 = 1$
+
+\quad \qquad P(Atividade = Bar) $= 0/2 = 0$
+
+\quad \qquad P(Atividade = TV) $= 0/2 = 0$
+
+\bigskip
+\quad Como há apenas mais um atributo, não é necessário calcular sua entropia e ganho de informação, pois ele determinará qual a atividade.
+
+\bigskip
+\quad \textbf{Esquema da árvore de decisão:}
+
+\end{document}

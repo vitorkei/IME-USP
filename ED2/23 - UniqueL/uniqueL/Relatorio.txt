@@ -1,0 +1,193 @@
+Relatório - Exercise 5.2.2 (Unique substrings of length L; Algs4)
+
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+
+O método utilizado para encontrar o maior valor de L tal que a a sequência é L-completa consiste em assumir que o L procurado é o (número de digitos de N) - 1 e, caso o número de sequências distintas encontradas NÃO sejam da ordem 10^L, fazer L-- e verificar novamente. Caso esse primeiro L já seja da ordem 10^L, verifica com L++.
+e.g.: se N == 9999, L == 3 pois 9999 tem 4 digitos.
+
+O maior valor de N para o qual foi possível calcular L foi 3.000.000 (três milhões), tendo encontrado L = 5 e levado mais de 20 minutos.
+
+/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\
+
+Resultados de testes NÃO realizados nos computadores das linux do IME
+L = 0
+  pi-1million.txt
+    Estrutura   | Tempo | L
+    ------------|-------|---
+    TST         | 1.57s | 4
+    RedBlackBST | 1.94s | 4
+    10-way Trie | 1.03s | 4
+
+  pi-10million.txt
+    Estrutura   | Tempo  | L
+    ------------|--------|---
+    TST         | 21.76s | 5
+    RedBlackBST | 34.74s | 5
+    10-way Trie | 15.94s | 5
+
+  **************************************
+
+  N = 999
+    Estrutura   | Tempo   | L
+    ------------|---------|---
+    TST         | 0.0076s | 2
+    RedBlackBST | 0.0083s | 2
+    10-way Trie | 0.0059s | 2
+
+  N = 9999
+    Estrutura   | Tempo   | L
+    ------------|---------|---
+    TST         | 0.0445s | 3
+    RedBlackBST | 0.0411s | 3
+    10-way Trie | 0.0338s | 3
+
+  N = 99999
+    Estrutura   | Tempo   | L
+    ------------|---------|---
+    TST         | 1.2674s | 3~4
+    RedBlackBST | 1.3003s | 3~4
+    10-way Trie | 1.2687s | 4
+
+  N = 999999
+    Estrutura   | Tempo   | L
+    ------------|---------|---
+    TST         | 128.24s | 4
+    RedBlackBST | 129.30s | 4
+    10-way Trie | 132.02s | 4
+
+  (valores maiores de N levam tempo demais para serem computados)
+
+/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\-/-\
+
+L > 0
+  L = 1
+    pi-1million.txt
+      Estrutura   |  Tempo  | Substrings diferentes de tamanho L
+      ------------|---------|------------------------------------
+      TST         | 0.2967s | 10
+      RedBlackBST | 0.2838s | 10
+      10-way Trie | 0.2541s | 10
+
+    pi-10million.txt
+      Estrutura   | Tempo  | Substrings diferentes de tamanho L
+      ------------|--------|------------------------------------
+      TST         | 2.328s | 10
+      RedBlackBST | 2.515s | 10
+      10-way Trie | 2.093s | 10
+  ================================
+  L = 2
+    pi-1million.txt
+      Estrutura   |  Tempo  | Substrings diferentes de tamanho L
+      ------------|---------|------------------------------------
+      TST         | 0.3435s | 100
+      RedBlackBST | 0.3260s | 100
+      10-way Trie | 0.2679s | 100
+
+    pi-10million.txt
+      Estrutura   | Tempo  | Substrings diferentes de tamanho L
+      ------------|--------|------------------------------------
+      TST         | 2.651s | 100
+      RedBlackBST | 2.757s | 100
+      10-way Trie | 2.131s | 100
+  ================================
+  L = 3
+    pi-1million.txt
+      Estrutura   |  Tempo  | Substrings diferentes de tamanho L
+      ------------|---------|------------------------------------
+      TST         | 0.3977s | 1.000
+      RedBlackBST | 0.4484s | 1.000
+      10-way Trie | 0.2745s | 1.000
+
+    pi-10million.txt
+      Estrutura   | Tempo  | Substrings diferentes de tamanho L
+      ------------|--------|------------------------------------
+      TST         | 3.289s | 1.000
+      RedBlackBST | 3.426s | 1.000
+      10-way Trie | 2.192s | 1.000
+  ================================
+  L = 4
+    pi-1million.txt
+      Estrutura   |  Tempo  | Substrings diferentes de tamanho L
+      ------------|---------|------------------------------------
+      TST         | 0.4886s | 10.000
+      RedBlackBST | 0.5086s | 10.000
+      10-way Trie | 0.3040s | 10.000
+
+    pi-10million.txt
+      Estrutura   | Tempo  | Substrings diferentes de tamanho L
+      ------------|--------|------------------------------------
+      TST         | 4.188s | 10.000
+      RedBlackBST | 4.545s | 10.000
+      10-way Trie | 2.360s | 10.000
+  ================================
+  L = 5
+    pi-1million.txt
+      Estrutura   |  Tempo  | Substrings diferentes de tamanho L
+      ------------|---------|------------------------------------
+      TST         | 0.5856s | 99.992
+      RedBlackBST | 0.7711s | 99.992
+      10-way Trie | 0.3718s | 99.992
+
+    pi-10million.txt
+      Estrutura   | Tempo  | Substrings diferentes de tamanho L
+      ------------|--------|------------------------------------
+      TST         | 5.633s | 100.000
+      RedBlackBST | 6.618s | 100.000
+      10-way Trie | 3.098s | 100.000
+  ================================
+  L = 6 (limite simultâneo para os dois arquivos,
+         pois não consegue um número de substrings da ordem 10^L)
+    pi-1million.txt
+      Estrutura   |  Tempo  | Substrings diferentes de tamanho L
+      ------------|---------|------------------------------------
+      TST         | 0.5856s | 631.547
+      RedBlackBST | 0.7711s | 631.547
+      10-way Trie | 0.3718s | 631.547
+
+    pi-10million.txt
+      Estrutura   | Tempo   | Substrings diferentes de tamanho L
+      ------------|---------|------------------------------------
+      TST         |  7.896s | 999.962
+      RedBlackBST | 11.643s | 999.962
+      10-way Trie |  4.912s | 999.962
+
+  **************************************
+
+  N = 99999
+    L = 1
+      Estrutura   | Tempo  | Substrings diferentes de tamanho L
+      ------------|--------|------------------------------------
+      TST         | 1.221s | 10
+      RedBlackBST | 1.234s | 10
+      10-way Trie | 1.237s | 10
+
+    L = 2
+      Estrutura   | Tempo  | Substrings diferentes de tamanho L
+      ------------|--------|------------------------------------
+      TST         | 1.217s | 100
+      RedBlackBST | 1.251s | 100
+      10-way Trie | 1.240s | 100
+
+    L = 3
+      Estrutura   | Tempo  | Substrings diferentes de tamanho L
+      ------------|--------|------------------------------------
+      TST         | 1.232s | 1.000
+      RedBlackBST | 1.260s | 1.000
+      10-way Trie | 1.240s | 1.000
+
+    L = 4
+      Estrutura   | Tempo  | Substrings diferentes de tamanho L
+      ------------|--------|------------------------------------
+      TST         | 1.252s | 10.000
+      RedBlackBST | 1.256s | 10.000
+      10-way Trie | 1.250s | 10.000
+
+    L = 5
+      Estrutura   | Tempo  | Substrings diferentes de tamanho L
+      ------------|--------|------------------------------------
+      TST         | 1.275s | 63.240
+      RedBlackBST | 1.293s | 63.254
+      10-way Trie | 1.228s | 63.147
+
+

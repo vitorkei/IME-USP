@@ -1,0 +1,60 @@
+\documentclass{article}
+
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{MnSymbol}
+\usepackage{wasysym}
+\usepackage{mdframed}
+\usepackage[a4paper, total={6in, 10.5in}]{geometry}
+
+\title{\textbf{MAC425/5739 - Inteligência Artificial}}
+\author{\textbf{Vítor Kei Taira Tamada - 8516250}}
+\date{\textbf{Exercício-programa 2 - Relatório}}
+
+\begin{document}
+
+\maketitle
+
+\textbf{Questão 1 - Modelo de observação/emissão}
+
+\quad \textbf{(a)} A equação que descreve o problema de inferência probabilística que resolve o Código 1 é:
+\begin{center}
+$\textbf{P}(\textbf{X}_{t+1}|\textbf{e}_{1:t+1}) = \alpha\textbf{P}(\textbf{e}_{t+1}|\textbf{X}_{t+1})\textbf{P}(\textbf{X}_{t+1}|\textbf{e}_{1:t})$
+\end{center}
+
+\quad Para resolver o problema, o teorema da Teoria de Probabilidade utilizado foi a Regra de Bayes, além de propriedades como separação de distribuição conjunta, 
+\textit{Sensor Markov assumption} e normalização.
+
+\bigskip
+\quad \textbf{(b)} Nos testes do Código 1 em que o PacMan está fixo, ele tem dificuldade em encontrar a posição exata dos fantasmas pois os estados de crença são atualizados de acordo com a posição atual do Pacman além da distância observada.
+
+\bigskip
+\textbf{Questão 2 - Modelo de transição}
+
+\quad \textbf{(a)} A equação que descreve o problema de inferência probabilística que resolve o Código 2 é:
+\begin{center}
+$\textbf{P}(\textbf{X}_{t}|\textbf{X}_{0:t-1}) = \textbf{P}(\textbf{X}_{t}|\textbf{X}_{t-1})$
+\end{center}
+
+\quad A probabilidade de o fantasma estar em uma célula válida \texttt{p} do labirinto no instante \texttt{t} é a somatória das probabilidades de ele estar em uma célula vizinha a \texttt{p} no instante \texttt{t-1} multiplicado pela probabilidade de mover-se para a célula \texttt{p} no instante \texttt{t}. Ou seja, para encontrar a probabilidade de o fantasma estar na célula de coordenadas \texttt{(x, y)} no instante \texttt{t}, soma-se a probabilidade de ele estar em \texttt{(x-1, y)} no instante \texttt{t-1} multiplicado pela probabilidade de mover-se na direção de \texttt{(x, y)} com a probabilidade de estar em \texttt{(x+1, y)} multiplicado pela probabilidade de mover-se na direção de \texttt{(x, y)} e assim por diante.
+
+\bigskip
+\quad \textbf{(b)} O fantasma move-se de forma que permanece mais tempo na parte de baixo do mapa do que na parte de cima. Portanto, a parte de baixo tem cores mais claras, refletindo a probabilidade maior de o fantasma encontrar-se nessa região do mapa do que na de cima, onde tem cores mais escuras.
+
+\bigskip
+\textbf{Questão 3 - Jogador automático}
+
+\quad A estratégia gulosa implementada para o jogador automático consiste em três partes:
+
+\bigskip
+\qquad (i) recebe as posições mais prováveis em que cada fantasma está;
+
+\qquad (ii) dentre as posições mais prováveis de cada fantasma, recebe a que está mais próxima do Pacman;
+
+\qquad (iii) verifica a distância entre o Pacman após cada ação possível e a posição recebida no passo anterior, e retorna a ação que reduz essa distância. Se houver mais do que uma ação que reduz a distância, retorna a última verificada. O programa considera que um passo pode reduzir a distância em um, aumentar em um ou manter a distância.
+
+\bigskip
+\quad A estratégia não é ótima pois considera apenas a posição atual do fantasma para tomar a ação - ou seja, uma estratégia gulosa - além de ser probabilística, o que significa que os fantasmas não estão necessariamente nos locais onde o Pacman acha que estão. Isso faz com que sequências de movimentos sub-ótimos sejam executadas.
+\end{document}

@@ -1,0 +1,60 @@
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.87
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.94
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:06.01
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:06.00
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:06.06
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:06.01
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.99
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:06.03
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:06.02
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.97
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.95
+	Maximum resident set size (kbytes): 5100
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:06.00
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:06.00
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:06.01
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.91
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.99
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.98
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.91
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:06.03
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:06.05
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:06.02
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:06.04
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:06.05
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.99
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.95
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.59
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.97
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:06.01
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:06.02
+	Maximum resident set size (kbytes): 1216
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.94
+	Maximum resident set size (kbytes): 1216

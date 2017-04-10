@@ -1,0 +1,60 @@
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.86
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.87
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.93
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.88
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.96
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.85
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.88
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.93
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.96
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.92
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.96
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.92
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.90
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.91
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.95
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.85
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.90
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.93
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.87
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.87
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.94
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.90
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.94
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.90
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.90
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.95
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.87
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.90
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.96
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.82
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 5100
+	Maximum resident set size (kbytes): 3068
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 5008
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 5104
+	Maximum resident set size (kbytes): 5100
+	Maximum resident set size (kbytes): 5100
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 5108
+	Maximum resident set size (kbytes): 1200
+	Maximum resident set size (kbytes): 5100

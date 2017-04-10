@@ -1,0 +1,96 @@
+Obrigatórias feitas
+
+MAC0101 - Integracao na Universidade e na Profissao
+
+MAC0105 - Fundamentos de Matematica para a Computacao
+>>(por equivalencia de MAT0138 - Algebra I para Computacao)
+
+MAC0110 - Introducao a Computacao
+
+MAC0329 - Algebra Booleana e Circuitos Digitais
+
+MAT2453 - Calculo Diferencial e Integral I
+>>(por equivalencia de MAT0111 - Calculo Diferencial e Integral I)
+
+MAT0112 - Vetores e Geometria
+>>(por equivalencia de MAT0139 - Algebra Linear para Computacao)
+
+MAC0121 - Algoritmos e Estruturas de Dados 1
+>>(por equivalencia de MAC0122 - Principios de Desenvolvimento de Algoritmos)
+
+MAC0216 - Tecnicas de Programacao I
+>>(por equivalencia de MAC0211 - Laboratorio de Programacao I)
+
+MAC0239 - Introducao a Logica e Verificacao de Programas
+
+MAE0119 - Introducao a Probabilidade e a Estatistica
+>>(por equivalencia de MAE0121 - Introducao a Probabilidade e a Estatistica I + MAE0212 - Introducao a Probabilidade e a Estatistica II)
+
+MAT2454 - Calculo Diferencial e Integral II
+>>(por equivalencia de MAT0121 - Calculo Diferencial e Integral II)
+
+MAT0122 - Algebra Linear I
+>>(por equivalencia de MAT0139 - Algebra Linear para Computacao)
+
+MAC0102 - Caminhos no Bacharelado em Ciencia da Computacao (palestras)
+
+MAC0209 - Modelagem e Simulacao
+>>(por equivalencia de 4310126 - Fisica 1)
+
+MAC0323 - Algoritmos e Estruturas de Dados II
+
+MAT0236 - Funcoes Diferenciaveis e Series
+
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+
+Obrigatórias que precisam ser feitas
+
+MAC0338 - Analise de Algoritmos
+
+MAC0316 - Conceitos Fundamentais de Linguagens de Programacao
+
+MAC0422 - Sistemas Operacionais
+
+MAC0210 - Laboratorio de Metodos Numericos
+
+MAE0228 - Nocoes de Probabilidade e Processos Estocasticos
+
+MAC0350 - Introdução ao Desenvolvimento de Sistemas de Software
+
+FLC0474 - Língua Portuguesa
+
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+
+Optativas
+-Eletivas: 16/52
+-Lives:    3/24
+
+Eletivas
+-(6) Laboratório de Programação II
+-(4) Cálculo IV
+-(6) Física II
+
+Livres
+-(3) Leitura Dramática
+
+********************
+Optativas da trilha de Inteligência Artificial
+
+-(4) MAC0425 - Inteligência artificial
+--Cursando
+
+-(4) MAC0444 - Sistemas Baseados em Conhecimento
+--Requisitos cumpridos
+
+-(4) MAC0460 - Aprendizagem Computacional: Modelos, Algoritmos e Aplicações
+--Requisitos cumpridos
+
+-MAC0??? - Técnicas de Programação 2 (<- ver se dá para pegar equivalência com Lab Prog 2)
+
+-MAC0??? - Tópicos avançados de Programação orientada a objetos
+
+-(4) MAE0515 - Introdução à Teoria dos Jogos
+--Requisitos cumpridos
+
+Soma dos créditos:
+12 + ??? + (possíveis pré requisitos)

@@ -1,0 +1,129 @@
+/***************************************************************
+* 
+* MAC0323 - Algoritmos e Estruturas de Dados II
+*
+* Nome: Vítor Kei Taira Tamada
+* NUSP: 8516250
+* Creative Problem 5.4.22 (Proof; Algs4)
+*
+***************************************************************/
+
+public class NFA
+{
+  private Digraph G;        // digraph de epsilon transições
+  private String regexp;    // expressão regular
+  private int M;            // número de caracteres em uma expressão regular
+  private boolean matches;  // flag que diz se houve match ou não entre o texto e a regex dada
+
+  // Inicializa uma NFA com a expressão regular especificada
+  public NFA(String regexp)
+  {
+    this.regexp = regexp;
+    M = regexp.length();
+    Stack<Integer> ops = new Stack<Integer>();
+    G = new Digraph(M + 1);
+    for (int i = 0; i < M; i++)
+    {
+      int lp = i;
+      if (regexp.charAt(i) == '(' || regexp.charAt(i) == '|')
+        ops.push(i);
+      else if (regexp.charAt(i) == ')')
+      {
+        int or = ops.pop();
+
+        if (regexp.charAt(or) == '|')
+        {
+          lp = ops.pop();
+          G.addEdge(lp, or + 1);
+          G.addEdge(or, i);
+        }
+        else if (regexp.charAt(or) == '(')
+          lp = or;
+        else assert false;
+      }
+
+      if (i < M - 1 && regexp.charAt(i + 1) == '*')
+      {
+        G.addEdge(lp, i + 1);
+        G.addEdge(i + 1, lp);
+      }
+
+      if (regexp.charAt(i) == '(' || regexp.charAt(i) == '*' || regexp.charAt(i) == ')')
+        G.addEdge(i, i + 1);
+    }
+
+    if (ops.size() != 0)
+      throw new IllegalArgumentException("Invalid regular expression");
+  }
+
+  // Retorna true se o texto bate com a expressão regular
+  public boolean recognizes(String txt)
+  {
+    matches = false;
+    Queue<String> transition = new Queue<String>();
+
+    DirectedDFS dfs = new DirectedDFS(G, 0);
+    Bag<Integer> pc = new Bag<Integer>();
+    for (int v = 0; v < G.V(); v++)
+      if (dfs.marked(v)) pc.add(v);
+
+    // Compute possible NFA states for txt[i + 1]
+    for (int i = 0; i < txt.length(); i++)
+    {
+      if (txt.charAt(i) == '*' || txt.charAt(i) == '|' || txt.charAt(i) == '(' || txt.charAt(i) == ')')
+        throw new IllegalArgumentException("text contains the metacharacter '" + txt.charAt(i) + "'");
+
+      Bag<Integer> match = new Bag<Integer>();
+      for (int v : pc)
+      {
+        if (v == M) continue;
+//        StdOut.println("v = " + v);
+        if ((regexp.charAt(v) == txt.charAt(i)) || regexp.charAt(v) == '.')
+        {
+//          StdOut.println("v = " + v + "\ncharAt = " + regexp.charAt(v) + "\n");
+          match.add(v + 1);
+        }
+      }
+/*
+      for (int v : match)
+        StdOut.println("v = " + v);
+      StdOut.println("*****");
+*/
+      dfs = new DirectedDFS(G, match);
+      pc = new Bag<Integer>();
+      for (int v = 0; v < G.V(); v++)
+        if (dfs.marked(v)) pc.add(v);
+
+      // optimization if no states reachable
+      if (pc.size() == 0) return matches;
+    }
+
+    // check for accept state
+    for (int v : pc)
+      if (v == M)
+        matches = true;
+    return matches;
+  }
+
+
+  // Unit test
+  public static void main(String[] args)
+  {
+    String regexp = StdIn.readString();
+    int n = StdIn.readInt();
+    NFA nfa = new NFA(regexp);
+
+    for (int i = 0; i < n; i++)
+    {
+      String txt = StdIn.readString();
+      StdOut.println(nfa.recognizes(txt));
+    }
+    
+/*
+    String regexp = "(" + args[0] + ")";
+    String txt = args[1];
+    NFA nfa = new NFA(regexp);
+    StdOut.println(nfa.recognizes(txt));
+*/
+  }
+}

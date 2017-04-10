@@ -1,0 +1,42 @@
+/***************************************************************
+* MAC0323 - Algoritmos e Estruturas de Dados II
+*
+* Nome: Vitor Kei Taira Tamada
+* NUSP: 8516250
+* Problema da Conexidade 2D
+*
+***************************************************************/
+
+public class PC2D
+{
+  public static void main (String[] args)
+  {
+    long startTime = System.nanoTime();
+    // Declaração de variáveis
+    // A estrutura utilizada é o UF
+    int N = StdIn.readInt ();
+    double d = StdIn.readDouble ();
+    UF uf = new UF (N);
+    Point2D[] grid = new Point2D[N];
+    boolean flag = true;
+
+    // Plota os pontos
+    // Quando um ponto p é plotado, verifica com quais pontos já plotados ele é conexo
+    for (int n = 0; n < N; n++)
+    {
+      double i = StdIn.readDouble ();
+      double j = StdIn.readDouble ();
+      grid[n] = new Point2D (i, j);
+      for (int k = 0; k < n; k++)
+        if (grid[k].distanceTo (grid[n]) <= d)
+          uf.union (k, n);
+    }
+
+    if (uf.count () == 1) StdOut.println ("Sim");
+    else                  StdOut.println ("Nao");
+
+    long stopTime = System.nanoTime ();
+    double deltaTime = (double) (stopTime - startTime) / 1000000000;
+    StdOut.println ("delta = " + deltaTime);
+  }
+}

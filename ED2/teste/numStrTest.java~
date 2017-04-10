@@ -1,0 +1,9 @@
+public class numStrTest
+{
+  public static void main(String[] args)
+  {
+    int i = 0001;
+    String s = i.toString();
+    StdOut.println(s);
+  }
+}

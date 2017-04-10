@@ -1,0 +1,120 @@
+/***************************************************************
+* MAC0323 - Algoritmos e Estruturas de Dados II
+*
+* Nome: Vítor Kei Taira Tamada
+* NUSP: 8516250
+* Creative Exercise 1.6.16 (Hubs and authorities; IntroCS)
+*
+* Dependencies: StdIn.java
+*               StdOut.java
+*
+* Compilation: javac RandomSurfer.java
+* Execution:   java Transition | java RandomSurfer T
+* 
+*   Em seguida, inserir, nesta ordem: N, M, H, A (número de páginas, número de links, número de hubs e número de authorities)
+*   T é o número de passos que será dado
+* Nota: utilizei como base o programa do link a seguir:
+*     http://introcs.cs.princeton.edu/java/16pagerank/RandomSurfer.java.html
+***************************************************************/
+
+public class RandomSurfer
+{
+  public static void main(String[] args)
+  {
+    int T = Integer.parseInt (args[0]);  /* Número de movimentos */
+    int N = StdIn.readInt ();            /* Número de páginas */
+    int H = StdIn.readInt ();            /* Número de hubs */
+    int A = StdIn.readInt ();            /* Número de authorities */
+    double aux = 0;                      /* Auxiliar para o cálculo do page rank médio das páginas originais, dos hubs e dos authorities */
+    double aux1;
+
+    /* Lê a matriz de transição */
+    double[][] p = new double[N + H + A][N + H + A];     /* p[i][j] = probabilidade de ir da página i para a página j */
+    for (int i = 0; i < N + H + A; i++)
+      for (int j = 0; j < N + H + A; j++)
+        p[i][j] = StdIn.readDouble ();
+
+
+    int[] freq = new int[N + H + A];            /* freq[i] = número de vezes que se chegou na página i */
+ 
+    /* Começa na página 0 */
+    int page = 0;
+
+    for (int t = 0; t < T; t++)
+    {
+      /* Faz um movimento aleatório */
+      double r = Math.random ();
+      double sum = 0.0;
+      for (int j = 0; j < N + H + A; j++)
+      {
+        /* Encontra o intervalo que contém r */
+        sum += p[page][j];
+        if (r < sum)
+        {
+          page = j;
+          break;
+        }
+      }
+      freq[page]++;
+    } 
+
+    /* Imprime o page rank das N páginas originais */
+    StdOut.println ("\nPage rank médio das N páginas originais:");
+    for (int i = 0; i < N; i++)
+      aux = aux + freq[i];
+    aux = aux / N;
+    StdOut.printf ("%8.5f", (double) aux / T); 
+    StdOut.println ();
+
+    /* Reiniciand o valor de aux */
+    aux = 0;
+
+    /* Print page ranks dos hubs */
+    StdOut.println ("\nPage rank médios dos hubs:");
+    for (int i = N; i < N + H; i++)
+      aux = aux + freq[i];
+    aux = aux / (N + H);
+    StdOut.printf ("%8.5f", (double) aux / T); 
+    StdOut.println ();
+
+    aux1 = aux;
+
+    /* Reiniciando o valor de aux */
+    aux = 0;
+
+    /* Print page ranks dos authorities */
+    StdOut.println ("\nPage rank dos authorities:");
+    for (int i = N + H; i < N + H + A; i++)
+      aux = aux + freq[i];
+    aux = aux / (N + H + A);
+    StdOut.printf ("%8.5f", (double) aux / T); 
+    StdOut.println ("\n");
+
+    if (aux1 > aux)
+      StdOut.println ("Hubs tem page rank maior que authorities.\n");
+    else if (aux1 == aux)
+      StdOut.println ("Hubs tem page rank aproximadamente igual ao de authorities.\n");
+    else
+      StdOut.println ("Hubs tem page rank menor que authorities.\n");
+
+    /* Se utilizar esta parte do código, serão impressos os page ranks de cada página, de cada hub e de cada authority, ao invés de suas respectivas médias (como feito acima) */
+/*
+    StdOut.println ("\nPage rank das N páginas originais:");
+    for (int i = 0; i < N; i++)
+      StdOut.printf ("%8.5f", (double) freq[i] / T); 
+    StdOut.println ();
+
+
+    StdOut.println ("\nPage rank dos hubs:");
+    for (int i = N; i < N + H; i++)
+      StdOut.printf ("%8.5f", (double) freq[i] / T);
+    StdOut.println ();
+
+    StdOut.println ("\nPage rank dos authorities:");
+    for (int i = N + H; i < N + H + A; i++)
+      StdOut.printf ("%8.5f", (double) freq[i] / T);
+    StdOut.println ("\n");
+*/
+  }
+} 
+

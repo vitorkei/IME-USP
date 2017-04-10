@@ -1,0 +1,12 @@
+header: QUESTION #4
+
+metric: entropy
+maxdepth: 4
+
+dataset: wine
+dataset: car
+dataset: ionosphere
+
+pointsPerCase: 3
+
+totalQuestion: 1

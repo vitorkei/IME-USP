@@ -1,0 +1,235 @@
+\documentclass{article}
+
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{MnSymbol}
+\usepackage{wasysym}
+\usepackage{mdframed}
+\usepackage[a4paper, total={6in, 10.5in}]{geometry}
+
+\title{\textbf{MAC425/5739 - Inteligência Artificial}}
+\author{\textbf{Vítor Kei Taira Tamada - 8516250}}
+\date{\textbf{Lista de exercícios 3}}
+
+\begin{document}
+
+\maketitle
+
+\textbf{\Large{Exercício 17.8 (Modificado) - Tomando decisões complexas}}
+
+\bigskip
+\quad \large{\textbf{Questão a:}}
+
+\qquad\texttt{def valueIteration(mdp, e):}
+
+\qquad\quad\texttt{S = mdp.s() \# Conjunto de estados}
+
+\qquad\quad\texttt{A = mdp.a() \# Conjunto de ações}
+
+\qquad\quad\texttt{R = mdp.r() \# Conjunto de recompensas}
+
+\qquad\quad\texttt{g = mdp.g() \# Desconto gama do modelo de transição}
+
+\qquad\quad\texttt{\# mdp.p(fs, s, a) == P(s'|s, a)}
+
+\bigskip
+\qquad\quad\texttt{U = {} \# Vetor de utilidades atual (U)}
+
+\qquad\quad\texttt{Uf = {} \# Vetor de utilidades futuro (U')}
+
+\qquad\quad\texttt{delta = 0 \# Mudança máxima da utilidade de qualquer estado em uma iteração}
+
+\qquad\quad\texttt{U\_out = [] \# Vetor que conterá o vetor de utilidades para cada valor de r}
+
+\bigskip
+\qquad\quad\texttt{R11 = [-1000, -3, 0] \# Valores que r (espaço R(1, 1) da grid world) pode ter}
+
+\bigskip
+\qquad\quad\texttt{\# Inicializa a utilidade de cada estado de S como zero}
+
+\qquad\quad\texttt{for s in S:}
+
+\qquad\qquad\texttt{U[s] = 0}
+
+\qquad\qquad\texttt{Uf[s] = 0}
+
+\bigskip
+\qquad\quad\texttt{\# Executa o algoritmo de iteração de valor com os 3 valores de R(1, 1) dados}
+
+\qquad\quad\texttt{for rew in R11:}
+
+\qquad\qquad\texttt{R['(1, 1)'] = rew}
+
+\bigskip
+\qquad\qquad\texttt{while delta < e * (1 - g) / g:}
+
+\qquad\qquad\quad\texttt{U = Uf.copy() \# U <- U'}
+
+\qquad\qquad\quad\texttt{delta = 0 \# delta <- 0}
+
+\bigskip
+\qquad\qquad\quad\texttt{for s in S:}
+
+\qquad\qquad\qquad\texttt{\# U'[s] <- R(s) + gama * max\{a in A(s)\}(sum\{s'\}(P(s'|s, a)U[s']))}
+
+\qquad\qquad\qquad\texttt{sp = 0 \# somatória de probabilidade}
+
+\qquad\qquad\qquad\texttt{for a in A[s]:}
+
+\qquad\qquad\qquad\quad\texttt{ue = 0 \# utilidade esperada}
+
+\qquad\qquad\qquad\quad\texttt{for fs in S: \# fs == future state == s'}
+
+\qquad\qquad\qquad\qquad\texttt{ue += mdp.p(fs, s, a) * U[fs]}
+
+\qquad\qquad\qquad\quad\texttt{if ue > sp:}
+
+\qquad\qquad\qquad\qquad\texttt{sp = ue}
+
+\qquad\qquad\qquad\texttt{sp *= g \# gama * max(sum(P(s'|s, a)*U(s')))}
+
+\qquad\qquad\qquad\texttt{Uf[s] = R[s] + sp}
+
+\bigskip
+\qquad\qquad\qquad\texttt{\# if |U'[s] - U[s]| > delta then delta <- |U'[s] - U[s]|}
+
+\qquad\qquad\qquad\texttt{if abs(Uf[s] - U[s]) > delta:}
+
+\qquad\qquad\qquad\quad\texttt{delta = abs(Uf[s] - U[s])}
+
+\bigskip
+\qquad\qquad\texttt{U\_out.append(U)}
+
+\bigskip
+\qquad\quad\texttt{return U\_out}
+
+\begin{flushright}
+$\blacksquare$
+\end{flushright}
+
+\quad \large{\textbf{Questão b:}}
+
+\begin{center}
+	\textbf{r = -1000}
+	
+	\begin{tabular}{| c | c | c |}
+		\hline
+			& & \\ 
+			\LARGE{$\rightarrow$} & \LARGE{$\rightarrow$} & \LARGE{$+10$} \\
+			& & \\ \hline
+			& & \\
+			\LARGE{$\downarrow$} & \LARGE{$\rightarrow$} & \LARGE{$\uparrow$} \\
+			& & \\ \hline
+			& & \\
+			\LARGE{$\rightarrow$} & \LARGE{$\rightarrow$} & \LARGE{$\uparrow$} \\
+			& & \\ \hline
+	\end{tabular}
+	
+	$r = -1000$ implica na política acima pois estar na célula $R(1, 1)$ é tão ruim que só de ter uma possibilidade não-nula de cair nessa célula já torna a ação péssima. Portanto, as melhores ações são as de se afastar de $R(1, 1)$ o máximo possível e, ao mesmo tempo, tentar chegar em $R(3, 1)$, dando preferência a se afastar de $R(1, 1)$.
+\end{center}
+
+\begin{flushright}
+$\blacksquare$
+\end{flushright}
+
+\newpage
+\textbf{\Large{Exercício 3 - P2 (2015)}}
+
+\bigskip
+\quad\large{\textbf{Questão a:}}
+
+\begin{center}
+
+$V^{i}(S) = \underset{A}{max} \; \underset{S'}{\Sigma}P(S'|S, A)[R(S, A, S') \; + \; \gamma V^{i-1}(S')]$
+
+\end{center}
+\begin{center}
+\begin{tabular}{| c | c | c |}
+	\hline
+		$S$ & $V^{0}$ & $V^{1}(S)$ \\ \hline
+		$1$ & $0$ & $0.80 \times (0+ 0.10 \times 0) + 0.20 \times (0 + 0.10 \times 0) = 0$ \\ \hline
+		$2$ & $0$ & $0.80 \times (0 + 0.10 \times 0) + 0.20 \times (0 + 0.10 \times 0) = 0$ \\ \hline
+		$3$ & $0$ & $0.80 \times (0 + 0.10 \times 0) + 0.20 \times (0 + 0.10 \times 0) = 0$ \\ \hline
+		$4$ & $0$ & $0.80 \times (10 + 0.10 \times 0) + 0.20 \times (0 + 0.10 \times 0) = 8$ \\ \hline
+		$5$ & $0$ & $0.80 \times (0 + 0.10 \times 0) + 0.20 \times (0 + 0.10 \times 0) = 0$ \\ \hline
+		$6$ & $0$ & $0.60 \times (10 + 0.10 \times 0) + 0.40 \times (0 + 0.10 \times 0) = 6$ \\ \hline	
+\end{tabular}
+
+\bigskip
+\begin{tabular}{| c | c | c |}
+	\hline
+		$S$ & $V^{1}$ & $V^{2}(S)$ \\ \hline
+		$1$ & $0$ & $0.60 \times (0 + 0.10 \times 6) + 0.40 \times (0 + 0.10 \times 0) = 0.36$ \\ \hline
+		$2$ & $0$ & $0.80 \times (0 + 0.10 \times 0) + 0.20 \times (0 + 0.10 \times 0) = 0$ \\ \hline
+		$3$ & $0$ & $0.80 \times (0 + 0.10 \times 8) + 0.20 \times (0 + 0.10 \times 0) = 0.64$ \\ \hline
+		$4$ & $8$ & $0.80 \times (10 + 0.10 \times 0) + 0.20 \times (0 + 0.10 \times 8) = 8.16$ \\ \hline
+		$5$ & $0$ & $0.80 \times (0 + 0.10 \times 0) + 0.20 \times (0 + 0.10 \times 0) = 0$ \\ \hline
+		$6$ & $6$ & $0.60 \times (10 + 0.10 \times 0) + 0.40 \times (0 + 0.10 \times 6) = 6.24$ \\ \hline
+\end{tabular}
+
+\bigskip
+\begin{tabular}{| c | c | c |}
+	\hline
+		$S$ & $V^{2}$ & $V^{3}(S)$ \\ \hline
+		$1$ & $0.36$ & $0.60 \times (0 + 0.10 \times 6.24) + 0.40 \times (0 + 0.10 \times 0.36) = 0.39$ \\ \hline
+		$2$ & $0$ & $0.80 \times (0 + 0.10 \times 0.64) + 0.20 \times (0 + 0.10 \times 0) = 0.06$ \\ \hline
+		$3$ & $0.64$ & $0.80 \times (0 + 0.10 \times 8.16) + 0.20 \times (0 + 0.10 \times 0.64) = 0.67$ \\ \hline
+		$4$ & $8.16$ & $0.80 \times (10 + 0.10 \times 0) + 0.20 \times (0 + 0.10 \times 8.16) = 8.17$ \\ \hline
+		$5$ & $0$ & $0.80 \times (0 + 0.10 \times 0) + 0.20 \times (0 + 0.10 \times 0) = 0$ \\ \hline
+		$6$ & $6.24$ & $0.60 \times (10 + 0.10 \times 0) + 0.40 \times (0 + 0.10 \times 6.24) = 6.25$ \\ \hline
+\end{tabular}
+\end{center}
+
+\begin{flushright}
+$\blacksquare$
+\end{flushright}
+
+\quad\large{\textbf{Questão b:}}
+
+\bigskip
+\begin{center}
+	$\pi^{*}(S) = \underset{A}{argmax}\underset{S'}{\Sigma}P(S'|S, A)[R(S, A, S') + \gamma V^{*}(S')]$
+	
+	\bigskip
+	$Q^{*}(A, S) = \underset{S'}{\Sigma}P(S'|S, A)[R(S, A, S') + \gamma V^{*}(S')]$
+\end{center}
+
+\begin{center}
+	\begin{tabular}{| c | c | c |}
+		\hline
+		$S$ & $V^{*}(S)$ & $Q^{*}(A = horario, S)$ \\ \hline
+		$1$ & $0.39$ & $0.8 \times (0 + 0.1 \times 0.05) + 0.2 \times (0 + 0.1 \times 0.39) = 0.0118$ \\ \hline
+		$2$ & $0.05$ & $0.8 \times (0 + 0.1 \times 0.67) + 0.2 \times (0 + 0.1 \times 0.05) = 0.0546$ \\ \hline
+		$3$ & $0.67$ & $0.8 \times (0 + 0.1 \times 8.16) + 0.2 \times (0 + 0.1 \times 0.67) = 0.6662$ \\ \hline
+		$4$ & $8.16$ & $0.8 \times (10 + 0.1 \times 0) + 0.2 \times (0 + 0.1 \times 8.16) = 8.1632$ \\ \hline
+		$5$ & $0$ & $0.8 \times (0 + 0.1 \times 0) + 0.2 \times (0 + 0.1 \times 0) = 0$ \\ \hline
+		$6$ & $6.25$ & $0.8 \times (0 + 0.1 \times 0.39) + 0.2 \times (0 + 0.1 \times 6.25) = 0.1562$ \\ \hline
+	\end{tabular}
+	
+	\bigskip
+	\begin{tabular}{| c | c | c |}
+		\hline
+		$S$ & $V^{*}(S)$ & $Q^{*}(A = antihorario, S)$ \\ \hline
+		$1$ & $0.39$ & $0.6 \times (0 + 0.1 \times 6.25) + 0.4 \times (0 + 0.1 \times 0.39) = 0.3906$ \\ \hline
+		$2$ & $0.05$ & $0.6 \times (0 + 0.1 \times 0.39) + 0.4 \times (0 + 0.1 \times 0.05) = 0.0254$ \\ \hline
+		$3$ & $0.67$ & $0.6 \times (0 + 0.1 \times 0.05) + 0.4 \times (0 + 0.1 \times 0.67) = 0.0298$ \\ \hline
+		$4$ & $8.16$ & $0.6 \times (0 + 0.1 \times 0.67) + 0.4 \times (0 + 0.1 \times 8.16) = 0.3666$ \\ \hline
+		$5$ & $0$ & $0.6 \times (0 + 0.1 \times 0) + 0.4 \times (0 + 0.1 \times 0) = 0$ \\ \hline
+		$6$ & $6.25$ & $0.6 \times (10 + 0.1 \times 0) + 0.4 \times (0 + 0.1 \times 6.25) = 6.2500$ \\ \hline
+	\end{tabular}
+	
+	\begin{tabular}{| c | c | c | c | c |}
+		\hline
+		$S$ & $V^{*}(S)$ & $Q^{*}(A = horario, S)$ & $Q^{*}(A = antihorario, S)$ & $\pi^{*}(S)$ \\ \hline
+		$1$ & $0.39$ & $0.0118$ & $0.3906$ & $0.3906 (AH)$ \\ \hline
+		$2$ & $0.05$ & $0.0546$ & $0.0254$ & $0.0546 (H)$ \\ \hline
+		$3$ & $0.67$ & $0.6662$ & $0.0298$ & $0.6662 (H)$ \\ \hline
+		$4$ & $8.16$ & $8.1632$ & $0.3666$ & $8.1632 (H)$ \\ \hline
+		$5$ & $0$ & $0$ & $0$ & $0 (H/AH)$ \\ \hline
+		$6$ & $6.25$ & $0.1562$ & $6.2500$ & $6.2500 (AH)$ \\ \hline
+	\end{tabular}
+\end{center}
+
+\end{document}

@@ -1,0 +1,2 @@
+k = input ("Insira fórmula CTL: ")
+str.replace (str

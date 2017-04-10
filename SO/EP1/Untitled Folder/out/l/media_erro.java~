@@ -1,0 +1,14 @@
+public class media_erro
+{
+    public static void main(String[] args)
+    {
+        int err;
+        double err_prop, total = 0;
+        while(!StdIn.isEmpty())
+        {
+            err = StdIn.readInt();
+            err_prop = StdIn.readDouble();
+            StdOut.println(erro_prop);
+        }
+    }
+}

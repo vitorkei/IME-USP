@@ -1,0 +1,51 @@
+/*
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+MAC0327 - Desafios de Programação - 2016/2
+Batch 1 - Aula 04 - Problema A
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+  long long e, b, m, i, T, out, aux = 0;
+  scanf("%lld", &T);
+
+  for (i = 0; i < T; i++)
+  {
+    out = 1;
+    scanf("%lld %lld %lld", &b, &e, &m);
+//printf("b = %lld || e = %lld || m = %lld\n", b, e, m);
+    if (b >= m) b = b % m;
+    while (e > 0)
+    {
+//printf("b = %lld || e = %lld\n", b, e);
+      if (aux == 2)
+      {
+        out %= m;
+        aux = 0;
+      }
+      while (e % 2 == 0)
+      {
+        e /= 2;
+        b *= b;
+//printf("b' = %lld || e = %lld\n", b, e);
+      }
+      if (e != 1)
+      {
+//printf("out = %lld\n", out);
+        out *= b;
+        aux++;
+      }
+      e--;
+    }
+//printf("b' = %lld || out = %lld\n", b, out);
+    b %= m;
+    b *= out;
+    if (b >= m) b %= m;
+    printf("b[%lld] = %lld\n", i, b);
+//printf("\n");
+  }
+}

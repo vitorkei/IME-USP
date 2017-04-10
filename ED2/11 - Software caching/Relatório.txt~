@@ -1,0 +1,19 @@
+Relatório - Creative Problem 3.3.30 (Software caching; Algs4)
+
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+
+Foram feitos testes apenas com o arquivo de texto leipzig1M.txt uma vez que sua grande quantidade de palavras resultou em diferenças de tempo consideráveis e mais perceptíveis entre cada estrutura usada.
+Os resultados desses testes estão no arquivo data.txt que acompanha o programa.
+
+A ideia do programa é contar o número de palavras diferentes no texto, número total de palavras e qual a palavra que aparece mais vezes dado um número mínimo de letras (minlen) que a palavra deve possuir. Por exemplo, se minlen == 5, será contada a frequência das palavras com 5 ou mais caracteres apenas.
+Se o valor do minlen for baixo, o programa leva mais tempo para terminar de executar, pois há mais palavras para ter a frequência contada e, por haver mais palavras com frequência registrada, mais comparações para encontrar a que aparece mais vezes no texto. Por outro lado, se esse valor for alto, a execução é mais rápida já que há menos palavras com número grande de caracteres e, portanto, menor número de frequências a serem contadas e menos comparações para encontrar a palavra mais frequente.
+
+Como é possível ver nos resultados dos testes, o programa original do site do livro (o que utiliza a tabela de símbolos ST.java) mostrou-se mais eficiente para valores mais baixo de minlen do que a versão que utiliza árvores rubro-negras com caching e sem caching. Por outro lado, conforme o minlen foi aumentando, a diferença de tempo tornou-se cada vez menor.
+A versão da árvore rubro-negra que utiliza caching, por sua vez, mostrou-se melhor que a sem caching para minlen baixos. Com valores mais altos de minlen, assim como no caso com a tabela de símbolos ST.java, a diferença diminui.
+Em suma, a versão do livro mostrou-se mais eficiente que a árvore rubro-negra com caching que, por sua vez, mostrou-se mais eficiente que a sem caching para valores mais baixos de minlen. Conforme o minlen aumenta, a diferença de tempo entre os três diminui, tornando-se quase desprezível.
+
+A versão original do programa do livro é mais eficiente pois a classe ST.java utiliza a classe de java TreeMap, que é uma implementação de uma árvore rubro-negra. A classe RedBlackBST.java com caching é mais lenta uma vez que executa uma série de verificações antes de finalmente completar uma ação (adicionar, alterar ou retornar o valor de um nó). Já a sem caching é ainda mais lenta por sempre percorrer a árvore para se chegar no nó buscado.
+Uma vez que caching faz com que a árvore não precise ser percorrida caso o nó buscado já esteja armazenado, a versão com caching é mais rápida sob determinadas circunstâncias.
+
+É interessante notar que, para valores mais altos de minlen, a execução de FrequencyCounterRB com uma árvore rubro-negra sem caching é tão rápida quanto a com caching ou até mais. Isso ocorre porque a versão com caching executa várias verificações (if) a mais.

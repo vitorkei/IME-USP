@@ -1,0 +1,12 @@
+public class testKMP
+{
+  public static void main(String[] args)
+  {
+    In in = new In();
+    String txt = in.readAll();
+    String pat = "1";
+    KMP kmp = new KMP(pat);
+    for (int i : kmp.findAll(txt))
+      StdOut.print(i + " ");
+  }
+}

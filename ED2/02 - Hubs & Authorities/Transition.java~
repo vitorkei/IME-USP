@@ -1,0 +1,130 @@
+/***************************************************************
+* MAC0323 - Algoritmos e Estruturas de Dados II
+*
+* Nome: Vítor Kei Taira Tamada
+* NUSP: 8516250
+* Creative Exercise 1.6.16 (Hubs and authorities; IntroCS)
+*
+* Dependencies: StdIn.java
+*               StdOut.java
+*               StdRandom.java
+*
+* Compilation: javac Transition.java
+* Execution:   java Transition | java RandomSurfer T
+*     T é um número qualquer
+***************************************************************/
+
+public class Transition
+{
+  public static void main (String[] args)
+  {
+    int i, j, k;
+    double p;
+    boolean flag;
+    int N = StdIn.readInt ();
+    int M = StdIn.readInt ();
+    int H = StdIn.readInt ();
+    int A = StdIn.readInt ();
+    int[][] pairs = new int[N + H + A][N + H + A];
+    int[] outDegree = new int[N + H + A];
+
+    /* Gera, aleatóriamente, os pares de links */
+    for (k = 0; k < M; k++)
+    {
+      i = StdRandom.uniform (N);
+      j = StdRandom.uniform (N);
+      pairs[i][j]++;
+      outDegree[i]++;
+    }
+
+
+    /* Imprime as páginas menos os hubs e authorities */
+    StdOut.println (N);
+    StdOut.println (H);
+    StdOut.println (A);
+/*    for (i = 0; i < N; i++)
+    {
+      flag = false;
+      for (j = 0; j < N; j++)
+        if (pairs[i][j] > 0)
+        {
+          for (k = 0; k < pairs[i][j]; k++)
+            StdOut.print (i + " " + j + "  ");
+          flag = true;
+        }
+      if (flag)
+        StdOut.println ();
+    }
+*/
+/********************************************************************/
+
+/* Espaço para diferenciar a parte dos pares da dos hubs */
+ 
+/********************************************************************/
+
+    /* Gera os hubs */
+    for (k = N; k < N + H; k++)
+      for (j = 0; j < N/10; j++)
+      {
+        i = StdRandom.uniform (N);
+        if (pairs[i][k] == 0)
+          pairs[i][k]++;
+        else
+          j--;
+      }
+
+/*
+    StdOut.println ();
+    for (j = N; j < N + H; j++)
+      for (i = 0; i < N; i++)
+        if (pairs[i][j] == 1)
+          StdOut.println (i + " " + j);
+*/
+/********************************************************************/
+
+/* Espaço para diferenciar a parte dos hubs da dos authorities */
+ 
+/********************************************************************/
+
+    for (k = N + H; k < N + H + A; k++)
+    {
+      for (i = 0; i < N/10; i++)
+      {
+        j = StdRandom.uniform (N);
+        if (pairs[k][j] == 0)
+        {
+          pairs[k][j]++;
+          outDegree[k]++;
+        }
+        else
+          i--;
+      }
+    }
+
+/*
+    StdOut.println ();
+    for (i = N + H; i < N + H + A; i++)
+      for (j = 0; j < N; j++)
+        if (pairs[i][j] == 1)
+          StdOut.println (i + " " + j);
+*/
+/********************************************************************/
+
+/* Espaço para diferenciar a parte dos authorities da de cálculo da matriz de transição */
+ 
+/********************************************************************/
+
+    for (i = 0; i < N + H + A; i++)
+    {
+      for (j = 0; j < N + H + A; j++)
+      {
+        if (outDegree[i] == 0)
+          p = .1 / (N + H + A);
+        else
+          p = .9 * pairs[i][j] / outDegree[i] + .1 / (N + H + A);
+        StdOut.printf ("%7.5f ", p);
+      }
+      StdOut.println ();
+    }
+  }
+}

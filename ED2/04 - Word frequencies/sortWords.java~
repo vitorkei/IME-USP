@@ -1,0 +1,7 @@
+public class sortWords
+{
+  public static void main (String[] args)
+  {
+    String[] words = StdIn.readAllStrings ();
+  }
+}

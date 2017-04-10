@@ -1,0 +1,11 @@
+Car dataset
+----------
+	https://archive.ics.uci.edu/ml/datasets/Car+Evaluation
+
+Ionosphere dataset
+------------------
+	https://archive.ics.uci.edu/ml/datasets/Ionosphere
+
+White wine dataset
+------------------
+	https://archive.ics.uci.edu/ml/datasets/Wine+Quality

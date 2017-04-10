@@ -1,0 +1,254 @@
+# -*- coding: utf-8 -*-
+
+# MAC425/5739 - Inteligência Artificial
+# Nome: Vítor Kei Taira Tamada
+# NUSP: 8516250
+# Exercício-Programa I
+
+#############################################
+
+# search.py
+# ---------
+# Licensing Information:  You are free to use or extend these projects for
+# educational purposes provided that (1) you do not distribute or publish
+# solutions, (2) you retain this notice, and (3) you provide clear
+# attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
+# 
+# Attribution Information: The Pacman AI projects were developed at UC Berkeley.
+# The core projects and autograders were primarily created by John DeNero
+# (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
+# Student side autograding was added by Brad Miller, Nick Hay, and
+# Pieter Abbeel (pabbeel@cs.berkeley.edu).
+
+
+"""
+In search.py, you will implement generic search algorithms which are called by
+Pacman agents (in searchAgents.py).
+"""
+
+import util
+
+class SearchProblem:
+    """
+    This class outlines the structure of a search problem, but doesn't implement
+    any of the methods (in object-oriented terminology: an abstract class).
+
+    You do not need to change anything in this class, ever.
+    """
+
+    def getStartState(self):
+        """
+        Returns the start state for the search problem.
+        """
+        util.raiseNotDefined()
+
+    def isGoalState(self, state):
+        """
+          state: Search state
+
+        Returns True if and only if the state is a valid goal state.
+        """
+        util.raiseNotDefined()
+
+    def getSuccessors(self, state):
+        """
+          state: Search state
+
+        For a given state, this should return a list of triples, (successor,
+        action, stepCost), where 'successor' is a successor to the current
+        state, 'action' is the action required to get there, and 'stepCost' is
+        the incremental cost of expanding to that successor.
+        """
+        util.raiseNotDefined()
+
+    def getCostOfActions(self, actions):
+        """
+         actions: A list of actions to take
+
+        This method returns the total cost of a particular sequence of actions.
+        The sequence must be composed of legal moves.
+        """
+        util.raiseNotDefined()
+
+
+def tinyMazeSearch(problem):
+    """
+    Returns a sequence of moves that solves tinyMaze.  For any other maze, the
+    sequence of moves will be incorrect, so only use this for tinyMaze.
+    """
+    from game import Directions
+    s = Directions.SOUTH
+    w = Directions.WEST
+    return  [s, s, w, s, w, w, s, w]
+
+def depthFirstSearch(problem):
+    start = problem.getStartState() # Recebe as coordenadas da posição inicial
+    stack = util.Stack()            # Cria uma pilha para armazenar o caminho
+    
+    stack.push((start, [], []))     # Começa com a coordenada inicial na pilha
+    while not stack.isEmpty():
+        # Recebe a coordenada, a ação executada, e espaços visitados até chegar na coordenada em questão
+        node    = stack.pop()
+        visited = node[2]
+        move    = node[1]
+        node    = node[0]
+        
+        # Verifica se a coordenada em questão é a solução
+        if problem.isGoalState(node):
+            return move
+        
+        # Coloca na pilha as opções de espaço para ir, a ação necessária e os nós visitados para se chegar nesse espaço
+        for suc in problem.getSuccessors(node):
+            child = suc[0]
+            action = suc[1]
+            if not child in visited:
+                stack.push((child, move + [action], visited + [node]))
+                
+    # Se chegou até aqui, então não tem solução
+    return []
+
+def breadthFirstSearch(problem):
+    start = problem.getStartState() # Recebe as coordenadas da posição inicial
+    visited = [start]               # Lista que armazena os espaços visitados - esta maneira de armazenar os espaços visitados ocupa menos espaço que a do DFS
+    queue = util.Queue()            # Cria uma fila para armazenar o caminho
+    
+    queue.push((start, []))         # Começa com a coordenada inicial na fila
+    while not queue.isEmpty():
+        # Recebe a coordenada e a ação executada
+        node = queue.pop()
+        move = node[1]
+        node = node[0]
+        
+        # Verifica se a coordenada em questão é solução
+        if problem.isGoalState(node):
+            return move
+        
+        # Coloca na fila as opções de espaço para ir, bem como a ação necessária para ir para esse espaço e salva esse espaço na lista visited[]
+        for suc in problem.getSuccessors(node):
+            child = suc[0]
+            action = suc[1]
+            if not child in visited:
+                queue.push((child, move + [action]))
+                visited.append(child)
+    
+    # Se chegou até aqui, então não tem solução
+    return []
+
+# Ao contrário de como se fosse em uma árvore, o nível mais profundo da busca tem depth == 0 e o mais raso (início/raíz) tem depth == d, sendo d o quão profunda será a busca naquela iteração
+def iterativeDeepeningSearch(problem):
+    start = problem.getStartState() # Recebe as coordenadas da posição inicial
+    limit = 0                       # Limite de o quão profundo a busca em profundidade será feita
+    
+    while True:                     # Realiza a busca de aprofundamento iterativo
+        depth = limit               # variável auxiliar de limite
+        stack = util.Stack()        # Cria uma pilha para armazenar o caminho
+        count = util.Counter()      # Dicionário que armazena os espaços visitados
+        
+        stack.push((start, [], depth))  # Começa com a coordenada inicial na pilha e a profundidade até a qual será buscado (lista de ações começa vazio)
+        count[start] = depth
+        while not stack.isEmpty():
+            # Recebe a coordenada em questão, o movimento para chegar nela e sua profundidade
+            node  = stack.pop()
+            depth = node[2]
+            move  = node[1]
+            node  = node[0]
+            
+            # Verifica se a coordenada em questão é solução
+            if problem.isGoalState(node):
+                return move
+            
+            if depth > 0:
+                # Coloca na pilha as opções de espaço para ir, bem como a ação necessária para ir para esse espaço, a respectiva profundidade e salva esse espaço na lista visited, além de verificar se algum deles é o objetivo
+                for suc in problem.getSuccessors(node):
+                    child = suc[0]
+                    action = suc[1]
+                    if count[child] < depth:
+                        stack.push((child, move + [action], depth - 1))
+                        count[child] = depth
+                        
+        # Aumenta o limite de profundidade a ser buscado, caso não tenha encontrado ainda
+        limit = limit + 1
+
+def uniformCostSearch(problem):
+    start = problem.getStartState() # Recebe as coordenadas da posição inicial
+    pQueue = util.PriorityQueue()   # Cria uma fila de prioridade para armazenar o caminho
+    visited = []
+    
+    pQueue.push((start, []), 0)     # Começa com a coordenada inicial na fila
+    while not pQueue.isEmpty():
+        # Recebe a coordenada e a ação executada
+        node = pQueue.pop()
+        move = node[1]
+        node = node[0]
+        
+        # Ignora uma segunda ocorrência da coordenada por ser possível chegar nela por caminhos diferentes
+        if node in visited:
+            continue
+        
+        # Guarda o espaço como visitado
+        visited.append(node)
+        
+        # Verifica se a coordenada em questão é o objetivo
+        if problem.isGoalState(node):
+            return move
+        
+        # Coloca na fila as opções de espaço para ir, bem como a ação necessária para ir para esse espaço e o custo dessa ação, atualizando a fila
+        for suc in problem.getSuccessors(node):
+            child = suc[0]
+            action = suc[1]
+            cost = problem.getCostOfActions(move + [action])
+            if not child in visited:
+                pQueue.push((child, move + [action]), cost)
+                
+    # Se chegou até aqui, então não tem solução
+    return []
+
+def nullHeuristic(state, problem=None):
+    """
+    A heuristic function estimates the cost from the current state to the nearest
+    goal in the provided SearchProblem.  This heuristic is trivial.
+    """
+    return 0
+
+def aStarSearch(problem, heuristic=nullHeuristic):
+    start = problem.getStartState()     # Recebe as coordenadas da posição inicial
+    pQueue = util.PriorityQueue()       # Cria uma fila de prioridade para armazenar o caminho
+    visited = []                        # Lista que armazena as coordenadas já visitadas
+    heur = heuristic(start, problem)    # Heurística do problema
+    
+    pQueue.push((start, []), 0)         # Começa com a coordenada inicial na fila
+    while not pQueue.isEmpty():
+        # Recebe a coordenada e a ação executada
+        node = pQueue.pop()
+        move = node[1]
+        node = node[0]
+        
+        # Ignora uma segunda ocorrência da coordenada por ser possível chegar nela por caminhos diferentes
+        if node in visited:
+            continue
+            
+        # Guarda o espaço como visitado
+        visited.append(node)
+        
+        # Verifica se a coordenada em questão é o objetivo
+        if problem.isGoalState(node):
+            return move
+            
+        # Coloca na fila as opções de espaço para ir, bem como a ação necessária para ir para esse espaço e o custo dessa ação, atualizando a fila
+        for suc in problem.getSuccessors(node):
+            child = suc[0]
+            action = suc[1]
+            heur = heuristic(child, problem)
+            cost = problem.getCostOfActions(move + [action]) + heur
+            if not child in visited:
+                pQueue.push((child, move + [action]), cost)
+                
+    # Se chegou até aqui, então não tem solução
+    return []
+    
+# Abbreviations
+bfs = breadthFirstSearch
+dfs = depthFirstSearch
+astar = aStarSearch
+ucs = uniformCostSearch
+ids = iterativeDeepeningSearch

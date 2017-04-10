@@ -1,0 +1,17 @@
+# intro
+python gridworld.py
+python pacman.py
+
+# value iteration
+python gridworld.py -a value -i 5
+
+# q-learning
+python gridworld.py -a q -k 100
+
+# PacMan (Q-Learning)
+python pacman.py -p PacmanQAgent -x 2000 -n 2010 -l smallGrid
+python pacman.py -p PacmanQAgent -x 2000 -n 2010 -l mediumGrid
+
+# PacMan (Approximate Q-Learning)
+python pacman.py -p ApproximateQAgent -a extractor=SimpleExtractor -x 50 -n 60 -l mediumGrid
+python pacman.py -p ApproximateQAgent -a extractor=SimpleExtractor -x 50 -n 60 -l mediumClassic

@@ -1,0 +1,25 @@
+public class d
+{
+  public static void main(String[] args)
+  {
+    double media_t = 0, total = 0, var;
+    double[] t = new double[30];
+    for(int i = 0; i < 30; i++)
+    {
+      t[i] = StdIn.readDouble();
+      total = total + t[i];
+    }
+    
+    media_t = total / 30;
+    StdOut.println("total = " + total);
+    StdOut.println("media = " + media_t);
+    
+    for(int i = 0; i < 30; i++)
+    {
+      double aux = t[i] - media_t;
+      var += (aux * aux);
+    }
+    var /= 29;
+    StdOut.println("var = " + var);
+  }
+}

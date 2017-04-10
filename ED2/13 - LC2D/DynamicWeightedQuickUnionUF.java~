@@ -1,0 +1,123 @@
+/***************************************************************
+* MAC0323 - Algoritmos e Estruturas de Dados II
+*
+* Nome: Vitor Kei Taira Tamada
+* NUSP: 8516250
+* Problema da Conexidade 2D - Alterado desde o mEP9
+*
+***************************************************************/
+
+public class DynamicWeightedQuickUnionUF
+{
+  private int[] parent; // parent[i] = pai de i
+  private int[] size;   // size[i] = número de sites na subárvore cuja raíz é i
+  private int count;    // número de componentes
+
+  // Inicializa uma estrutura de union-find vazia com N sites, indo de 0 até N-1
+  // Cada site é uma componente por si só
+  public DynamicWeightedQuickUnionUF ()
+  {
+    count = 2;
+    parent = new int[2];
+    size = new int[2];
+    for (int i = 0; i < 2; i++)
+    {
+      parent[i] = i;
+      size[i] = 1;
+    }
+  }
+
+  // Retorna o número de componentes
+  public int count ()  { return count; }
+
+  // Retorna o identificador de componente da componente que contém o site p
+  public int find (int p)
+  {
+    validate (p);
+    while (p != parent[p])
+    {
+      parent[p] = parent[parent[p]];
+      p = parent[p];
+    }
+    return p;
+  }
+  
+  // Verifica se p é um index válido
+  private void validate (int p)
+  {
+    int N = parent.length;
+    if (p < 0)
+      throw new IndexOutOfBoundsException ("index " + p + " não está entre 0 e " + (N-1));
+    else if (p >= N)
+      newSite (p);
+  }
+
+  // Retorna true se os sites p e q estão na mesma componente
+  public boolean connected (int p, int q)  { return find (p) == find (q); }
+
+  // Junta a componente que contém o site p com a componente que contém o site q
+  public void union (int p, int q)
+  {
+    if (!connected(p, q))
+      count--;
+
+    int rootP = find (p);
+    int rootQ = find (q);
+
+    if (size[rootP] < size[rootQ])
+    {
+      parent[rootP] = rootQ;
+      size[rootQ] += size[rootP];
+    }
+    else
+    {
+      parent[rootQ] = rootP;
+      size[rootP] += size[rootQ];
+    }
+  }
+
+  // Redimensiona os arrays parent e size
+  private void newSite (int p)
+  {
+    assert p >= parent.length;
+    int[] temp_parent = new int[p + 1];
+    int[] temp_size = new int[p + 1];
+    for (int i = 0; i < parent.length; i++)
+    {
+      temp_parent[i] = parent[i];
+      temp_size[i] = size[i];
+    }
+    for (int i = parent.length; i < p + 1; i++)
+    {
+      temp_parent[i] = i;
+      temp_size[i] = 1;
+    }
+    parent = temp_parent;
+    size = temp_size;
+    count += 1;
+  }
+
+  public static void main (String[] args)
+  {
+    long startTime = System.nanoTime ();
+
+    DynamicWeightedQuickUnionUF dg = new DynamicWeightedQuickUnionUF ();
+    while (!StdIn.isEmpty ())
+    {
+      int p = StdIn.readInt ();
+      int q = StdIn.readInt ();
+      if (dg.connected (p, q)) continue;
+      dg.union (p, q);
+    }
+    StdOut.println ("count = " + dg.count + "\nparent.length = " + dg.parent.length);
+
+    long stopTime = System.nanoTime ();
+    double deltaTime = (double) (stopTime - startTime) / 1000000000;
+    StdOut.println ("delta time = " + deltaTime);
+/*
+    for (int i = 0; i < dg.parent.length; i++)
+      if (i != dg.find (i))
+        StdOut.println (i + " " + dg.find (i));
+*/
+  }
+}

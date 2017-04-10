@@ -1,0 +1,22 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+  int i, j, root, flag = 1;
+  root = ((int) sqrt(200000)) + 1;
+  for (i = 53; i < 200000; i++)
+  {
+    for (j = 2; j < sqrt(i); j++)
+    {
+      if (i % j == 0)
+      {
+        flag = 0;
+        break;
+      }
+    }
+    if (flag == 1)
+      printf("i = %d\n", i);
+  }
+}

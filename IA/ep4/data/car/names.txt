@@ -1,0 +1,12 @@
+Buying
+	Median "med"
+Maintenance
+	Median "med"
+Door
+	Median 3.5
+Persons
+	Median 4
+Lug bootage
+	Median "med"
+Safety
+	Median "med"

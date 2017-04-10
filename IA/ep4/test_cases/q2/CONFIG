@@ -1,0 +1,14 @@
+header: QUESTION #2
+
+dataset: wine
+best_split: 3
+
+dataset: car
+best_split: 1
+
+dataset: ionosphere
+best_split: 14
+
+pointsPerCase: 2
+
+totalQuestion: 1

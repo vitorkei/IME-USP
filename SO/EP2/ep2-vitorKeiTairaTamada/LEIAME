@@ -1,0 +1,20 @@
+/*
+Vítor Kei Taira Tamada - 8516250
+*/
+
+1) Para compilar o programa, basta executar o Makefile. O comando de compilação executado por ele é:
+
+   gcc -o ep2 ep2.c -Wall -ansi -pedantic -O2 -Wno-unused-result -lm -lpthread
+
+
+2) Para executar o programa, basta executar o seguinte comando:
+
+   ./ep2 d n [u|v]
+
+   sendo d (d > 250) o comprimento da pista, n (n > 4) o número de ciclistas e u ou v para especificar a velocidade dos ciclistas.
+   Acrescentar -d como quarto argumento ativa a opção de debug.
+
+   e.g.:
+     ./ep2 250 5 u -d
+     executa o programa com uma pista de 250m, 5 ciclistas, velocidade uniforme e opção de debug ativada.
+

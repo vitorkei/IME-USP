@@ -1,0 +1,740 @@
+/*
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+*/
+
+#define _GNU_SOURCE
+#include <stdlib.h>
+#include <stdio.h>
+#include <pthread.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdbool.h>
+
+/*************************************************************/
+/*                                                           */
+/*                          Structs                          */
+/*                                                           */
+/*************************************************************/
+int blub = 0;
+/*
+ * O circuito é um vetor de structs p.
+ * O circuito pode até ter mais pistas, mas apenas duas delas interessam, então o struct armazena
+ *  apenas quais ciclistas estão em cada 1m do circuito. Se lane[i] = -1, então não há ciclistas
+ *  na pista i.
+ * O mutex em cada struct serve para fazer o cálculo de quanto o ciclista naquela posição terá
+ *  que andar no próximo instante de tempo.
+ */
+typedef struct p
+{
+  pthread_mutex_t mutex;
+  int lane[2];
+} pos;
+
+
+/**********************************************************************/
+/*                                                                    */
+/*                          Variáveis globais                         */
+/*                                                                    */
+/**********************************************************************/
+
+/*
+ * d = comprimento do velódromo
+ *
+ * n = número de ciclistas
+ *
+ * uv = 0: u - uniforme, velocidade sempre 60km/h
+ *      1: v - variada, velocidade varia entre 30km/h e 60km/h
+ *      Inicializado como -1 (a definir entre u e v)
+ *
+ * pista = vetor de structs pos que corresponde ao circuito, como
+ *         especificado pelo enunciado.
+ */
+int d, n, uv = -1;
+bool DEBUG = false; /* DEBUG = flag que indica se o debugger foi ativado
+                     *         DEBUG é ativado ao inserir -d como último
+                     *         argumento quando o programa for rodado.
+                     */
+pos *pista;
+
+/* ************** Bloco 1 de variáveis **************
+ *
+ * c_r = cyclists_running: Ciclistas que ainda estão realizando a corrida - não quebraram e nem completaram a corrida ainda
+ *                         c_r[0] = número de ciclistas ativos da equipe 0
+ *                         c_r[1] = número de ciclistas ativos da equipe 1
+ *
+ * c_p = cyclist_placement: c[t][v][p] armazena o id do ciclista da equipe t que está na volta v e posição p em relação à equipe.
+ *                          t = {0, 1}
+ *                          v = {0, ..., 15}, pois são 16 voltas
+ *                          p = {0, ..., n-1} - posição do ciclista da equipe t na volta v
+ *
+ * c_b = cyclists_broken: c_b[l] armazena o id do ciclista que quebrou na volta 4*(l+1);
+ *                        l = {0, 1, 2}, correspondendo às voltas 4, 8 e 12 respectivamente
+ *
+ * c_eor = cyclist_end_of_race: c_eor[0][t][i] armazena a posição do ciclista i em relação a sua equipe t;
+ *                              c_eor[1][t][i] armazena o tempo que o ciclista i da equipe t levou para terminar a corrida (-1 se ele quebrar).
+ *                              t = {0, 1}
+ *                              i = {0, ..., n-1}, sendo n o número de ciclistas ativos por equipe
+ *
+ */
+int c_r[2], ***c_p, c_b[3];
+double ***c_eor;
+
+/* ************** Bloco 2 de variáveis **************
+ *
+ * b_n_t = barrier_number_of_threads: número de threads (ciclistas) esperadas pela barreira
+ *                                   de sincronização
+ *
+ * winner: -1 = corrida não terminada
+ *          0 = equipe 0 venceu
+ *          1 = equipe 1 venceu
+ *          2 = empate
+ *
+ * t_l = team_lap: t_l[t] == 0 significa que a equipe inteira deu uma volta na pista ou que a corrida acabou de começar.
+ *                 O valor de t_l[t] é incrementado a cada vez que um ciclista da equipe t completa uma volta
+ *                 t = {0, 1}
+ *
+ * spd30 = speed_is_30: spd30[t] == true significa que alguém da equipe t está a 30km/h e, portanto, todos os que estão atrás devem ter sua velocidade 
+ *
+ */
+int b_n_t, winner, t_l[2];
+bool spd30[2];
+
+/* ************** Barreiras **************
+ *
+ * Como a barreira da biblioteca pthread não permite alteração do número de threads esperadas,
+ *  se um ciclista quebra, cria-se uma nova barreira para receber os n-1 ciclistas, sendo n
+ *  o número de ciclistas correndo antes de um deles quebrar mais a main (thread coordenadora).
+ * Entretanto, é necessário "segurar" as threads enquanto a nova barreira é criada - e é para isso
+ *  que serve b_aux.
+ */
+pthread_barrier_t b0;
+pthread_barrier_t b1;
+pthread_barrier_t b_aux;
+
+/* ************** Mutex **************
+ *
+ * c_b_m = cyclist_break_mutex: mutex para a verificação de quebra de ciclista
+ * e_c_m = end_of_cyclist_mutex: mutex utilizado quando um ciclista sai da corrida, seja por quebrar ou por terminar
+ * c_p_m = mutex para verificar a ordem que os ciclistas chegam na linha de chegada, seja ao terminar uma volta ou ao terminar a corrida
+ * s_c_m = speed_change_mutex: mutex para mudanças de velocidade dos ciclistas
+ *
+ */
+pthread_mutex_t c_b_m;
+pthread_mutex_t e_c_m;
+pthread_mutex_t c_p_m;
+pthread_mutex_t s_c_m;
+
+/****************************************************************/
+/*                                                              */
+/*                          Protótipos                          */
+/*                                                              */
+/****************************************************************/
+
+void *ciclista(void*);
+
+/**********************************************************************/
+/*                  |\  /|   /\   | |\  |                             */
+/*                  | \/ |  /--\  | | \ |                             */
+/*                  |    | /    \ | |  \|                             */
+/**********************************************************************/
+
+int main(int argc, char *argv[])
+{
+  int i, j, t, *id;
+  pthread_t *cyclist;
+  
+  
+  /******************************************/
+  /*                                        */
+  /* Inicialização das variáveis de entrada */
+  /*                                        */
+  /******************************************/
+  
+  d = atoi(argv[1]);
+  n = atoi(argv[2]);
+
+  if     (argv[3][0] == 'u') uv = 0;
+  else if(argv[3][0] == 'v') uv = 1;
+
+  if(argc > 4)
+    if(!strcmp(argv[4], "-d"))
+      DEBUG = true;
+  
+  /* Inicialização do vetor pista */
+  pista = malloc(d * sizeof(pos));
+  for(i = 0; i < d; i++)
+  {
+    pista[i].lane[0] = pista[i].lane[1] = -1;
+    pthread_mutex_init(&pista[i].mutex, NULL);
+  }
+
+
+  /*****************************************/
+  /*                                       */
+  /* Inicialização do bloco 1 de variáveis */
+  /*                                       */
+  /*****************************************/
+  
+  /* Inicializa cada equipe com n ciclistas */
+  c_r[0] = c_r[1] = n;
+
+  /* Inicializa o vetor que armazena os três primeiros ciclistas de cada equipe em cada volta */    
+  c_p = malloc(2 * sizeof(double**));
+  c_p[0] = malloc(16 * sizeof(double*));
+  c_p[1] = malloc(16 * sizeof(double*));
+  for(i = 0; i < 16; i++)
+  {
+    c_p[0][i] = malloc(n * sizeof(double));
+    c_p[1][i] = malloc(n * sizeof(double));
+  }
+  for(i = 0; i < 16; i++)
+    for(j = 0; j < n; j++)
+      c_p[0][i][j] = c_p[1][i][j] = -1;
+  
+  /* Inicializa vetor que armazena qual ciclista de qual time quebrou em qual volta */
+  for(i = 0; i < 3; i++)
+    c_b[i] = -1;
+
+  /*
+   * Inicializa o vetor que armazena a posição que cada ciclista de cada equipe chegou no término 
+   *  da corrida e o tempo levado para ele terminar a corrida.
+   */
+  c_eor = malloc(2 * sizeof(double**));
+  c_eor[0] = malloc(2 * sizeof(double*)); /* Colocação */
+  c_eor[1] = malloc(2 * sizeof(double*)); /* Tempo */
+  /* Equipe 0 */
+  c_eor[0][0] = malloc(n * sizeof(double));
+  c_eor[0][1] = malloc(n * sizeof(double));
+  /* Equipe 1 */
+  c_eor[1][0] = malloc(n * sizeof(double));
+  c_eor[1][1] = malloc(n * sizeof(double));
+  for(i = 0; i < n; i++)
+  {
+    c_eor[0][0][i] = c_eor[0][1][i] = -1;
+    c_eor[1][0][i] = c_eor[1][1][i] = -1;
+  }
+  
+  
+  /*****************************************/
+  /*                                       */
+  /* Inicialização do bloco 2 de variáveis */
+  /*                                       */
+  /*****************************************/
+  
+  /* 
+   * Utilizando a main como coordenadora das threads, temos 2*n+1 threads esperadas por barreira,
+   *  sendo n o número de ciclistas ativos no momento.
+   */
+  b_n_t = 2*n + 1;
+  winner = -1;
+  t_l[0] = t_l[1] = 0;
+  spd30[0] = spd30[1] = false;
+  
+  
+  /*******************************/
+  /*                             */
+  /* Inicialização das barreiras */
+  /*                             */
+  /*******************************/
+  pthread_barrier_init(&b0, NULL, 2*n);
+  pthread_barrier_init(&b1, NULL, 2*n + 1);
+  pthread_barrier_init(&b_aux, NULL, 2*n + 1);
+  
+  
+  /***************************/
+  /*                         */
+  /* Inicialização dos mutex */
+  /*                         */
+  /***************************/
+  pthread_mutex_init(&c_b_m, NULL);
+  pthread_mutex_init(&e_c_m, NULL);
+  pthread_mutex_init(&c_p_m, NULL);
+  pthread_mutex_init(&s_c_m, NULL);
+  
+  
+  /***************************************/
+  /*                                     */
+  /* Inicialização das variáveis da main */
+  /*                                     */
+  /***************************************/
+  cyclist = malloc((2*n) * sizeof(pthread_t));
+  
+  /* Cria as threads/ciclistas */
+  id = malloc((2*n) * sizeof(int)); /* id do ciclista */
+  for(i = 0; i < 2*n; i++)
+  {
+    id[i] = i;
+    pthread_create(&cyclist[i], NULL, ciclista, &id[i]);
+  }
+  
+  /* Inicialização de seed para geração de números aleatórios */
+  srand(time(NULL));
+  
+  
+  /*******************************/
+  /*                             */
+  /* Laço da thread coordenadora */
+  /*                             */
+  /*******************************/
+  
+  
+/***********************/
+/*                     */
+/* VELOCIDADE UNIFORME */
+/*                     */
+/***********************/
+  /* A main() serve como coordenadora das threads */
+  if(uv == 0) /* Opção de velocidade u escolhida */
+  {
+    while(c_r[0] + c_r[1] > 0)
+    {
+      /* Espera todas as threads alcançarem esta barreira */
+      pthread_barrier_wait(&b_aux);
+      
+      /*
+       * Se um ciclista (thread) quebrar, destrói a barreira em que eles estão e cria outra que espera
+       *  um ciclista (thread) a menos, já que apenas um pode quebrar de cada vez.
+       */
+      if (c_r[0] + c_r[1] < b_n_t - 1)
+      {
+        pthread_barrier_destroy(&b_aux);
+        pthread_barrier_init(&b_aux, NULL, (c_r[0] + c_r[1] + 1));
+        b_n_t = c_r[0] + c_r[1] + 1;
+      }
+        
+      /*
+       * Imprime a situação de cada espaço do circuito se o comando de debug for ativado.
+       * Se não houver nenhum ciclista na pista da posição impressa, aparece um - no lugar.
+       */
+      if(DEBUG)
+      {
+        for(i = 0; i < d - 1; i++)
+        {
+          if(pista[i].lane[0] == -1) printf("[-|");
+          else                       printf("[%d|", pista[i].lane[0]);
+          if(pista[i].lane[1] == -1) printf("-]");
+          else                       printf("%d]", pista[i].lane[1]);
+          printf(" ");
+        }
+        if(pista[i].lane[0] == -1) printf("[-|");
+        else                       printf("[%d|", pista[i].lane[0]);
+        if(pista[i].lane[1] == -1) printf("-]\n\n");
+        else                       printf("%d]\n\n", pista[i].lane[1]);
+      }
+      
+      pthread_barrier_wait(&b1);
+    }
+  } /* if(uv == 0) equivale a opção u para velocidade dos ciclistas ter sido escolhida */
+
+
+/**********************/
+/*                    */
+/* VELOCIDADE VARIADA */
+/*                    */
+/**********************/
+  else if(uv == 1) /* Opção de velocidade v escolhida */
+  {
+    while(c_r[0] + c_r[1] > 0)
+    {
+      /* Espera todas as threads alcançarem esta barreira */
+      pthread_barrier_wait(&b_aux);
+      
+      /*
+       * Como t_l[i] < c_r[i] e t_l[i] é incrementado fazendo
+       *  t_l[i] = (t_l[i] + 1) % c_r[i];
+       * na thread dos ciclistas, t_l[i] == 0 significa que todos os ciclistas da equipe i terminaram a volta ou que é o começo da corrida.
+       * Quando todos os ciclistas de uma equipe terminaram uma volta, é preciso reiniciar a respectiva flag que é ativada quando um ciclista "decide" correr a 30km/h, fazendo com que todos os ciclistas atrás dele fiquem nessa velocidade também
+       */
+      for(i = 0; i < 2; i++)
+        if(t_l[i] == 0)
+        {
+          pthread_mutex_lock(&s_c_m);
+          spd30[i] = false;
+          pthread_mutex_unlock(&s_c_m);
+        }
+      
+      /*
+       * Se um ciclista (thread) quebrar, destrói a barreira em que eles estão e cria outra que espera
+       *  um ciclista (thread) a menos, já que apenas um pode quebrar de cada vez.
+       */
+      if (c_r[0] + c_r[1] < b_n_t - 1)
+      {
+        pthread_barrier_destroy(&b_aux);
+        pthread_barrier_init(&b_aux, NULL, (c_r[0] + c_r[1] + 1));
+        b_n_t = c_r[0] + c_r[1] + 1;
+      }
+        
+      /*
+       * Imprime a situação de cada espaço do circuito se o comando de debug for ativado.
+       * Se não houver nenhum ciclista na pista da posição impressa, aparece um - no lugar.
+       */
+      if(DEBUG)
+      {
+        for(i = 0; i < d - 1; i++)
+        {
+          if(pista[i].lane[0] == -1) printf("[-|");
+          else                       printf("[%d|", pista[i].lane[0]);
+          if(pista[i].lane[1] == -1) printf("-]");
+          else                       printf("%d]", pista[i].lane[1]);
+          printf(" ");
+        }
+        if(pista[i].lane[0] == -1) printf("[-|");
+        else                       printf("[%d|", pista[i].lane[0]);
+        if(pista[i].lane[1] == -1) printf("-]\n\n");
+        else                       printf("%d]\n\n", pista[i].lane[1]);
+      }
+      
+      pthread_barrier_wait(&b1);
+    }
+  } /* else if(uv == 1) equivale a opção v paraa velocidade dos ciclistas ter sido escohida */
+
+
+  /********************/
+  /*                  */
+  /* Fim da simulação */
+  /*                  */
+  /********************/
+
+  /* Determina qual foi a equipe vencedora se não tiver sido por ultrapassagem de terceiro lugar por terceiro lugar */
+  if     (c_eor[1][0][2] < c_eor[1][1][2]) winner = 0;
+  else if(c_eor[1][0][2] > c_eor[1][1][2]) winner = 1;
+  else                                     winner = 2;
+  
+  /* Relatório de saída */
+  printf("\n\nRelatório da corrida:\n");
+  /* Resultado da corrida */
+  printf("-Resultado: ");
+  if(winner == 0)
+  {
+    printf("\n--Equipe que chegou em primeiro: 0");
+    printf("\n--Equipe que chegou em segundo: 1\n\n");
+  }
+  else if(winner == 1)
+  {
+    printf("\n--Equipe que chegou em primeiro: 1");
+    printf("\n--Equipe que chegou em segundo: 0\n\n");
+  }
+  else
+    printf("Empate\n\n");
+
+  /* Posição de cada ciclista em relação a própria equipe */
+  for(t = 0; t < 2; t++)
+  {
+    printf("-Ordem e tempo de chegada de cada ciclista da equipe %d:\n", t);
+    for(i = 0; i < n; i++)
+    {
+      if(c_eor[0][t][i] == -1)
+        break;
+      printf("--Ciclista_%d: %do || Tempo: %fs\n", ((int) c_eor[0][t][i]), (i+1), c_eor[1][t][i]);
+    }
+    printf("\n");
+  }
+  
+  /* Relatório dos ciclistas que quebraram */
+  printf("-Ciclistas que quebraram:\n");
+  for(i = 0; i < 3; i++)
+    printf("--Ciclista: %d || Volta: %d\n", c_b[i], 4*(i+1));
+    
+  /* Libera a memória e destroi as barreiras */
+  free(id);
+  free(cyclist);
+  free(pista);
+  for(i = 0; i < 16; i++)
+  {
+    free(c_p[0][i]);
+    free(c_p[1][i]);
+  }
+  free(c_p[0]);
+  free(c_p[1]);
+  free(c_p);
+  free(c_eor[0][0]);
+  free(c_eor[0][1]);
+  free(c_eor[1][0]);
+  free(c_eor[1][1]);
+  free(c_eor[0]);
+  free(c_eor[1]);
+  free(c_eor);
+  pthread_barrier_destroy(&b1);
+  pthread_barrier_destroy(&b_aux);
+  
+  return 0;
+}
+
+/* Thread dos ciclistas */
+void *ciclista(void *args)
+{
+  /*
+   * i = variável auxiliar de contagem
+   * id = id do ciclista/thread
+   * spd = velocidade do ciclista: 1 = 30km/h
+   *                               2 = 60km/h
+   * team = {0, 1} equipe
+   * pos = {0, ..., d-1} posição no circuito
+   * n_pos = next_pos: posição seguinte no circuto
+   * ini = {0, d/2} posição inicial do ciclista
+   * lap = {0, ..., 15} número de voltas que o ciclista deu
+   * ran = um número aleatório gerado pela função rand() e convertido para ficar dentro do intervalo desejado no momento
+   * clock = tempo de corrida passado; 1 clock = 60ms = 0.06s
+   * move = 1: nenhuma ação
+   *        2: move-se um espaço para frente
+   * lane = {0, 1} - uma das duas pistas possíveis do circuito
+   *
+   * broken = false: ciclista ainda correndo
+   *          true : ciclista quebrou
+   * moved = false: não se moveu um espaço para frente
+   *         true : moveu-se um espaço para frente
+   */
+  int i, id, spd, team, pos, n_pos, ini, lap = 0, ran, clock = 0, move, lane = 0;
+  bool broken = false, moved = false;
+  
+  id = *((int*) args);
+  
+  if(id < n) team = pos = ini = 0;       /* Equipe 0 */
+  else{      team = 1; pos = ini = d/2;} /* Equipe 1 */
+  
+  
+/***********************/
+/*                     */
+/* VELOCIDADE UNIFORME */
+/*                     */
+/***********************/
+  if(uv == 0) /* Equivale a opção u ter sido escolhida */
+  {
+    while(lap < 16) /* Ciclo de movimento */
+    {
+      pthread_barrier_wait(&b_aux);
+      pthread_barrier_wait(&b1);
+      
+      /* Verifica se o ciclista vai quebrar após uma quarta volta ser completa */
+      if(lap > 0 && lap % 4 == 0)
+      {
+        pthread_mutex_lock(&c_b_m);
+        ran = rand() % 10;
+        /* Verifica se alguém já quebrou nesta volta e, em caso negativo, se será este o ciclista a quebrar */
+        if(c_r[team] > 3 && c_b[lap/4 - 1] == -1 && ran == 0)
+        {
+          broken = true;
+          c_b[lap/4 - 1] = id; /* Armazena quem quebrou nesta volta */
+          c_r[team]--; /* Decrementa o número de ciclistas da equipe */
+          
+          /* Mensagem de aviso de que alguém quebrou */
+          printf("\n******************\n");
+          for(i = 0; i < c_r[team]; i++)
+            if(c_p[team][lap-1][i] == id)
+              break;
+          printf("Ciclista quebrou:\n-ID: %d\n-Equipe: %d\n-Volta: Final da %d, começo da %d\n-Posição em relação a equipe: %do\n", id, team, lap-1, lap, i+1);
+          printf("******************\n");
+          
+          pthread_mutex_unlock(&c_b_m);
+          pthread_barrier_wait(&b0);
+          
+          break; /* Sai do while(lap < 16), encerrando (matando) a thread */
+        }
+        pthread_mutex_unlock(&c_b_m); /* Destrava o semáforo se o ciclista não quebrar */
+      } /* if(lap > 0 && lap % 4 == 0) */
+
+      /* Realiza a ação de andar um espaço para frente. Como a velocidade é sempre de 60km/h, os ciclistas se movem em todos os pulsos de clock */
+      moved = false;
+      n_pos = (pos + 1) % d; /* Movimento em trajeto circular de tamanho d */
+      pthread_mutex_lock(&pista[n_pos].mutex);
+      /* Anda um espaço para frente caso haja espaço em qualquer uma das duas pistas */
+      for(i = 0; i < 2 && !moved; i++)
+      {
+        if(pista[n_pos].lane[i] == -1)
+        {
+          /* Libera o espaço em que o ciclista estava no instante anterior e o posiciona um espaço a frente na lane[i] */
+          pista[n_pos].lane[i] = id;
+          pista[pos].lane[lane] = -1;
+          lane = i;
+          pos = n_pos;
+          moved = true;
+        }
+      }
+      
+      /* Se o ciclista não se moveu, significa que há gente no espaço a frente na pista 0 e no espaço a frente na pista 1 */
+      if(!moved) pthread_mutex_unlock(&pista[n_pos].mutex);
+      /* Se o ciclista tiver se movido, verifica se completou uma volta */
+      else
+      {
+        /* Armazena a ordem dos ciclistas para esta volta e imprime quais são os três primeiros */
+        if(pos == ini)
+        {
+          pthread_mutex_lock(&c_p_m);
+          for(i = 0; i < c_r[team]; i++)
+          {
+            if(c_p[team][lap][i] == -1)
+            {
+              c_p[team][lap][i] = id;
+              if(i == 2)
+              {
+                printf("\n[Volta %d]\nEquipe: %d\n-1o: %d\n-2o: %d\n-3o: %d\n-Tempo do 3o ciclista: %fs\n", lap, team, c_p[team][lap][0], c_p[team][lap][1], c_p[team][lap][2], ((double) clock)*60.0/1000.0);
+              }
+              break;
+            }
+          }
+            
+          pthread_mutex_unlock(&c_p_m);
+          lap += 1;
+        } /* if(pos == ini) */
+        pthread_mutex_unlock(&pista[n_pos].mutex); /* pos == n_pos, mas utilizei n_pos para manter a coerencia e facilidade de leitura com quando pthread_mutex_lock() foi usado */
+      } /* if(moved) */
+
+      if(lap != 16) clock++;
+      pthread_barrier_wait(&b0);
+    } /* while(lap < 16) */
+  } /* if(uv == 0), o que equivale a opção u ter sido escolhida */
+
+
+/**********************/
+/*                    */
+/* VELOCIDADE VARIADA */
+/*                    */
+/**********************/
+  else if(uv == 1) /* Equivale a opção v ter sido escolhida */
+  {
+    spd = 1;
+    move = 1;
+    while(lap < 16) /* Ciclo de movimento */
+    {
+      pthread_barrier_wait(&b_aux);
+      pthread_barrier_wait(&b1);
+      
+      /* Verifica se o ciclista vai quebrar após uma quarta volta ser completa */
+      if(lap > 0 && lap % 4 == 0)
+      {
+        pthread_mutex_lock(&c_b_m);
+        ran = rand() % 10;
+        /* Verifica se alguém já quebrou nesta volta e, em caso negativo, se será este o ciclista a quebrar */
+        if(c_r[team] > 3 && c_b[lap/4 - 1] == -1 && ran == 0)
+        {
+          broken = true;
+          c_b[lap/4 - 1] = id; /* Armazena quem quebrou nesta volta */
+          c_r[team]--; /* Decrementa o número de ciclistas da equipe */
+          
+          /* Mensagem de aviso de que alguém quebrou */
+          printf("\n******************\n");
+          for(i = 0; i < c_r[team]; i++)
+            if(c_p[team][lap-1][i] == id)
+              break;
+          printf("Ciclista quebrou:\n-ID: %d\n-Equipe: %d\n-Volta: Final da %d, começo da %d\n-Posição em relação a equipe: %do\n", id, team, lap-1, lap, i+1);
+          printf("******************\n");
+          
+          pthread_mutex_unlock(&c_b_m);
+          pthread_barrier_wait(&b0);
+          
+          break; /* Sai do while(lap < 16), encerrando (matando) a thread */
+        }
+        pthread_mutex_unlock(&c_b_m); /* Destrava o semáforo se o ciclista não quebrar */
+      } /* if(lap > 0 && lap % 4 == 0) */
+
+      /*
+       * Se está a 30km/h, spd = 1 e move = spd a cada movimento, obrigando a incrementar e só andar um espaço no pulso de clock seguinte
+       * Se está a 60km/ħ, spd = 2 e move = spd a cada movimento, permitindo que um movimento seja feito a cada pulso de clock
+       */
+      if     (move == 1) move += 1;
+      else if(move == 2)
+      {
+        /* Realiza a ação de andar um espaço para frente. Como a velocidade é sempre de 60km/h, os ciclistas se movem em todos os pulsos de clock */
+        moved = false;
+        n_pos = (pos + 1) % d;
+        pthread_mutex_lock(&pista[n_pos].mutex);
+        /* Anda um espaço para frente caso haja espaço em qualquer uma das duas pistas */
+        for(i = 0; i < 2 && !moved; i++)
+        {
+          if(pista[n_pos].lane[i] == -1)
+          {
+            /* Libera o espaço em que o ciclista estava no instante anterior e o posiciona um espaço a frente na lane[0] */
+            pista[n_pos].lane[i] = id;
+            pista[pos].lane[lane] = -1;
+            lane = i;
+            pos = n_pos;
+            moved = true;
+          }
+        }
+        
+        /* Se o ciclista não se moveu, significa que há gente no espaço a frente na pista 0 e no espaço a frente na pista 1 */
+        if(!moved) pthread_mutex_unlock(&pista[n_pos].mutex);
+        /* Se o ciclista tiver se movido, verifica se completou uma volta */
+        else
+        {
+          /* Armazena a ordem dos ciclistas para esta volta e imprime quais são os três primeiros */
+          if(pos == ini)
+          {
+            pthread_mutex_lock(&c_p_m);
+            
+            if(lap != 0) /* A velocidade na primeira volta (lap == 0) precisa ser de 30km/h obrigatoriamente */
+            {
+              pthread_mutex_lock(&s_c_m);
+              t_l[team] = (t_l[team] + 1) % c_r[team];
+              
+              ran = rand() % 2;
+              /* Se, ao terminar uma volta, um ciclista decidir ficar com velocidade de 30km/h, todos os próximos a terminarem essa mesma volta também terão velocidade de 30km/h na volta seguinte obrigatoriamente */
+              if(!spd30[team])
+              {
+                if(ran) { spd = 1; spd30[team] = true; }
+                else      spd = 2;
+              }
+              else
+                spd = 1;
+                
+              pthread_mutex_unlock(&s_c_m);
+            } /* if(lap != 0) */
+            
+            /* Relatório dos três primeiros de cada equipe a terminarem cada volta */
+            for(i = 0; i < c_r[team]; i++)
+              if(c_p[team][lap][i] == -1)
+              {
+                c_p[team][lap][i] = id;
+                if(i == 2)
+                  printf("\n[Volta %d]\nEquipe: %d\n-1o: %d\n-2o: %d\n-3o: %d\n-Tempo do 3o ciclista: %fs\n", lap, team, c_p[team][lap][0], c_p[team][lap][1], c_p[team][lap][2], ((double) clock)*60.0/1000.0);
+                  
+                break;
+              }
+              
+            pthread_mutex_unlock(&c_p_m);
+            lap += 1;
+          } /* if(pos == ini) */
+          pthread_mutex_unlock(&pista[n_pos].mutex); /* pos == n_pos, mas utilizei n_pos para manter a coerencia e facilidade de leitura com quando pthread_mutex_lock() foi usado */
+        } /* if(moved) */
+
+        move = spd;
+      } /* else if(move == 2) */
+      if(lap != 16) clock++;
+      pthread_barrier_wait(&b0);
+    } /* while(lap < 16) */
+  }/* else if(uv == 1), o que equivale a opção v ter sido escolhida */
+
+  pthread_mutex_lock(&e_c_m);
+printf("id = %d || blub = %d\n", id, blub);
+blub++;
+  pista[pos].lane[lane] = -1;
+  
+  /* Se o ciclista tiver acabado a corrida e não quebrado, armazena sua posição e seu tempo de corrida */
+  if(!broken)
+  {
+    for(i = 0; i < n; i++)
+    {
+      if(c_eor[0][team][i] == -1)
+      {
+        c_eor[0][team][i] = (double) id;
+        c_eor[1][team][i] = ((double) clock)*60.0/1000.0;
+        break;
+      }
+    }
+    c_r[team]--;
+  }
+  /* Nenhuma ação caso o ciclista tenha quebrado pois c_b[] armazena seu id junto da volta quando ele quebrou */
+  
+  /* Destroi as barreiras e as recria com o novo número de ciclistas */
+  pthread_barrier_destroy(&b0);
+  pthread_barrier_init(&b0, NULL, (c_r[0] + c_r[1]));
+  pthread_barrier_destroy(&b1);
+  pthread_barrier_init(&b1, NULL, (c_r[0] + c_r[1] + 1));
+  
+  pthread_mutex_unlock(&e_c_m);
+  pthread_barrier_wait(&b_aux);
+
+  return NULL;
+}
+

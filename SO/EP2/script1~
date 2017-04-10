@@ -1,0 +1,34 @@
+make
+javac a.java
+
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/0.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/1.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/2.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/3.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/4.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/5.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/6.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/7.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/8.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/9.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/10.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/11.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/12.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/13.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/14.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/15.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/16.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/17.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/18.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/19.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/20.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/21.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/22.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/23.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/24.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/25.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/26.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/27.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/28.txt
+/usr/bin/time -v ./ep2 250 5 u 2> 250_5_u/29.txt
+

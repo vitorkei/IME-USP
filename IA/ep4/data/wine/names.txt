@@ -1,0 +1,24 @@
+fixed acidity
+	Median 6.8
+volatile acidity
+	Median 0.26
+citric acid
+	Median 0.32
+residual sugar
+	Median 5.2
+chlorides
+	Median 0.043
+free sulfur dioxide
+	Median 34.0
+total sulfur dioxide
+	Median 134.0
+density
+	Median 0.99374
+pH
+	Median 3.18
+sulphates
+	Median 0.47
+alcohol
+	Median 10.4
+quality (class)
+	Median 6.0

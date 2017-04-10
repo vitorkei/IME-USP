@@ -1,0 +1,22 @@
+Relatório - Creative Exercise 3.2.47 (Random walker; IntroCS)
+
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+
+N) É possível perceber que, com o aumento do valor de N, ou seja, com o aumento do número de passos, 
+maior será a distância máxima do Walker até a origem. É importante enfatizar que o que tende a aumentar 
+é a distância máxima uma vez que não é incomum o Walker parar próximo da origem após os N passos.
+
+M) Ao desenhar a imagem com os lugares por onde os Walkers passaram e suas respectivas frequências, 
+o desenho se aproxima cada vez mais de um círculo quanto maior for o valor de M (número de Walkers) 
+e as células mais visitadas ficam mais concentradas em torno da origem.
+
+L) L define o quão próximo da origem a imagem será vista: L baixo equivale a um zoom in e L alto equivale a um zoom out.
+O centro da imagem desenhada é sempre o ponto (0, 0).
+
+A classe Distribution procura, antes de tudo, realizar os passos dos Walkers e armazenar o número de vezes que cada 
+célula foi pisada. Sabendo quantas vezes cada célula foi visitada, recebe a célula com mais visitas como máximo 
+e, a partir dela e do número de visitas de cada célula, desenha o plano. Dessa forma, o StdDraw foi utilizado 
+a menor quantidade de vezes que consegui.
+No geral, a classe comporta-se como um programa simples, não fazendo uso de funções/métodos e 
+nem propriedades de orientação a objetos.

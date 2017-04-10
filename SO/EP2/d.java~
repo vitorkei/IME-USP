@@ -1,0 +1,9 @@
+public class d
+{
+  public static void main(String[] args)
+  {
+    double media_t = 0;
+    for(int i = 0; i < 30; i++)
+      media_t += StdIn.readDouble();
+  }
+}

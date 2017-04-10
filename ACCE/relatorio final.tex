@@ -1,0 +1,131 @@
+\documentclass{article}
+
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{MnSymbol}
+\usepackage{wasysym}
+\usepackage{mdframed}
+%\usepackage[a4paper, total={6in, 10.5in}]{geometry}
+
+\title{\textbf{MAC0214 - Atividade Curricular em Cultura e Extensão}}
+\author{\textbf{Relatório final}}
+\date{ }
+
+\begin{document}
+
+\maketitle
+
+\textbf{\underline{Aluno}:} Vítor Kei Taira Tamada
+
+\textbf{\underline{NUSP}:} 8516250
+
+\bigskip
+\textbf{\underline{Orientador}:} Wilson Kazuo Mizutani
+
+\bigskip
+\textbf{\large{1. Histórico}}
+
+\quad Segue aproximação do tempo gasto em cada parte do jogo em horas e ordem cronológica
+
+\bigskip
+\quad\textbf{-Criação dos menus e botões da tela inicial e da cena de combate (1 hora)}
+
+\qquad Menu inicial em que o jogador escolhe começar um novo jogo ou carregar um anterior.
+
+\bigskip
+\quad\textbf{-Implementação de ferramentas básicas de combate (2 horas)}
+
+\qquad Opção de ataque, pontos de vida e morte de unidades.
+
+\bigskip
+\quad\textbf{-Criação do banco de dados das unidades (8 horas)}
+
+\qquad Inclui os atributos por nível de cada unidade, as animações disponíveis para cada uma e as armas que podem utilizar.
+
+\bigskip
+\quad\textbf{-Implementação do sistema de turnos (18 horas)}
+
+\qquad Executar as ações de cada unidade antes de novas poderem ser escolhidas.
+
+\bigskip
+\quad\textbf{-Criação dos bancos de dados das armas, das habilidades e dos itens (6 horas)}
+
+\qquad Uma vez que a estrutura de todos os bancos de dados utilizados é similar uma a outra, após a primeira ser feita, as outras levaram menos tempo para ficarem prontas (recursos visuais não inclusos neste item).
+
+\bigskip
+\quad\textbf{-Criação da cena de gestão de unidades (25 horas)}
+
+\qquad Escolha da unidades que serão enviadas para combate no próximo nível, assim como os itens e equipamentos que cada uma levará. Inclui uma loja para compra e venda de itens e de equipamentos.
+
+\bigskip
+\quad\textbf{-Conexão entre cenas de gestão e de combate (6 horas)}
+
+\qquad Transição após um combate finalizar (seja por vitória ou por derrota) e após os preparativos para o próximo nível estarem prontos.
+
+\bigskip
+\quad\textbf{-Implementação de \textit{savefiles} (3 horas)}
+
+\qquad Salva as unidades, equipamentos e progresso do jogador atual. O \textit{savefile} é apagado quando o jogador é derrotado em combate e não possui mais unidades reservas na cena de gestão. Uma vez que o jogo salva o progresso a cada nível completo, se um novo jogo for iniciado e o primeiro nível for vencido, o \textit{savefile} anterior é sobrescrito.
+
+\bigskip
+\quad\textbf{-Balanceamento do jogo e criação de novos atributos (20 horas)}
+
+\qquad A criação de novos atributos auxilia no balanceamento do jogo. Inicialmente, cada unidade tinha apenas cinco atributos: ataque, defesa, vida, mana e velocidade. Ao final, elas têm nove: ataque especial, defesa especial, destreza e sorte além dos cinco iniciais.
+
+\bigskip
+\quad\textbf{-Criação de recursos (30 horas)}
+
+\qquad Recursos para o jogo: imagens, sons e animações.
+
+\bigskip
+\quad O tempo total supera 100 horas pois, visto que o projeto foi desenvolvido em uma equipe de três integrantes, o desenvolvimento simultâneo de diferentes partes do jogo tornou-se comum a partir de certo ponto.
+
+\quad Vale ressaltar que a equipe manteve, no geral, um cronograma semanal de dois encontros de três horas cada: às quartas-feiras, das 9h até às 12h, e às quintas-feiras, das 13h até às 16h.
+
+\bigskip
+\bigskip
+\textbf{\large{2. Resultados}}
+
+\bigskip
+\quad\textbf{-Funcionamento:}
+
+\qquad O resultado final do projeto é o Water Insignia, um jogo com temática de estratégia e fantasia. Ele se baseia em dois estados de jogo principais: o combate e a gestão.
+
+\qquad O combate é baseado em turnos, onde o usuário seleciona as ações de todas as suas unidades em campo enquanto os inimigos são controladas por uma inteligência artificial. Depois de todas as ações do turno serem selecionadas, elas são ordenadas de acordo com a velocidade das unidades.
+
+\qquad O elemento estratégico do combate se dá por:
+
+\qquad -escolher entre múltiplas armas para o ataque: armas possuem durabilidades individuais e limitadas (com exceção das chamadas \textit{armas naturais}), o que significa que podem quebrar se utilizadas em excesso sem reparo. Além disso, existe uma relação estilo "pedra-papel-tesoura" entre as armas - chamada de triângulo das armas - onde, por exemplo, unidades que atacaram com machado dão mais e recebem menos dano de unidades portando lança e vice-versa contra espada;
+
+\qquad -escolher as habilidades: da mesma forma como há o triângulo das armas, existe o triângulo arcano. O funcionamento é o mesmo: unidades que acabaram de utilizar uma habilidade de fogo dão menos e levam mais dano de unidades que utilizaram habilidades de água e vice-versa para habilidades de vento;
+
+\qquad -gerir os status das unidades: itens e habilidades podem afligir ou curar as unidades com status positivos ou negativos, que variam de dano ou cura constante até alteração nos atributos por alguns turnos.
+
+\bigskip
+\qquad Sendo vitorioso no combate, o jogador tem a oportunidade de tentar recrutar uma das unidades adversárias derrotadas. Depois disso, ele é enviado para o segundo estado do projeto: a cena de gestão.
+
+\qquad A gestão é o ambiente entre combates onde o usuário seleciona quais unidades serão enviadas para o próximo nível, bem como seus respectivos itens e equipamentos. Além disso, é o local onde a loja fica, sendo possível comprar e vender itens e equipamentos. Sendo assim, aqui o jogador deve realizar o planejamento prévio e a preparação para o confronto, assim como a coordenação dos limitados recursos disponíveis: dinheiro e unidades.
+
+\bigskip
+\bigskip
+\textbf{\large{3. Discussão}}
+
+\bigskip
+\quad\textbf{-Dificuldades:}
+
+\qquad Devido a inexperiência com programação orientada a objetos e com programas de grande porte por parte da equipe, várias das dificuldades enfrentadas envolveram localizar a raíz dos \textit{bugs}, e manuseio das váriaveis de classes - mais precisamente, ao implementar \textit{getters} e \textit{setters}, algumas partes começaram a funcionar de forma defeituosa até serem corrigidas.
+
+\qquad Graças ao orientador, alguns desses problemas puderam ser corrigidos com relativa rapidez. Por outro lado, outros acabaram não sendo ajustados por falta de tempo e por não serem críticos (como é o caso de ter muito código em um único arquivo). Mesmo com essa ajuda, a correção dos  \textit{bugs} consumiu muito mais tempo do que o esperado.
+
+\qquad Apesar de minha participação na cena de gestão e de produção visual do jogo ter sido próxima de nula, eu conseguia encontrar problemas críticos nas \textit{features} com relativa facilidade. Além disso, sou o principal responsável pelo balanceamento do jogo e pelo funcionamento das habilidades e dos itens na cena de combate.
+
+\qquad Entretanto, devido aos erros que apareceram durante a produção - em especial nas últimas semanas -, pouco tempo pôde ser investido no balanceamento. A principal consequência disso é a baixa quantidade de unidades existentes no jogo.
+
+\bigskip
+\quad\textbf{-Aprendizado:}
+
+\qquad Meus maiores aprendizados ao longo do semestre com este projeto foram trabalho em equipe - o que envolve administração de tempo, divisão de tarefas e coordenação com outros programadores -, balanceamento de um jogo (apesar de o estado atual ainda estar longe do ideal) e maior contato com programação orientada a objetos e com ferramentas de versionamento - GitHub no caso.
+
+\end{document}

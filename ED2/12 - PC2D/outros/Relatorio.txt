@@ -1,0 +1,33 @@
+Relatório - Problema de conexidade 2D
+
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+
+n) n é o número de pontos inseridos no quadrado unitário Q de dimensões 1x1.
+Quanto maior o número de pontos, maior a probabilidade de haver apenas uma classe de equivalência para os n pontos dado que a relação de equivalência é dois pontos diferentes P_i e P_j estarem conexos.
+Por outro lado, quanto maior o n, maior será o número de par de pontos que terá que ser verificado se são conexos ou não.
+
+d) d é a distância máxima que dois pontos diferentes P_i e P_j podem ter entre si para que sejam considerados conexos.
+Valores mais altos de d aumentam a probabilidade de haver apenas uma classe de equivalência.
+Por outro lado, valores mais baixos de d diminuem o tempo que o programa leva para terminar de rodar (explicado a seguir).
+
+O problema foi resolvido dividindo o quadrado Q em quadrados menores de lado d e verificando a relação de equivalência apenas entre os pontos de um quadrado Q_i,j e entre os pontos de Q_i,j e os oito quadrados a sua volta (Q_i+1,j+1; Q_i+1,j; Q_i+1,j-1; ...).
+Portanto, para valores baixos de d, quadrados menores são gerados, o que acarreta menos pontos a serem comparados com os pontos de um quadrado Q_i,j. Por conseguinte, valores altos de d fazem mais pontos serem comparados com os pontos de um quadrado Q_i',j'.
+Havendo menos comparações de distância por ponto, a velocidade do programa aumenta.
+
+Todos os pontos inseridos em Q também são inseridos em uma Union-Find, cada um com seu respectivo id (cada ponto é o valor de um nó da classe ST.java e seu id é a chave). Caso dois pontos distintos P_i e P_j sejam conexos, suas chaves são ligadas uma a outra na UF. Se houver apenas uma componente na Union-Find após os n pontos serem plotados, então conclui-se que há somente uma classe de equivalência para a relação de equivalência do problema.
+
+Dividindo o quadrado de lado 1 Q em quadrados menores de lado d, temos que há 1/d^2 quadrados menores dentro de Q.
+Considerando que os n pontos são distribuídos uniformemente em Q, temos n/(1/d^2) = n*(d^2) pontos por quadrado menor em média.
+A cada ponto colocado em um quadrado menor, a verificação de relação de equivalência precisa ser feita apenas com esse ponto novo. Logo, se há p pontos dentro de um quadrado menor, então p verificações são feitas para cada ponto novo, sendo p o número de pontos já existentes nesse quadrado: O(p).
+Entretanto, a verificação precisa ser feita com os 8 quadrados em volta também. Totalizando 9 quadrados com, em média, p pontos cada, é preciso fazer 9*p verificações para cada ponto novo: 9*O(p).
+Essa verificação com os pontos já existentes é feita desde o início, logo, são feitas
+
+0 + 1 + 2 + 3 + ... + n = (n^2)/2
+
+verificações caso fosse feita em Q e não em um quadrado menor: O( (n^2)/2 ).
+
+Ao dividir Q em quadrados menores, verifica-se apenas uma proporção de (n^2)/2. Essa proporção é a proporção do espaço verificado (9 quadrados menores) em relação ao espaço total (1/(d^2) quadrados menores).
+Logo, são feitas 9 * (n^2)/2 / (1/(d^2)) = 9/2 * n^2 * d^2 ~ n^2*d^2
+
+Por essa resolução, o tempo do programa é proporcional a n^2*d^2.

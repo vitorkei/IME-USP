@@ -1,0 +1,21 @@
+header: QUESTION #3
+
+data: []
+label: []
+maxdepth: 10
+
+data: [ [ 0 , 1 ] , [ 1 , 0 ] , [ 1 , 1 ] ]
+label: [ 0 , 0 , 0 ]
+maxdepth: 10
+
+data: [ [ 0 , 1 ] , [ 0 , 1 ] , [ 0 , 1 ] ]
+label: [ 0 , 1 ]
+maxdepth: 10
+
+data: [ [ 1 , 1 ] , [ 1 , 0 ] , [ 0 , 1 ] ]
+label: [ 0 , 1 ]
+maxdepth: 3
+
+pointsPerCase: 1
+
+totalQuestion: 0

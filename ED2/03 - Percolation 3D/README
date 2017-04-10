@@ -1,0 +1,27 @@
+READ ME - Creative Exercise 2.4.18 (Percolation in three dimensions; IntroCS)
+
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+
+Arquivos escritos para este exercício:
+  Percolation3D.java
+
+Arquivos prontos e bibliotecas do algs4 e IntroCS utilizadas:
+  StdRandom.java
+  StdIn.java
+  StdDraw.java
+
+Arquivo de teste utilizado:
+  --------
+
+Comandos de compilação:
+  javac Percolation3D.java
+
+Comando de execução:
+  java Percolation3D
+  >(N e M como entrada padrão nessa ordem)
+
+Notas:
+-Os comando de compilação e execução escritos aqui são os que eu utilizei nos meus testes
+-(linha 103) Como o p inicial é igual a inc (p0 == inc), então p0 - inc == 0. No ponto (0, y) do gráfico, y será sempre 0 (ou seja, (0, y) == (0, 0)); logo, não é necessário calcular a probabilidade de percolar nesse ponto
+-Para valores mais altos de N (N >= 25), sempre aparece a seguinte mensagem de erro: "Exception in thread "main" java.lang.StackOverflowError (...)"; ou seja, estouro da memória

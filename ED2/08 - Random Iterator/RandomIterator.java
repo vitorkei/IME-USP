@@ -1,0 +1,133 @@
+/***************************************************************
+* MAC0323 - Algoritmos e Estruturas de Dados II
+*
+* Nome: Vítor Kei Taira Tamada
+* NUSP: 8516250
+* Creative Problem 1.3.36 (Random iterator; Algs4)
+*
+***************************************************************/
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class RandomIterator<Item> implements Iterable<Item>
+{
+  private Item[] ri;    // ri = random queue
+  private int N;        // Número de elementos na fila
+  private int first;    // Índice do primeiro elemento da fila
+  private int last;     // Índice do próximo espaço disponível
+
+  // Inicializa uma fila vazia
+  public RandomIterator ()
+  {
+    ri = (Item[]) new Object[2];
+    N = 0;
+    first = 0;
+    last = 0;
+  }
+
+  // Verifica se a fila está vazia, retornando true em caso afirmativo e false caso contrário
+  public boolean isEmpty () { return N == 0; }
+
+  // Retorna o número de elementos na fila
+  public int size () { return N; }
+
+  // Ajusta o tamanho do array
+  private void resize (int max)
+  {
+    assert max >= N;
+    Item[] temp = (Item[]) new Object[max];
+    for (int i = 0; i < N; i++)
+      temp[i] = ri[(first + i) % ri.length];
+
+    ri = temp;
+    first = 0;
+    last = N;
+  }
+
+  // Adiciona um elemento à fila
+  public void enqueue (Item item)
+  {
+    // Dobra o tamanho da RandomQueue caso seu espaço atual não seja suficiente
+    if (N == ri.length)
+      resize(2 * ri.length);
+
+    ri[last++] = item;  // Adiciona um item ao final da fila
+    N++;                // Incrementa a variável que conta o número de elementos da fila
+  }
+
+  // Remove e retorna um elemento da fila escolhido aleatoriamente
+  public Item dequeue ()
+  {
+    // Verifica se a fila está vazia
+    if (isEmpty ())
+      throw new NoSuchElementException ("Fila vazia - não é possível remover e retornar um item da fila");
+
+    int out = StdRandom.uniform (last);
+    Item item = ri[out];
+    ri[out] = ri[last - 1];
+    ri[last - 1] = null;
+    N--;
+    last--;
+
+    // Reduz o tamanho da fila caso necessário
+    if (N > 0 && N == ri.length/4)
+      resize (ri.length/2);
+
+    return item;
+  }
+
+  // Retorna um item da fila escolhido aleatoriamente
+  // Não há remoção desse item da fila
+  public Item sample ()
+  {
+    // Verifica se a fila está vazia
+    if (isEmpty ())
+      throw new NoSuchElementException ("Fila vazia - não é possível retornar um item da fila");
+
+    int out = StdRandom.uniform (last);
+
+    return ri[out];
+  }
+
+  // Retorna um iterador que itera pelos itens da fila
+  public Iterator<Item> iterator () { return new ArrayIterator (); }
+
+  // Um iterador do RandomQueue
+  private class ArrayIterator implements Iterator<Item>
+  {
+    private int i = N;
+    public boolean hasNext () { return i != 0;                              }
+    public void remove ()     { throw new UnsupportedOperationException (); }
+
+    public Item next ()
+    {
+      if (!hasNext ())
+        throw new NoSuchElementException ();
+
+      // Troca um elemento qualquer da fila de lugar com o último,
+      // reduz em 1 o contador do número de elementos da fila
+      // e retorna o elemento que foi movido para o final da fila
+      int index = StdRandom.uniform (i);
+      Item aux = ri[index];
+      ri[index] = ri[i - 1];
+      ri[i - 1] = aux;
+      i--;
+      return aux;
+    }
+  }
+
+  public static void main (String[] args)
+  {
+    RandomIterator<String> ri = new RandomIterator<String> ();
+    while (!StdIn.isEmpty ())
+    {
+      String item = StdIn.readString ();
+      if (!item.equals ("-"))
+        ri.enqueue (item);
+    }
+
+    for (String s : ri)
+      StdOut.println (s);
+  }
+}

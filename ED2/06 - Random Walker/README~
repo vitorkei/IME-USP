@@ -1,0 +1,37 @@
+READ ME - Creative Exercise 3.2.47 (Random walker; IntroCS)
+
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+
+Arquivos escritos para este exercício:
+  RandomWalker.java
+  Distribution.java
+
+Arquivos prontos e bibliotecas do algs4 e IntroCS utilizadas:
+  StdRandom.java
+  StdOut.java
+  StdDraw.java
+
+Arquivos de teste utilizado:
+  -------
+
+Comandos de compilação:
+  javac RandomWalker.java
+  javac Distribution.java
+
+Comandos de execução:
+  java RandomWalker N
+  > N é um número inteiro que determina o número de passos do RandomWalker
+
+  java Distribution N M L
+  > N == número de passos
+  > M == número de RandomWalkers
+  > L == metade do lado do quadrado que será desenhado
+
+Notas:
+-Este arquivo README não cobre os comentários feitos no código do programa nem o conteúdo do relatório
+-Os comando de compilação e execução escritos aqui são os utilizados nos testes
+-O vetor grid[][], da classe Distribution, tem dimensões 2N+1 porque ele precisa conseguir dar até N passos para cada lado e ainda precisa dos eixos x == 0 e y == 0
+-As imagens que acompanham o programa tem, como nome, os valores de N, M e L respectivamente
+-Testes com N == 10^4, houve estouro da memória ao gerar a matriz grid[][] da classe Distribution
+-Há um relatório em formato de texto (feito no gedit) e outro em formato PDF. Os dois contém exatamente o mesmo texto

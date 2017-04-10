@@ -1,0 +1,40 @@
+READ ME - Creative Problem 1.3.36 (Random iterator; Algs4)
+
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+
+Arquivos escritos para este exercício:
+  RandomIterator.java
+  TesteVisual.java
+
+Bibliotecas e programas auxiliares:
+  Histogram.java (e as bibliotecas que este programa precisa)
+  StdDraw.java
+  StdRandom.java
+  StdIn.java
+  StdOut.java
+
+Arquivo de teste utilizado:
+  cards.txt
+
+Comandos de compilação:
+  javac RandomIterator.java
+  javac TesteVisual.java
+
+Comandos de execução:
+  java RandomIterator < cards.txt
+  java TesteVisual N T
+    > N é o número inteiro de elementos que serão inseridos na fila. O programa foi testado com N tal que 1 <= N <= 6
+    > T é o número inteiro de permutações produzidas. Se T for muito alto, é muito provável que todas as permutações apareçam pelo menos uma vez. Por outro lado, para valores mais baixos de T, nem todas as permutações aparecerão
+
+Notas:
+-Os comandos de compilação e execução escritos aqui são os utilizados nos testes
+
+-cards.txt é um arquivo que contém 52 Strings separadas por espaços vazios, referentes a cada carta de um baralho comum (excluindo os coringas). RandomIterator retorna todas elas em ordem aleatória
+
+-Nas linhas 85 e 86 de TesteVisual.java, os valores de i e T_aux são reduzidos para que não haja espaços vazios no meio de perm[][], jogando todos eles para as últimas casas do mesmo
+
+-Nas linhas 99~104 de TesteVisual.java, o programa segue o formato "Você pode nunca imprimir colunas vazias, ou seja, toda permutação que não apareceu vai ser desconsiderada e você só imprime as colunas referentes às permutações que aconteceram" do Enunciado++.
+
+-É comum o histograma gerado ter barras mais altas do lado esquerdo do que do lado direito pois as barras do lado direito representam as permutações que apareceram mais para o fim das T iterações. Logo, as últimas "novas" permutações geradas tendem a ter uma barra menor no histograma pois há poucas iterações faltando que poderão gerá-las novamente. Por outro lado, as barras da esquerda, as primeiras "novas" permutações ainda tem muitas iterações sobrando que podem gerá-las novamente, fazendo com que suas respectivas barras sejam, comumente, maiores
+Isso não diz muito sobre a distribuição do iterador pois as permutações não tem lugar fixo no histograma; por exemplo, a combinação (0 1 4 5 3 2) pode ser a primeira, a 63ª ou a 357ª barra do histograma.

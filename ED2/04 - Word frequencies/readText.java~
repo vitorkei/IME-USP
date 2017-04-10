@@ -1,0 +1,43 @@
+/***************************************************************
+* MAC0323 - Algoritmos e Estruturas de Dados II
+*
+* Nome: Vítor Kei Taira Tamada
+* NUSP: 8516250
+* Creative Exercise 3.1.52 (Word frequencies; IntroCS)
+*
+***************************************************************/
+
+public class readText
+{
+  public static void main (String[] args)
+  {
+    boolean flag; // Variável auxiliar
+
+    // Lê o texto e armazena cada palavra em um array na ordem em que aparecem no texto. Há repetições
+    String[] text = StdIn.readAllStrings ();
+
+    // Lê as palavras do texto, transformando todas as letras em letras minúsculas, removendo os números e caracteres especiais (exceto caracteres comuns acentuados e hífens
+    for (int i = 0; i < text.length; i++)
+    {
+      flag = false;
+      text[i] = text[i].toLowerCase ();
+
+      // Verifica se a string contém números
+      if (!text[i].matches (".*[0-9]+.*"))
+      {
+        if (!text[i].matches ("[a-zà-úä-üç-]+"))
+          break;
+        // Verifica se a string contém caracteres especiais
+        // Em caso positivo, remove-os
+        while (!flag)
+        {
+          if (!text[i].matches ("[a-zà-úä-üç-]+"))
+            text[i] = text[i].replaceAll ("[^a-zà-úä-üç-]", "");
+          else
+            flag = true;
+        }
+        StdOut.println (text[i]);
+      }
+    }
+  }
+}

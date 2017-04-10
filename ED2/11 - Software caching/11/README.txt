@@ -1,0 +1,32 @@
+READ ME - Creative Problem 3.3.30 (Software caching; Algs4)
+
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+
+Arquivos escritos/alterados para este exercício:
+  FrequencyCounterRB.java
+  RedBlackBST.java
+
+Bibliotecas e programas auxiliares:
+  StdIn.java
+  StdOut.java
+  Queue.java
+  RedBlackBST.java
+  ST.java
+
+Arquivo de teste utilizado:
+  tinyTale.txt
+  tale.txt
+  leipzig1M.txt
+
+Comandos de compilação:
+  javac FrequencyCounterRB.java
+
+Comando de execução:
+  java FrequencyCounterRB minlen < input.txt
+  > sendo minlen o número mínimo de caracteres exigidos para que uma palavra tenha sua frequência contada
+
+Notas:
+-Os comandos de compilação e execução escritos aqui são os utilizados nos testes;
+-Os arquivos de testes utilizados para este programa são os presentes no cabeçalho do programa FrequencyCounter.java do algs4; em especial, o leipzig1M.txt foi o utilizado para registrar os tempos e fazer o relatório.
+

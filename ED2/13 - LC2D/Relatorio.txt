@@ -1,0 +1,35 @@
+Relatório - Limiar de conexidade 2D
+
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+
+d) d é a distância máxima que dois pontos diferentes podem ter entre si para serem considerados conexos.
+Para valores mais altos de d, menos pontos são plotados até que o conjunto seja considerado uma classe de equivalência.
+Por conseguinte, valores menores de d necessitam de um número maior de pontos plotados aleatoriamente até que uma única classe de equivalência seja formada.
+
+T) T é o número de vezes que os pontos serão plotados até formar uma única classe de equivalência. Ou seja, quando o programa terminar de rodar, serão formadas T classes de equivalência, cada uma em seu próprio quadrado Q de lados 1.
+Trivialmente, valores altos de T fazem o programa levar mais tempo para terminar de rodar.
+Por outro lado, como deseja-se encontrar a média e a variância do número de pontos necessários para a classe de equivalência ser formada para um dado d, os valores da média e da variância serão mais precisos se T for grande.
+
+S) Como S apenas define a seed da função que gera números aleatórios, a saída será sempre a mesma toda vez que um determinado S for inserido.
+
+--------------------------------------------------------------------
+
+O problema foi resolvido dividindo o quadrado Q em quadrados menores de lado d e verificando a relação de equivalência apenas entre os pontos de um quadrado Q_i,j e entre os pontos de Q_i,j e os pontos dos oito quadrados a sua volta (Q_i+1,j+1; Q_i+1,j; Q_i+1,j-1; ...).
+O número de quadrados menores gerados dentro do quadrado Q é igual a 1/d^2.
+Após vários testes, foi possível concluir que há uma relação entre o número médio de pontos plotados aleatoriamente (n) e a distância mínima necessária para que dois pontos diferentes sejam conexos (d).
+A conclusão é de que os valores de 1/d^2 e n/log(n) são consideravelmente próximos para diversos valores de d e altos valores de T.
+
+--------------------------------------------------------------------
+
+Tabela comparativa
+Foram feitos alguns testes com cada valor de T e d abaixo
+
+   T  |  d   |    n     | 1/d^2 | n/log(n)
+------------------------------------------
+  100 | 0.1  |   274.2  |   100 |  112.47
+  100 | 0.01 | 42457.03 | 10000 | 9174.05
+ 1000 | 0.1  |   281.26 |   100 |  114.84
+ 1000 | 0.01 | 41971.28 | 10000 | 9078.89
+ 1000 | 0.05 |  1291.37 |   400 |  415.09
+ 1000 | 0.025|  5807.03 |  1600 | 1542.80

@@ -1,0 +1,75 @@
+#{
+
+MAC0210 - Laboratório de Métodos Numéricos
+Nomes: Vítor Kei Taira Tamada
+       André Ferrari Moukarzel
+
+NUSP: 8516250
+      9298166
+      
+
+Exercício-programa 1 - Parte 3: Encontrando todas as raizes
+
+#}
+function root_finder(f, ninter, tol, a, b)
+  interval = (b-a)/ninter;
+  x = a;
+  
+  while (x <= (b-interval))
+    ai = x;
+    bi = x + interval;
+
+    if (f(ai) * f(bi) < 0)
+
+      root = secante(f, bi, ai, tol);
+
+      % Efetua o método da bissecção 3 vezes e, em seguida, o da secante novamente
+      while (isnan(root))
+
+        for j = 0:2
+          p = (ai + bi)/2;
+          if(f(ai) * f(p) < 0)
+            bi = p;
+          else
+            ai = p;
+          endif
+        endfor
+
+        root = secante(f, bi, ai, tol);
+      endwhile
+
+      root = root
+    endif
+
+    x = x + interval;
+  endwhile
+endfunction
+
+
+% f = função
+% x1 = valor equivalente ao x_(k)
+% x0 = valor equivalente ao x_(k-1)
+function root = secante(f, x1, x0, tol)
+  
+  while(abs(f(x1)) < abs(f(x0))/2)
+    % Retorna a raíz caso tenha convergido o suficiente
+    if (abs(x1 - x0) < tol + tol * abs(x1))
+      root = x1;
+      return;
+    endif
+
+    % Verifica se haverá divisão por zero
+    if (f(x1) - f(x0) == 0)
+      root = NaN;
+      return;
+    endif
+
+    % Efetua o método da secante
+    aprox = (f(x1) * (x1 - x0)) / (f(x1) - f(x0));
+    x0 = x1;
+    x1 = x1 - aprox;
+  endwhile
+
+  root = NaN;
+  return;
+endfunction

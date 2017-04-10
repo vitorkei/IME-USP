@@ -1,0 +1,29 @@
+READ ME - Creative Problem 3.2.37 (Level-order traversal; Algs4)
+
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+
+Arquivos escritos para este exercício:
+  LevelTraversal.java
+
+Bibliotecas e programas auxiliares:
+  StdIn.java
+  StdOut.java
+  Queue.java
+
+Arquivo de teste utilizado:
+  teste.txt
+  teste2.txt
+
+Comandos de compilação:
+  javac LevelTraversal.java
+
+Comando de execução:
+  java LevelTraversal < input.txt
+
+Notas:
+-Os comandos de compilação e execução escritos aqui são os utilizados nos testes;
+-O arquivo teste.txt é um arquivo de exemplo idêntico ao presente no Enunciado++ enquanto o teste2.txt segue a árvore na imagem que acompanha o programa;
+-O programa LevelTraversal.java foi fortemente baseado na classe BST.java. Muitos dos métodos da classe BST.java foram copiados (e, em quesito de formatação, adaptados) para o LevelTraversal.java, mas apenas os que se mostraram mais necessários (métodos como ceiling() e floor(), por exemplo, não estão presentes no programa entregue).
+Em especial, o método printLevel() é quase uma cópia do levelOrder() da classe BST.java, havendo apenas a diferença de que recebe um Node como argumento e usa esse Node como argumento para o queue.enqueue() antes do while ao invés de root;
+-Por uma questão de organização, todas as bibliotecas utilizadas estão em uma pasta dentro da pasta que contém o programa e os arquivos de teste.

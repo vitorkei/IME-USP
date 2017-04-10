@@ -1,0 +1,6 @@
+javac b.java
+javac c.java
+
+./script0 > 250_5_u/t_m.txt
+java b < 250_5_u/t_m.txt > 250_5_u/s.txt
+java c < 250_5_u/s.txt > 250_5_u/t.txt

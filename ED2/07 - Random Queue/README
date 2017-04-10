@@ -1,0 +1,27 @@
+READ ME - Creative Problem 1.3.35 (Random queue; Algs4)
+
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+
+Arquivos escritos para este exercício:
+  RandomQueue.java
+  Bridge.java
+
+Bibliotecas e programas auxiliares:
+  StdIn.java
+  StdOut.java
+  StdRandom.java
+
+Arquivo de teste utilizado:
+  teste.txt
+
+Comandos de compilação:
+  javac RandomQueue.java
+  javac Bridge.java
+
+Comando de execução:
+  java RandomQueue < teste.txt
+  java Bridge
+
+Notas:
+-Os comandos de compilação e execução escritos aqui são os utilizados nos testes

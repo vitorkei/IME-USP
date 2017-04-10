@@ -1,0 +1,3 @@
+javac b.java
+
+java b < 250_5_u/t_m.txt > 250_5_u/s.txt

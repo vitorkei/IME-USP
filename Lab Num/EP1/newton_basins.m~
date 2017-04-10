@@ -1,0 +1,105 @@
+#{
+
+MAC0210 - Laboratório de Métodos Numéricos
+Nomes: Vítor Kei Taira Tamada
+       
+
+NUSP: 8516250
+      
+
+Exercício-programa 1 - Parte 2: Bacias de Newton
+
+#}
+
+function newton_basins (f, n)
+  global err = 0.000000001;
+  file = fopen("output.txt", "w");
+  range = 4;
+
+  % Valores iniciais de x + y*i que terá a raíz calculada pelo método de Newton
+  x = -range;
+  y = -range;
+  delta = 2*range/n; % Quanto será incrementado em x e em y a cada iteração
+  root_v = []; % vetor que armazena as raízes da função
+  
+  % (pixelx, pixely) corresponde a um pixel de coordenada (pixelx, pixely) na imagem gerada
+  for pixely = 0 : n
+    for pixelx = 0 : n
+      % c = color; Determina qual cor será imprimida
+      c = 1;
+      % Encontra a raíz da função no ponto (x, y) pelo método de Newton
+      root = newton(f, x + y * i);
+      
+      % Verifica se newton retornou NaN para root
+      if (isnan(root))
+        fprintf(file, "%d %d %d\n", pixely, pixelx, 0);
+        x = x + delta;
+        continue
+      endif
+      
+      % Verifica se o valor de root já apareceu antes
+      % Em caso positivo, pega o ID dessa raíz
+      % Em caso negativo, coloca on vetor root_v
+      rootID = length(root_v);
+      if (rootID == 0)
+        root_v(1) = root;
+      elseif (rootID > 0)
+        count = 1;
+        repeat = 0;
+
+        % Procura a raíz no vetor
+        while (count <= rootID)
+          % Compara a raíz encontrada com cada uma das que já foi encontrada antes, vendo se é próxima o suficiente
+          if (abs(root_v(count) - root) < err)
+            c = count;
+            repeat = 1;
+            break;
+          endif
+          count = count + 1;
+        endwhile
+        if (repeat == 0)
+          c = rootID + 1;
+          root_v(rootID + 1) = root;
+        endif
+      endif
+      fprintf(file, "%d %d %d\n", pixely, pixelx, c);
+      x = x + delta;
+    endfor
+    x = -range;
+    y = y + delta;
+  endfor
+  fclose(file);
+endfunction
+
+% f = função
+% derf = derivada de f
+% x0 = valor inicial para o método de newton
+function root = newton(f, x0)
+  global err;
+  % valor = f(x0)
+  valor = polyval(f, x0);
+  % der = f'(x0)
+  der = polyval(polyder(f), x0);
+
+  for iter = 0 : 100
+    % Retorna a raíz caso tenha convergido o suficiente
+    if (abs(valor) < err)
+      root = x0;
+      return;
+    endif
+
+    % Verifica se não haverá divisão por zero
+    if (der == 0)
+      root = NaN;
+      return;
+    endif
+
+    % Efetua o método de Newton
+    x0 = x0 - valor / der;
+    valor = polyval(f, x0);
+    der = polyval(polyder(f), x0);
+  endfor
+
+  root = NaN;
+  return;
+endfunction

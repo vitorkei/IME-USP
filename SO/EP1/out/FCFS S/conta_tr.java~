@@ -1,0 +1,15 @@
+public class conta_tr
+{
+  public static void main(String[] args)
+  {
+    int tf, tr, count = 0;
+    while (!StdIn.isEmpty())
+    {
+      tf = StdIn.readDouble();
+      tr = StdIn.readDouble();
+      count += tr;
+    }
+    count /= 30;
+    StdOut.println(count);
+  }
+}

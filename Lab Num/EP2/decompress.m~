@@ -1,0 +1,469 @@
+%{
+
+MAC0210 - Laboratório de Métodos Numéricos
+
+         Nome           |   NUSP
+Vítor Kei Taira Tamada  | 8516250
+André Ferrari Moukarzel | 9298166
+
+Exercício-programa 2 - Parte 3-2: Descompressão de imagem
+
+%}
+
+function decompress(originalImg, method, k, h)
+
+  IMG = imread(originalImg);
+  n = rows(IMG); % Como a imagem é quadrada, o número de linhas é igual ao número de colunas; logo, é possível pegar qualquer um
+  l = n + (n - 1) * k; % Tamanho do lado da imagem gerada
+  
+  if k == 0
+    OUT = IMG;
+  else
+  
+    if method == 1
+      OUT = decompress_bilinear(IMG, n, k, h, l);
+    elseif method == 2
+      OUT = decompress_bicubic(IMG, n, k, h, l);
+    endif
+  
+  endif
+  
+  imwrite(OUT, "decompressed.png");
+
+endfunction
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function mat = decompress_bilinear(image, n, k, h, l)
+
+  % Copia imagem para matrix, deixando espaços vazios identificados por -1 entre os pixels da imagem original
+  i = 1;
+  for pixelx = 1: n
+    j = 1;
+    for pixely = 1: n
+      mat(i, j, :) = image(pixelx, pixely, :);
+      
+      j = j + (1 + k);
+    endfor
+    i = i + (1 + k);
+  endfor 
+  
+  H = double([1, 0, 0, 0; 1, 0, h, 0; 1, h, 0, 0; 1, h, h, h^2]);
+  x_0 = 1;
+  y_0 = 1;
+  
+  % Não considera a última linha nem a última coluna
+
+  for c = 1 : 3
+    i = 1;
+    while(i < l)
+      j = 1;
+      while(j < l)
+      
+        f1 = mat(i, j, c);
+        f2 = mat(i, j + k + 1, c);
+        f3 = mat(i + k + 1, j, c);
+        f4 = mat(i + k + 1, j + k + 1, c);
+        F = double([f1; f2; f3; f4]);
+        
+        a = H\F;
+        
+        x_i = x_0 + i*h;
+        y_j = y_0 + j*h;
+        x_i1 = x_0 + (i+1)*h;
+        y_j1 = y_0 + (j+1)*h;
+        
+        d = h / (k + 1);
+        
+        for i_aux = 0 : k+1
+          for j_aux = 0 : k+1
+            
+            p = a(1) + a(2) * d * i_aux + a(3) * d * j_aux + a(4) * d * i_aux * d * j_aux;
+            
+            mat(i + i_aux, j + j_aux, c) = p;
+            
+          endfor
+        endfor
+        
+        j = j + k + 1;
+      endwhile
+      i = i + k + 1;
+    endwhile
+  endfor
+
+  return
+endfunction
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+function mat = decompress_bicubic(image, n, k, h, l)
+
+  % Copia imagem para matrix, deixando espaços vazios identificados por -1 entre os pixels da imagem original
+  i = 1;
+  for pixelx = 1: n
+    j = 1;
+    for pixely = 1: n
+      mat(i, j, :) = image(pixelx, pixely, :);
+      
+      j = j + (1 + k);
+    endfor
+    i = i + (1 + k);
+  endfor 
+
+  B = double([1, 0, 0, 0; 0, 0, 1, 0; -3/h^2, 3/h^2, -2/h, -1/h; 2/h^3, -2/h^3, 1/h^2, 1/h^2]);
+  
+  d = h / (k + 1);
+  
+  for c = 1 : 3
+    i = k + 2;
+    a = 2;
+    while(i < (l - (k + 2))) % Pontos de não-borda
+      j = k + 2;
+      b = 2;
+      while(j < (l - (k + 2)))
+        dx1 = dx(image, a, b, h, c);
+        dx2 = dx(image, a, b + 1, h, c);
+        dx3 = dx(image, a + 1, b, h, c);
+        dx4 = dx(image, a + 1, b + 1, h, c);
+        
+        dy1 = dy(image, a, b, h, c);
+        dy2 = dy(image, a, b + 1, h, c);
+        dy3 = dy(image, a + 1, b, h, c);
+        dy4 = dy(image, a + 1, b + 1, h, c);
+        
+        dxdy1 = dxdy(image, a, b, h, c);
+        dxdy2 = dxdy(image, a, b + 1, h, c);
+        dxdy3 = dxdy(image, a + 1, b, h, c);
+        dxdy4 = dxdy(image, a + 1, b + 1, h, c);
+        
+        C = double([image(a, b, c), image(a, b + 1, c), dy1, dy2; image(a + 1, b, c), image(a + 1, b + 1, c), dy3, dy4; dx1, dx2, dxdy1, dxdy2; dx3, dx4, dxdy3, dxdy4]);
+        A = B * C * (B');
+        
+        for i_aux = 0 : k + 1
+          for j_aux = 0 : k + 1
+            p = [1, i_aux * d, (i_aux * d)^2, (i_aux * d)^3] * A * [1; j_aux * d; (j_aux * d)^2; (j_aux * d)^3];
+            
+            mat(i + i_aux, j + j_aux, c) = p;
+          endfor
+        endfor
+        
+        j = j + k + 1;
+        b = b + 1;
+      endwhile
+      i = i + k + 1;
+      a = a + 1;
+    endwhile % Pontos de não-borda
+
+    % Canto superior esquerdo da imagem
+    dx1 = dx0(image, 1, h, c);
+    dx2 = dx0(image, 2, h, c);
+    dx3 = dx(image, 2, 1, h, c);
+    dx4 = dx(image, 2, 2, h, c);
+    
+    dy1 = dy0(image, 1, h, c);
+    dy2 = dy(image, 1, 2, h, c);
+    dy3 = dy0(image, 2, h, c);
+    dy4 = dy(image, 2, 2, h, c);
+    
+    dxdy1 = (dy3 - dy1) / h;
+    dxdy2 = (dy4 - dy2) / h;
+    dxdy3 = (dy0(image, 3, h, c) - dy1) / (2 * h);
+    dxdy4 = (dy(image, 3, 2, h, c) - dy2) / (2 * h);
+    
+    C = double([image(1, 1, c), image(1, 2, c), dy1, dy2; image(2, 1, c), image(2, 2, c), dy3, dy4; dx1, dx2, dxdy1, dxdy2; dx3, dx4, dxdy3, dxdy4]);
+    A = B * C * (B');
+    
+    for i_aux = 0 : k + 1
+      for j_aux = 0 : k + 1
+        p = [1, i_aux * d, (i_aux * d)^2, (i_aux * d)^3] * A * [1; j_aux * d; (j_aux * d)^2; (j_aux * d)^3];
+            
+        mat(1 + i_aux, 1 + j_aux, c) = p;
+      endfor
+    endfor
+
+    % Canto superior direito da imagem
+    dx1 = dx0(image, n - 1, h, c);
+    dx2 = dx0(image, n, h, c);
+    dx3 = dx(image, 2, n - 1, h, c);
+    dx4 = dx(image, 2, n, h, c);
+    
+    dy1 = dy(image, 1, n - 1, h, c);
+    dy2 = dyp(image, 1, n, h, c);
+    dy3 = dy(image, 2, n - 1, h, c);
+    dy4 = dyp(image, 2, n, h, c);
+    
+    dxdy1 = (dy3 - dy1) / h;
+    dxdy2 = (dy4 - dy2) / h;
+    dxdy3 = (dy(image, 3, n - 1, h, c) - dy1) / (2 * h);
+    dxdy4 = (dyp(image, 3, n, h, c) - dy2) / (2 * h);
+    
+    C = double([image(1, n - 1, c), image(1, n, c), dy1, dy2; image(2, n - 1, c), image(2, n, c), dy3, dy4; dx1, dx2, dxdy1, dxdy2; dx3, dx4, dxdy3, dxdy4]);
+    A = B * C * (B');
+    
+    for i_aux = 0 : k + 1
+      for j_aux = 0 : k + 1
+        p = [1, i_aux * d, (i_aux * d)^2, (i_aux * d)^3] * A * [1; j_aux * d; (j_aux * d)^2; (j_aux * d)^3];
+            
+        mat(1 + i_aux, l-(k+1) + j_aux, c) = p;
+      endfor
+    endfor
+    
+    % Canto inferior esquerdo
+    dx1 = dx(image, n - 1, 1, h, c);
+    dx2 = dx(image, n - 1, 2, h, c);
+    dx3 = dxp(image, n, 1, h, c);
+    dx4 = dxp(image, n, 2, h, c);
+    
+    dy1 = dy0(image, n - 1, h, c);
+    dy2 = dy(image, n - 1, 2, h, c);
+    dy3 = dy0(image, n, h, c);
+    dy4 = dy(image, n, 2, h, c);
+    
+    dxdy1 = (dy3 - dy0(image, n - 2, h, c)) / (2 * h);
+    dxdy2 = (dy4 - dy(image, n - 2, 2, h, c)) / (2 * h);
+    dxdy3 = (dy3 - dy1) / h;
+    dxdy4 = (dy4 - dy2) / h;
+    
+    C = double([image(n - 1, 1, c), image(n - 1, 2, c), dy1, dy2; image(n, 1, c), image(n, 2, c), dy3, dy4; dx1, dx2, dxdy1, dxdy2; dx3, dx4, dxdy3, dxdy4]);
+    A = B * C * (B');
+    
+    for i_aux = 0 : k + 1
+      for j_aux = 0 : k + 1
+        p = [1, i_aux * d, (i_aux * d)^2, (i_aux * d)^3] * A * [1; j_aux * d; (j_aux * d)^2; (j_aux * d)^3];
+            
+        mat(l - (k + 1) + i_aux, 1 + j_aux, c) = p;
+      endfor
+    endfor
+    
+    % Canto inferior direito
+    dx1 = dx(image, n - 1, n - 1, h, c);
+    dx2 = dx(image, n - 1, n, h, c);
+    dx3 = dxp(image, n, n - 1, h, c);
+    dx4 = dxp(image, n, n, h, c);
+    
+    dy1 = dy(image, n - 1, n - 1, h, c);
+    dy2 = dyp(image, n - 1, n, h, c);
+    dy3 = dy(image, n, n - 1, h, c);
+    dy4 = dyp(image, n, n, h, c);
+    
+    dxdy1 = (dy3 - dy(image, n - 2, n - 1, h, c)) / (2 * h);
+    dxdy2 = (dy4 - dyp(image, n - 2, n, h, c)) / (2 * h);
+    dxdy3 = (dy3 - dy1) / h;
+    dxdy4 = (dy4 - dy2) / h;
+    
+    C = double([image(n - 1, n - 1, c), image(n - 1, n, c), dy1, dy2; image(n, n - 1, c), image(n, n, c), dy3, dy4; dx1, dx2, dxdy1, dxdy2; dx3, dx4, dxdy3, dxdy4]);
+    A = B * C * (B');
+    
+    for i_aux = 0 : k + 1
+      for j_aux = 0 : k + 1
+            
+        p = [1, i_aux * d, (i_aux * d)^2, (i_aux * d)^3] * A * [1; j_aux * d; (j_aux * d)^2; (j_aux * d)^3];
+            
+        mat(l - (k + 1) + i_aux, l - (k + 1) + j_aux, c) = p;
+      endfor
+    endfor
+    
+    % Borda da esquerda sem as extremidades
+    a = 2;
+    % b = 1; b é "fixo"
+    i = k + 2;
+    % j = 1; j é "fixo"
+    while(i < l - (k + 1))
+
+      dx1 = dx(image, a, 1, h, c);
+      dx2 = dx(image, a, 2, h, c);
+      dx3 = dx(image, a + 1, 1, h, c);
+      dx4 = dx(image, a + 1, 2, h, c);
+      
+      dy1 = dy0(image, a, h, c);
+      dy2 = dy(image, a, 2, h, c);
+      dy3 = dy0(image, a + 1, h, c);
+      dy4 = dy(image, a + 1, 2, h, c);
+      
+      dxdy1 = (dy3 - dy0(image, a - 1, h, c)) / (2 * h);
+      dxdy2 = (dy4 - dy(image, a - 1, 2, h, c)) / (2 * h);
+      dxdy3 = (dy0(image, a + 2, h, c) - dy1) / (2 * h);
+      dxdy4 = (dy(image, a + 2, 2, h, c) - dy2) / (2 * h);
+      
+      C = double([image(a, 1, c), image(a, 2, c), dy1, dy2; image(a + 1, 1, c), image(a + 1, 2, c), dy3, dy4; dx1, dx2, dxdy1, dxdy2; dx3, dx4, dxdy3, dxdy4]);
+      A = B * C * (B');
+      
+      for i_aux = 0 : k + 1
+        for j_aux = 0 : k + 1
+          p = [1, i_aux * d, (i_aux * d)^2, (i_aux * d)^3] * A * [1; j_aux * d; (j_aux * d)^2; (j_aux * d)^3];
+              
+          mat(i + i_aux, 1 + j_aux, c) = p;
+        endfor
+      endfor
+      
+      i = i + k + 1;
+      a = a + 1;
+
+    endwhile
+    
+    % Borda de cima sem as extremidades
+    % a = 1; a é "fixo"
+    b = 2;
+    % i = 1; i é "fixo"
+    j = k + 2;
+    while(j < l - (k + 1))
+    
+      dx1 = dx0(image, b, h, c);
+      dx2 = dx0(image, b + 1, h, c);
+      dx3 = dx(image, 2, b, h, c);
+      dx4 = dx(image, 2, b + 1, h, c);
+      
+      dy1 = dy(image, 1, b, h, c);
+      dy2 = dy(image, 1, b + 1, h, c);
+      dy3 = dy(image, 2, b, h, c);
+      dy4 = dy(image, 2, b + 1, h, c);
+      
+      dxdy1 = (dy3 - dy1) / h;
+      dxdy2 = (dy4 - dy2) / h;
+      dxdy3 = (dy(image, 3, b, h, c) - dy1) / (2 * h);
+      dxdy4 = (dy(image, 3, b + 1, h, c) - dy2) / (2 * h);
+      
+      C = double([image(1, b, c), image(1, b + 1, c), dy1, dy2; image(2, b, c), image(2, b + 1, c), dy3, dy4; dx1, dx2, dxdy1, dxdy2; dx3, dx4, dxdy3, dxdy4]);
+      A = B * C * (B');
+      
+      for i_aux = 0 : k + 1
+        for j_aux = 0 : k + 1
+          p = [1, i_aux * d, (i_aux * d)^2, (i_aux * d)^3] * A * [1; j_aux * d; (j_aux * d)^2; (j_aux * d)^3];
+              
+          mat(1 + i_aux, j + j_aux, c) = p;
+        endfor
+      endfor
+      
+      j = j + k + 1;
+      b = b + 1;
+    
+    endwhile
+    
+    % Borda da direita sem as extremidades
+    a = 2;
+    % b = n - 1; b é "fixo"
+    i = k + 2;
+    j = l - (k + 1);
+    while(i < l - (k + 1))
+    
+      dx1 = dx(image, a, n - 1, h, c);
+      dx2 = dx(image, a, n, h, c);
+      dx3 = dx(image, a + 1, n - 1, h, c);
+      dx4 = dx(image, a + 1, n, h, c);
+      
+      dy1 = dy(image, a, n - 1, h, c);
+      dy2 = dyp(image, a, n, h, c);
+      dy3 = dy(image, a + 1, n - 1, h, c);
+      dy4 = dyp(image, a + 1, n, h, c);
+      
+      dxdy1 = (dy3 - dy(image, a - 1, n - 1, h, c)) / (2 * h);
+      dxdy2 = (dy4 - dyp(image, a - 1, n, h, c)) / (2 * h);
+      dxdy3 = (dy(image, a + 2, n - 1, h, c) - dy1) / (2 * h);
+      dxdy4 = (dyp(image, a + 2, n, h, c) - dy2) / (2 * h);
+      
+      C = double([image(a, n - 1, c), image(a, n, c), dy1, dy2; image(a + 1, n - 1, c), image(a + 1, n, c), dy3, dy4; dx1, dx2, dxdy1, dxdy2; dx3, dx4, dxdy3, dxdy4]);
+      A = B * C * (B');
+      
+      for i_aux = 0 : k + 1
+        for j_aux = 0 : k + 1
+          p = [1, i_aux * d, (i_aux * d)^2, (i_aux * d)^3] * A * [1; j_aux * d; (j_aux * d)^2; (j_aux * d)^3];
+              
+          mat(i + i_aux, j + j_aux, c) = p;
+        endfor
+      endfor
+      
+      i = i + k + 1;
+      a = a + 1;
+      
+    endwhile
+    
+    % Borda de cima sem as extremidades
+    % a = n - 1; a é "fixo"
+    b = 2;
+    i = l - (k + 1);
+    j = k + 2;
+    while(j < l - (k + 1))
+    
+      dx1 = dx(image, n - 1, b, h, c);
+      dx2 = dx(image, n - 1, b + 1, h, c);
+      dx3 = dxp(image, n, b, h, c);
+      dx4 = dxp(image, n, b + 1, h, c);
+      
+      dy1 = dy(image, n - 1, b, h, c);
+      dy2 = dy(image, n - 1, b + 1, h, c);
+      dy3 = dy(image, n, b, h, c);
+      dy4 = dy(image, n, b + 1, h, c);
+      
+      dxdy1 = (dy3 - dy(image, n - 2, b, h, c)) / (2 * h);
+      dxdy2 = (dy4 - dy(image, n - 2, b + 1, h, c)) / (2 * h);
+      dxdy3 = (dy3 - dy1) / h;
+      dxdy4 = (dy4 - dy2) / h;
+      
+      C = double([image(n - 1, b, c), image(n - 1, b + 1, c), dy1, dy2; image(n, b, c), image(n, b + 1, c), dy3, dy4; dx1, dx2, dxdy1, dxdy2; dx3, dx4, dxdy3, dxdy4]);
+      A = B * C * (B');
+      
+      for i_aux = 0 : k + 1
+        for j_aux = 0 : k + 1
+          p = [1, i_aux * d, (i_aux * d)^2, (i_aux * d)^3] * A * [1; j_aux * d; (j_aux * d)^2; (j_aux * d)^3];
+              
+          mat(i + i_aux, j + j_aux, c) = p;
+        endfor
+      endfor
+      
+      j = j + k + 1;
+      b = b + 1;
+      
+    endwhile
+    
+  endfor
+endfunction
+
+
+% Calcula a derivada df/dx como definido no enunciado
+function dfdx = dx(image, i, j, h, c)
+  dfdx = (image(i + 1, j, c) - image(i - 1, j, c)) / (2*h);
+  return
+endfunction
+
+
+% Calcula a derivada df/dy como definido no enunciado
+function dfdy = dy(image, i, j, h, c)
+  dfdy = (image(i, j + 1, c) - image(i, j - 1, c)) / (2*h);
+  return
+endfunction
+
+
+% Calcula a derivada d^2f/dxdy como definido no enunciado
+function df2dxdy = dxdy(image, i, j, h, c)
+  df2dxdy = (dy(image, i+1, j, h, c) - dy(image, i-1, j, h, c)) / (2*h);
+  return
+endfunction
+
+
+% df/dx(x_0, y_j)
+function dfdx = dx0(image, j, h, c)
+  dfdx  = (image(2, j, c) - image(1, j, c)) / h;
+  return
+endfunction
+
+
+% df/dx(x_(p-1), y_j)
+function dfdx = dxp(image, p, j, h, c)
+  dfdx = (image(p, j, c) - image(p - 1, j, c)) / h;
+  return
+endfunction
+
+
+% df/dy(x_i, y_0)
+function dfdy = dy0(image, i, h, c)
+  dfdy = (image(i, 2, c) - image(i, 1, c)) / h;
+  return
+endfunction
+
+
+% df/dy(x_i, y_(p-1))
+function dfdy = dyp(image, i, p, h, c)
+  dfdy = (image(i, p, c) - image(i, p - 1, c)) / h;
+  return
+endfunction

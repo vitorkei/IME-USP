@@ -1,0 +1,34 @@
+/*
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+MAC0327 - Desafios de Programação - 2016/2
+Batch 1 - Aula 02 - Problema A
+*/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+  long long n, l, i;
+  long double lim_dist, dist = 0;
+  scanf("%lld %lld", &n, &l);
+
+  long long loc[n];
+  for (i = 0; i < n; i++)
+    scanf("%lld", &loc[i]);
+
+  sort(loc, loc + n);
+
+  if (loc[0] > l - loc[n - 1]) lim_dist = (long double) loc[0];
+  else                         lim_dist = ((long double) l) - ((long double) loc[n - 1]);
+
+  for (i = 0; i < n - 1; i++)
+    if (loc[i + 1] - loc[i] > dist)
+      dist = ((long double) loc[i + 1]) - ((long double) loc[i]);
+
+  dist /= 2.0;
+  if (lim_dist > dist) dist = lim_dist;
+
+  printf("%Lf", dist);
+}

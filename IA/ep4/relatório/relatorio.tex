@@ -1,0 +1,93 @@
+\documentclass{article}
+
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{MnSymbol}
+\usepackage{wasysym}
+\usepackage{mdframed}
+\usepackage[a4paper, total={6in, 10.5in}]{geometry}
+
+\title{\textbf{MAC425/5739 - Inteligência Artificial}}
+\author{\textbf{Vítor Kei Taira Tamada - 8516250}}
+\date{\textbf{Exercício-programa 4 - Relatório}}
+
+\begin{document}
+
+\maketitle
+
+\textbf{\LARGE{Relatório}}
+
+\quad \textbf{(a)}
+
+\begin{center}
+	\begin{tabular}{| c  c | c | c | c |}
+		\hline
+			& Teste & wine & car & ionosphere \\ 
+			& & & & \\
+			Métrica & maxdepth & & & \\ \hline
+			
+			& N & OK & OK & OK \\
+			& 1 & FAIL & FAIL & OK \\
+			Entropy & 2 & OK & OK & FAIL \\
+			& 4 & OK & OK & FAIL \\
+			& 5 & FAIL & FAIL & FAIL \\ \hline
+			
+			& N & OK & OK & OK \\
+			& 1 & FAIL & FAIL & OK \\
+			Gini & 2 & OK & OK & FAIL \\
+			& 4 & OK & OK & FAIL \\
+			& 5 & FAIL & FAIL & FAIL \\ \hline
+			
+			& N & FAIL & FAIL & FAIL \\
+			& 1 & FAIL & FAIL & FAIL \\
+			Error & 2 & FAIL & FAIL & FAIL \\
+			& 4 & FAIL & FAIL & FAIL \\
+			& 5 & OK & FAIL & FAIL \\
+			& 6 & FAIL & FAIL & FAIL \\
+			& 7 & FAIL & FAIL & FAIL \\ \hline
+	\end{tabular}
+	
+	N(t) = valor padrão de maxdepth para o teste t
+	
+	N(wine) = 3 | N(car) = 4 | N(ionosphere) = 1
+	
+	\bigskip
+	FAIL significa que a mensagem "Most frequent classifier is better" foi retornada para o teste
+	
+	\bigskip
+	Error teve mais entradas para mostrar que o teste wine ter passado foi um caso isolado. Testes com valores ainda maiores foram executados, sem alteração nos resultados
+\end{center}
+
+\bigskip
+\quad \textbf{(b)} Tanto o critério de entropia (\textit{entropy}) quanto o Gini tem resultados semelhantes. Isso se deve ao fato de ambos medirem algo parecido: enquanto Gini mede a probabilidade de um exemplo aleatório ser classificado corretamente se a classe a ser atribuída for escolhida aleatoriamente, a entropia mede o ganho de informação. Entretanto, há méritos em se utilizar Gini ao invés da entropia: por conta da forma como se cálcula cada um deles, a entropia é naturalmente mais lenta devido à operação logarítmica.
+
+\qquad A divisão baseada em erro de classificação, por outro lado, mede o erro de classificação de um nó, como o nome diz. Como é possível ver na tabela, este critério tende a errar mais, uma vez que as divisões de nós feitas são encerradas mais rapidamente em comparação com Gini e entropia.
+
+\bigskip
+\quad \textbf{(c)}\textbf{ Questões téoricas}
+
+\bigskip
+\quad \textbf{\large{Questão 1 - Métricas}}
+
+\qquad R) É importante dado que algumas métricas são mais precisas, enquanto outras são mais custosas de se calcular. Além disso, diferente algoritmos utilizam diferentes métricas para determinar qual o melhor atributo para dividir o conjunto de dados em um determinado nó.
+
+\bigskip
+\quad\textbf{\large{Questão 2 - Condição de parada}}
+
+\qquad R) Verificar se o conjunto de dados sendo verificados é puro, ou seja, se todas as entradas tem a mesma classificação (\textit{label}), se todas as entradas do conjunto de dados são iguais e se o conjunto de dados é vazio.
+
+\bigskip
+\quad\textbf{\large{Questão 3 - Acurácia}}
+
+\qquad R) Um dos motivos é que por mais que a árvore tenha um \texttt{self.maxdepth} maior, os nós folhas são alcançados antes mesmo de chegar nessa profundidade máxima; ou seja, a acurácia não aumenta nem diminui. Nesses casos, a condição de parada não é alcançar a profundidade máxima, mas o conjunto de dados ser puro ou todas as entradas serem iguais.
+
+\qquad Por outro lado, se houver muitos atributos, o aumento da profundidade faz com que muitos deles sejam analisados - mais do que o necessário. Isso resulta no problema de \textit{overfitting}, que reduz a acurácia da árvore de classificação.
+
+\bigskip
+\quad\textbf{\large{Questão 4 - Comparação}}
+
+\qquad R) Quando a árvore de decisão formada ou a sua construção for complexa ou custosa demais, ou quando o conjunto de dados de treinamento ainda precisa ser tratado (eliminação de entradas duplicadas ainda é necessária por exemplo). Ou seja, quando não vale a pena construir a árvore de decisão.
+
+\end{document}

@@ -1,0 +1,68 @@
+Var01
+	Median 1.0
+Var02
+	Medina 0.0
+Var03
+	Median 0.87111
+Var04
+	Median 0.01631
+Var05
+	Median 0.8092
+Var06
+	Median 0.0228
+Var07
+	Median 0.72873
+Var08
+	Median 0.01471
+Var09
+	Median 0.68421
+Var10
+	Median 0.01829
+Var11
+	Median 0.66798
+Var12
+	Median 0.02825
+Var13
+	Median 0.64407
+Var14
+	Median 0.03027
+Var15
+	Median 0.60194
+Var16
+	Median 0.0
+Var17
+	Median 0.59091
+Var18
+	Median 0.0
+Var19
+	Median 0.57619
+Var20
+	Median 0.0
+Var21
+	Median 0.49909
+Var22
+	Median 0.0
+Var23
+	Median 0.53176
+Var24
+	Median 0.0
+Var25
+	Median 0.55389
+Var26
+	Median -0.01505
+Var27
+	Median 0.70824
+Var28
+	Median -0.01769
+Var29
+	Median 0.49664
+Var30
+	Median 0.0
+Var31
+	Median 0.44277
+Var32
+	Median 0.0
+Var33
+	Median 0.40956
+Var34
+	Median 0.0

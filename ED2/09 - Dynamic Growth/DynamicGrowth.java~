@@ -1,0 +1,99 @@
+/***************************************************************
+* MAC0323 - Algoritmos e Estruturas de Dados II
+*
+* Nome: Vítor Kei Taira Tamada
+* NUSP: 8516250
+* Creative Exercise 1.5.20 (Dynamic growth; Algs4)
+*
+***************************************************************/
+
+public class DynamicGrowth
+{
+  private int[] parent; // parent[i] = pai de i
+  private int[] size;   // size[i] = número de sites na subárvore cuja raíz é i
+  private int count;    // número de componentes
+
+  // Inicializa uma estrutura de union-find vazia com N sites, indo de 0 até N-1
+  // Cada site é um componente por si só
+  public DynamicGrowth ()
+  {
+    count = 2;
+    parent = new int[2];
+    size = new int[2];
+    for (int i = 0; i < 2; i++)
+    {
+      parent[i] = i;
+      size[i] = 1;
+    }
+  }
+
+  // Retorna o número de componentes
+  public int count ()  { return count; }
+
+  // Encontra a raíz da componente que contém o site p
+  public int find (int p)
+  {
+    validate (p);
+    while (p != parent[p])
+      p = parent[p];
+    return p;
+  }
+  
+  // Verifica se p é um index válido
+  private void validate (int p)
+  {
+    int N = parent.length;
+    if (p < 0)
+      throw new IndexOutOfBoundsException ("index " + p + " não está entre 0 e " + (N-1));
+    else if (p >= N)
+    {
+      parent = resize (2*p);
+      size = resize (2*p);
+    }
+  }
+
+  // Retorna true se os sites p e q estão na mesma componente
+  public boolean connected (int p, int q)  { return find (p) == find (q); }
+
+  // Junta a componente que contém o site p com a componente que contém o site q
+  public void union (int p, int q)
+  {
+    int rootP = find (p);
+    int rootQ = find (q);
+
+    if (size[rootP] < size[rootQ])
+    {
+      parent[rootP] = rootQ;
+      size[rootQ] += size[rootP];
+    }
+    else
+    {
+      parent[rootQ] = rootP;
+      size[rootP] += size[rootQ];
+    }
+    count--;
+  }
+
+  // Redimensiona um array
+  private void resize (int capacity)
+  {
+    assert capacity >= parent.length;
+    int[] temp = (int[]) new Object[capacity];
+    for (int i = 0; i < N; i++)
+      temp[i] = a[i];
+    a = temp;
+  }
+
+  public static void main (String[] args)
+  {
+    DynamicGrowth dg = new DynamicGrowth ();
+    while (!StdIn.isEmpty ())
+    {
+      int p = StdIn.readInt ();
+      int q = StdIn.readInt ();
+      if (dg.connected (p, q)) continue;
+      dg.union (p, q);
+      StdOut.println (p + " " + q);
+    }
+  }
+}

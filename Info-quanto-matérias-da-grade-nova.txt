@@ -1,0 +1,100 @@
+Disciplinas que precisam ser feitas dos semestres anteriores
+- = fazer
+x = feita
+
+Créditos:
+-Eletivas: 14/52
+-Livres: 3/24
+
+1o Semestre:
+xMAC0101 - Integracao na Universidade e na Profissao (palestras)
+
+xMAC0329 - Algebra Booleana e Circuitos Digitais
+
+xMAC0110 - Introducao a Computacao
+
+xMAT2453 - Calculo Diferencial e Integral 
+>>(por equivalencia de MAT0111 - Calculo Diferencial e Integral I)
+
+xMAT0112 - Vetores e Geometria
+>>(por equivalencia de MAT0139 - Algebra Linear para Computacao)
+
+xMAC0105 - Fundamentos de Matematica para a Computacao
+>>(por equivalencia de MAT0138 - Algebra I para Computacao)
+
+=============================================================
+
+2o Semetre:
+xMAC0121 - Algoritmos e Estruturas de Dados 1
+>>(por equivalencia de MAC0122 - Principios de Desenvolvimento de Algoritmos)
+
+xMAC0216 - Tecnicas de Programacao I
+>>(por equivalencia de MAC0211 - Laboratorio de Programacao I)
+
+xMAE0119 - Introducao a Probabilidade e a Estatistica
+>>(por equivalencia de MAE0121 - Introducao a Probabilidade e a Estatistica I + MAE0212 - Introducao a Probabilidade e a Estatistica II)
+
+xMAT2454 - Calculo Diferencial e Integral II
+>>(por equivalencia de MAT0121 - Calculo Diferencial e Integral II)
+
+xMAT0122 - Algebra Linear I
+>>(por equivalencia de MAT0139 - Algebra Linear para Computacao)
+
+xMAC0239 - Introducao a Logica e Verificacao de Programas
+
+=============================================================
+
+3o Semestre:
+xMAC0102 - Caminhos no Bacharelado em Ciencia da Computacao (palestras)
+
+xMAT0236 - Funcoes Diferenciaveis e Series
+
+-MAC0210 - Laboratorio de Metodos Numericos
+
+xMAC0323 - Algoritmos e Estruturas de Dados II
+
+-MAE0228 - Nocoes de Probabilidade e Processos Estocasticos
+
+xMAC0209 - Modelagem e Simulacao
+>>(por equivalencia de 4310126 - Fisica 1)
+
+=============================================================
+
+4o Semestre:
+x(optativa Ciencias)
+>>(por equivalencia de 4310137 - Fisica II)
+
+x(optativa I)
+>>(por equivalencia de MAT0221 - Calculo Diferencial e Integral IV. 4 creditos acumulados)
+
+-MAC0338 - Analise de Algoritmos
+
+-MAC0316 - Conceitos Fundamentais de Linguagens de Programacao
+
+-MAC0422 - Sistemas Operacionais
+
+*************************************************************
+
+O que fazer:
+
+Restantes (dos três primeiros semestres):
+-MAE0228 - Nocoes de Probabilidade e Processos Estocasticos
+-MAC0210 - Laboratorio de Metodos Numericos
+
+Restante do 4º semestre da grade nova:
+-MAC0338 - Analise de Algoritmos
+-MAC0316 - Conceitos Fundamentais de Linguagens de Programacao
+-MAC0422 - Sistemas Operacionais
+
+Matérias do 3º ano (meu 4º ano):
+-MAC0350 - Introdução ao Desenvolvimento de Sistemas
+-5 optativas (1º semestre)
+-6 optativas (2º semestre)
+
+*************************************************************
+
+Optativas feitas:
+-(4+2) Laboratório de Programação II (4 + 2)
+-(4+0) Cálculo IV
+-(6+0) Física II
+-(3+0) Leitura Dramática

@@ -1,0 +1,23 @@
+/*
+Vítor Kei Taira Tamada - 8516250
+Luiz Felipe Moumdjian Girotto - 8941189
+*/
+
+1) Para compilar o programa, basta executar o Makefile. O comando de compilação executado por ele é:
+
+    g++ ep3.cpp -o ep3 -g -Wall -ansi -pedantic -O2 -Wno-unused-result -Wextra -Wno-sign-compare
+
+2) Para executar o programa, basta executar o seguinte comando:
+
+    ./ep3
+    
+    O programa suporta os comandos especificados pelo enunciado
+    
+    Exemplos:
+      ./ep3
+      carrega t
+      espaco 1
+      substitui 2
+      executa 4
+      
+    O exemplo acima carrega um arquivo de trace chamado t, utiliza o algoritmo 1 de gerenciamento de espaço livre, algoritmo 2 de substituição de página e executa com intervalos de 4 segundos de simulação

@@ -1,0 +1,8 @@
+javac b.java
+javac c.java
+javac d.java
+
+./script0 > t_m.txt
+java b < t_m.txt > s.txt
+java c < s.txt > t.txt
+java d < t.txt

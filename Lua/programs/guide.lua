@@ -1,0 +1,339 @@
+-- Miscellanea --
+
+-- lua <nome do arquivo>.lua
+-- to comment
+
+--[[
+Block comment
+Colocar um - no começo de --[[ faz com que o que está dentro deixe de ser um comentário
+--]]
+
+---------------------------------------------------------------
+
+-- Variables
+
+print ("********** VARIABLES **********\n")
+
+a = 1             -- number <=> número real (double-precision floating-point)
+a = "oi"          -- string
+a = true          -- boolean <=> true/false
+a = nil           -- nil <=> uma variável não definida será do tipo nil. Designar nil a uma variável faz ela ser deletada da memória
+a = print         -- function <=> print é apenas um exemplo.
+                  -- Fazer uma variável receber uma função faz com que aquela variável execute a função
+a = {}            -- (hash) table
+print ("É possível alterar o tipo e o valor de uma variável ao longo do programa (pode acarretar em erros se usado de forma inadequada)\n")
+-- type(<variable>) retorna o tipo da variável
+a = "oi"
+print (a)
+a = "boi"
+print (a)
+a = "oi " .. "boi"    -- Concetenação de strings. Mesma construção para concatenar strings no comando print
+print (a)
+
+---------------------------------------------------------------
+
+-- print
+
+print ("\n********** PRINT **********\n")
+
+print ("10" + 1)  -- >> 11
+print ("10 + 1")  -- >> 10 + 1
+print ("2" * "3") -- >> 6
+--[[
+print ("oi" + 1)  -- >> ERROR
+--]]
+print (10 .. 20) -- >> 1020
+                 -- .. serve para concaternar as partes do print. Números são automaticamente convertidos em string
+                 -- Lua sempre cria uma nova string quando concatena strings, não alterando seus operandos
+
+---------------------------------------------------------------
+
+-- tostring(<variável de qualquer tipo>)
+-- tonumber(<string que possa ser convertida em número. Retorna nil se não foi possível converter>)
+
+---------------------------------------------------------------
+
+-- Entrada de dados
+
+print ("\n********** ENTRADA DE DADOS **********\n")
+
+a = io.read()   -- Recebe uma entrada do usuário
+print (a)
+
+---------------------------------------------------------------
+
+-- arrays/tables (hash table)
+
+print ("\n********** ARRAYS/TABLES **********\n")
+
+a = {}            -- Variável do tipo (hash) table
+                  -- Cada elemento da tabela é um par chave-valor.
+                  -- Tanto a chave quanto o valor podem ser qualquer tipo de variável exceto nil
+i = 0
+j = "x"
+k = {}
+l = true
+a[i] = 1
+a[j] = "20"
+a[k] = true
+a[l] = false
+print (i .. ": " .. a[i])
+print (j .. ": " .. a[j])
+print (a[k])
+print (a[l])
+
+b = a             -- b refere-se a mesma tabela que a de forma que se alterar algo em b, a também será alterado
+print (a[i])
+b[i] = 2
+print (b[i])
+print (a[i])
+
+--[[
+a = {x = 0, y = 0}
+equivale a
+a = {}; a.x = 0; a.y = 0
+que equivale a
+a["x"] = 0
+a["y"] = 0
+--]]
+
+-- Como Lua não possui arrays, mas sim tabelas que podem ser indexadas livremente, não é possível criar um vetor que vai do índex 0 até n
+
+-- Se uma tabela for criada e suas chaves (index) não forem especificadas, Lua começa do 1 por padrão e não do zero como as outras linguagens
+
+print ()
+days = {"Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"}
+for i = 1, 7 do
+  print ("days[" .. i .. "]: " .. days[i])
+end
+
+teste = {x = "oi", "batata", y = "potato", "testestes"}
+print (teste.x)
+print (teste[1])
+print (teste.y)
+print (teste[2])
+print (teste[0])
+-- Conclusão do teste acima:
+-- aparentemente, quando um elemento da lista não é indexado, ele recebe como chave/index o próximo número dos index automáticos.
+-- Ou seja, apesar de haver a chave "y" entre "batata" e "testestes", a chave de "batata" é 1 e de "testestes" é 2
+
+-- Só é possível utilizar números ou símbolos especiais (ariméticos ou expressões pré-determinadas de Lua) como índice da seguinte forma:
+opnames = {["+"] = "add", ["-"] = "sub", ["*"] = "mult", ["/"] = "div"}
+print (opnames["+"])
+print (opnames["-"])
+print (opnames["*"])
+print (opnames["/"])
+-- Ou seja, utilizando colchetes
+-- O mesmo vale se quiser definir o índice numérico de um elemento da tabela
+teste = nil
+teste = {[0] = "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}
+for i = 0, 6 do
+  print ("teste[" .. i .. "]: " .. teste[i])
+end
+teste = nil
+teste = {[-1] = "Creation"}
+print (teste[-1])
+-- No exemplo acima, "Monday", "Tuesday", ..., recebem os índices 1, ..., 6 porque esse é o padrão de Lua. A única coisa que foi feita foi definir "Sunday" com o índice 0
+-- Não é possível fazer algo como (dá erro)
+-- teste = {0 = "Sunday", ...} ou teste = {"0" = "Sunday", ...}
+
+---------------------------------------------------------------
+
+-- loops
+
+print ("\n********** LOOPS **********\n")
+
+-- for é uma operação muito versátil e pode ser utilizada de diversas formas diferentes
+for i = 1, 10 do        -- for <variável = <valor inicial>, <valor final> do
+  print ("i = " .. i)   --   do.something()
+end                     -- end
+
+---------------------------------------------------------------
+
+-- Operações aritméticas
+
+print ("\n********** OPERAÇÕES ARITMÉTICAS **********\n")
+
+a = {}
+
+a[0] = 2 + 2       -- Adição
+a[1] = 3 - 1       -- Subtração
+a[2] = 4 * 0       -- Multiplicação
+a[3] = 5 / -1      -- Divisão
+a[4] = 6 ^ 2       -- Exponenciação   -- Funciona!!!
+a[5] = 8 ^ (1/3)   -- Raíz            -- Funciona!!!
+
+for i = 0, 5 do
+  print (a[i])
+end
+
+---------------------------------------------------------------
+
+-- Operadores relacionais
+
+print ("\n********** OPERADORES RELACIONAIS **********\n")
+
+a = 2
+b = 3
+print ("a = " .. a .. "\nb = " .. b)
+print ("a > b: " .. tostring(a > b) .. "\ta maior que b")
+print ("a >= b: " .. tostring(a >= b) .. "\ta maior ou igual a b")
+print ("a < b: " .. tostring(a < b) .. "\ta menor que b")
+print ("a <= b: " .. tostring(a <= b) .. "\ta menor ou igual a b")
+print ("a == b: " .. tostring(a == b) .. "\ta igual a b")
+print ("a ~= b: " .. tostring(a ~= b) .. "\ta diferente de b")
+print ("\nnil == nil: " .. tostring(nil == nil) .. "\tNil é igual apenas a nil")
+
+---------------------------------------------------------------
+
+-- Operadores lógicos
+
+print ("\n********** OPERADORES LÓGICOS **********\n")
+
+-- Estudar melhor como funciona e utilidade
+
+-- and
+-- or
+-- not
+
+-- Todos os operadores lógicos consideram "false" e "nil" como "false" e qualquer coisa diferente disso como "true"
+-- Em lua, se uma expressão for false, ela retorna o operando à ESQUERDA do operador e retorna o operando à DIREITA do operador
+-- No caso do not, é retornado true/false
+
+print ("4 and 5: " .. tostring(4 and 5))    -- >> 5
+                                            -- como 4 e 5 não são "false" nem "nil", a expressão é verdadeira e, portante, retorna o operando da direita (5)
+
+print ("nil and 13: " .. tostring(nil and 13))    -- >> nil
+                                                  -- como a expressão é falsa, retorna o operando da esquerda (nil)
+
+print ("false and 13: " .. tostring(false and 13))    -- >> nil
+                                                      -- como a expressão é falsa, retorna o operando da esquerda (false)
+
+print ("4 or 5: " .. tostring(4 or 5))    -- >> 5
+                                          -- como 4 e 5 não são "false" nem "nil", ambos são considerados "true" e, portanto, retorna o operando da direita (5)
+
+print ("false or 5: " .. tostring(false or 5))    -- >> 5
+                                                  -- apesar de ter false, a operação é "or". Como 5 é "não-false" (true), retorna o operando da direita (5)
+
+print ("not nil: " .. tostring(not nil))    -- >> true
+print ("not false: " .. tostring(not false))    -- >> true
+print ("not 0: " .. tostring(not 0))    -- >> false
+                                        -- 0 é "não-false" (true). Como a negação de true é false, retorna false
+print ('not not nil: ' .. tostring(not not nil))    -- >> false
+                                                    -- negação da negação de uma expressão é a própria expressão. Logo, neste caso, nil
+
+---------------------------------------------------------------
+
+-- Precedência
+
+--[[
+De baixo para cima, a ordem de precedência é a seguinte:
+^
+not, - (unário)
+*, /
++, -
+..
+<, >, <=, >=, ~=, ==
+and
+or
+--]]
+
+---------------------------------------------------------------
+
+-- Listas ligadas
+
+print ("\n********** LISTAS LIGADAS **********\n")
+
+-- Listas ligadas podem ser feitas utilizando tabelas com o seguinte formato
+list = nil
+for i = 1, 3 do
+  line = io.read()
+  list = {next = list, value = line}
+end
+
+-- Imprimindo a lista ligada
+l = list
+while l do
+  print (l.value)
+  l = l.next
+end
+
+-- Aparentemente, listas são melhor implementadas em arrays (será visto mais à frente)
+
+---------------------------------------------------------------
+
+-- Assignment/Designação
+
+print ("\n********** ASSIGNMENT/DESIGNAÇÃO **********\n")
+
+-- Multiple assignment
+a, b = 10, 3    -- Equivale a: a = 10; b = 3
+x, y = y, x     -- Troca x por y
+a, b, c = 0, 1  -- a = 0; b = 1; c = nil
+a, b = 0, 1, 2  -- a = 0; b = 1; 2 é descartado
+--[[
+a, b = f()      -- Se f() retorna dois resultados, a recebe o primeiro e b recebe o segundo
+-]]
+
+---------------------------------------------------------------
+
+-- Variáveis locais & Blocos
+
+print ("\n********** VARIÁVEIS LOCAIS & BLOCOS **********\n")
+
+j = 10      -- Variável global
+local i = 1 -- Variável local. Variáveis locais tem como escopo apenas o bloco onde foi declarado (laços, por exemplo), structs ou funções
+-- É um bom hábito utilizar variáveis locais para não lotar o ambiente global de nomes desnecessários
+
+---------------------------------------------------------------
+
+-- do ... end
+
+print ("\n********** do ... end **********\n")
+
+-- É útil utilizar o bloco do, end quando se quer fazer um controle mais fino do escopo de variáveis locais
+
+--[[
+Exemplo:
+
+do
+  local a2 = 2*a
+  local d = sqrt (b^2 - 4*a*c)
+  x1 = (-b + d)/a2
+  x2 = (-b - d)/a2
+end               -- Escopo de a2 e d acabam aqui
+print (x1, x2)
+--]]
+
+---------------------------------------------------------------
+
+-- Estruturas de controle
+
+print ("\n********** if, while, for (... end), repeat (... until) **********\n")
+
+if (1 == 1) then    -- Lua exige que tenha esse "then"
+  print ("1 = 1")   -- mas colocar a condição entre parênteses é opicional
+elseif 1 > 0 then   -- Uma estrutura if sempre termina com um end
+  print ("1 > 0")
+end
+
+--[[
+
+-- break serve para sair do laço mais interno apenas. Serve para while, repeat e for
+
+while (<this is true>) do   -- Teste é feito no início do laço
+  ...
+end
+
+repeat                      -- Teste é feito no final do laço
+  ...
+until <this is true>
+
+-- for numérico
+for var = a, b, c do        -- Faz o laço com var indo de a até b incrementando c. Se c não for colocado, considera-se c = 1
+  ...
+end
+
+--for genérico
+
+--]]

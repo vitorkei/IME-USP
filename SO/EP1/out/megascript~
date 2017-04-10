@@ -1,0 +1,7 @@
+./ascript > s
+./bscript > m
+./cscript > l
+javac media.java
+java media < s
+java media < m
+java media < l

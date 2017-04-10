@@ -1,0 +1,21 @@
+Split: 3
+LEFT(0)
+	Label: 0
+RIGHT(1)
+	Split: 5
+	LEFT(0)
+		Label: 0
+	RIGHT(1)
+		Split: 1
+		LEFT(0)
+			Split: 4
+			LEFT(0)
+				Label: 1
+			RIGHT(1)
+				Label: 1
+		RIGHT(1)
+			Split: 0
+			LEFT(0)
+				Label: 1
+			RIGHT(1)
+				Label: 0

@@ -1,0 +1,13 @@
+import java.util.*;
+
+public class readAllString
+{
+  public static void main(String[] args)
+  {
+    In in = new In(args[0]);
+    String[] ss = in.readAllStrings();
+    Arrays.sort(ss);
+    for (int i = 0; i < ss.length; i++)
+      StdOut.println(ss[i]);
+  }
+}

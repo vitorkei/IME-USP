@@ -1,0 +1,15 @@
+Relatório - Creative Problem 1.3.36 (Random iterator; Algs4)
+
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+
+N) N é o número de elementos que serão permutados. 
+Como N vai de 1 a 6, o número máximo de permutações possível será 1, 2, 6, 24, 120 ou 720, dependendo do valor de N.
+
+T) T é o número de permutações geradas. 
+Com o aumento do valor de T, a tendência é que o número de permutações diferentes geradas aumente. 
+Para valores muito altos de T, é altamente provável que todas as permutações apareçam.
+
+Um teste estatístico que diz se o iterador aleatório está funcionando corretamente é o teste de aderência.
+Esse teste serve para dizer se o iterador funciona corretamente, pois ele compara os valores observados com os valores esperados
+e diz o quão próximos estão.

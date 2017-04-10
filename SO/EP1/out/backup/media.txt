@@ -1,0 +1,8 @@
+s - 30 arquivos, 10 processos, 2 chegando por segundo
+4.7333
+
+m - 30 arquivos, 50 processos, 2 chegando por segundo
+9.2
+
+l - 30 arquivos, 150 processos, 2 chegando por segundo
+8.1

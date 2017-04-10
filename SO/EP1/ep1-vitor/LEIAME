@@ -1,0 +1,42 @@
+*********************************************
+*                                           *
+* MAC0422 - Sistemas Operacionais - 2016/2  *
+*                                           *
+* Nome: Vítor Kei Taira Tamada              *
+* NUSP: 8516250                             *
+* Exercício-programa 1 - LEIA ME            *
+*                                           *
+*********************************************
+
+Para compilar, apenas execute o Makefile na pasta do programa com o comando:
+make
+
+Ele irá executar os seguintes comandos para compilar o shell e o simulador de processos:
+
+gcc -o ep1sh ep1sh.c -Wall -ansi -pedantic -O2 -Wno-unused-result -Wextra -lreadline -lm -lpthread
+gcc -o ep1 ep1.c -Wall -ansi -pedantic -O2 -Wno-unused-result -Wextra -lreadline -lm -lpthread
+
+Nota: Ao executar o make, aparece um warning falando que a função sched_getcpu() foi declara implicitamente.
+      Não consegui remover esse warning, mas ele parece não afetar o programa e a função cumpre seu papel corretamente.
+
+*********************************************
+
+Para executar o shell, digite
+./ep1sh
+
+Para executar o simulador de processos, digite:
+./ep1 escid input output d
+
+sendo:
+  escid o escalonador
+    escid = 1, 2 ou 3
+      1 = First-Come, First-Served (FCFS)
+      2 = Shortest Remaining Time Next (SRTN) - Com problema: processos que são parados em favor de outros com tempo restante menor não são retomados
+      3 = Escalonamento com múltiplas filas (EMF) - Não implementado
+      
+  input o nome do arquivo de trace de entrada
+  
+  output o nome do arquivo de saída
+  
+  d o comando opcional que fornecerá algumas informações via stderr
+  

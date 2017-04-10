@@ -1,0 +1,24 @@
+header: QUESTION #1
+
+case: [ 0 , 1 , 0 , 1 ]
+case: [ 0 , 0 , 0 , 0 ]
+case: [ 0 , 1 , 1 , 1 , 1 , 1 ]
+
+metric: gini
+results_gini: 0.5
+results_gini: 0.0
+results_gini: 0.27777777777778
+
+metric: error
+results_error: 0.5
+results_error: 0.0
+results_error: 0.16666666666667
+
+metric: entropy
+results_entropy: 0.69314718055994
+results_entropy: 0.0
+results_entropy: 0.4505612088663
+
+pointsPerCase: 1
+
+totalQuestion: 0

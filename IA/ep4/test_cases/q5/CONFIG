@@ -1,0 +1,19 @@
+header: QUESTION #5
+
+metric: entropy
+
+dataset: wine
+accuracy: 80.0
+maxdepth: 3
+
+dataset: car
+accuracy: 95.0
+maxdepth: 4
+
+dataset: ionosphere
+accuracy: 97.0
+maxdepth: 1
+
+pointsPerCase: 2
+
+totalQuestion: 0

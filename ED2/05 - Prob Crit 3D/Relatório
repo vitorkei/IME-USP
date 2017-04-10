@@ -1,0 +1,20 @@
+Relatório - Probabilidade Crítica 3D
+
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+
+N) Como o cubo que será percolado tem dimensões NxNxN, quanto maior o N, 
+mais espaços (vazios ou não) o cubo terá. Logo, se o N for alto, o cubo terá mais espaços e, 
+consequentemente, mais espaços vazios. Isso significa que, para um mesmo p, 
+valores maiores de N tem uma chance maior de percolar.
+
+M) Sendo M o número de vezes que um cubo de dimensões NxNxN tentará ser percolado, 
+valores altos de M retornam uma probabilidade média de o cubo ser percolado mais precisa. 
+Isso acarreta um gráfico e uma probabilidade crítica mais precisas.
+
+Após vários testes, chegou-se a conclusão de que a probabilidade crítica de percolação 
+gira em torno dos 0.325, com p_c{N} = 0.321 com N = 24, valor mais alto de N testado, 
+e p_c{N} = 0.33 para N = 10, valor mais baixo testado. Também foi possível perceber que, 
+com valores muito altos de M, o p_c{N} não se altera, mostrando que aquela é a 
+probabilidade mais precisa para o respectivo valor de N, dentro das condições
+determinadas.

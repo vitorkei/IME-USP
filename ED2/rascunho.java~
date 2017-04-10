@@ -1,0 +1,195 @@
+/***************************************************************
+* 
+* MAC0323 - Algoritmos e Estruturas de Dados II
+*
+* Nome: Vítor Kei Taira Tamada
+* NUSP: 8516250
+* Creative Problem 5.3.32 (Unique substrings; Algs4)
+*
+***************************************************************/
+
+public class UniqueLRK
+{
+  private long patHash; // pattern hash value
+  private int M;        // pattern length
+  private long Q;       // modulus
+  private int R;        // radix
+  private long RM1;     // R^(M-1) % Q
+  private int N;        // text size
+
+  // Implementação do método de Rabin-Karp
+  public UniqueLRK(String pat, String txt, int m, int n, long q)
+  {
+    M = m;  // pattern.length()
+    N = n;  // text.length()
+    R = 256;
+    Q = q;  // Q > M * N * N, tal que Q é um número primo
+
+    RM1 = 1;
+    for (int i = 1; i < M; i++)
+      RM1 = (R * RM1) % Q;
+
+    patHash = hash(pat, M);
+  }
+
+  // Retorna um valor de primo igual ou maior que M * N^2
+  private static long longRandomPrime(int n, int m)
+  {
+    long num = (long) (m * n * n);
+
+    long sqrtNum = (long) Math.sqrt(num);
+
+    for (long i = 2; i <= sqrtNum; i++)
+      if (num % i == 0) { i = 2; num++; }
+
+    return num;
+  }
+
+  // Computa o hash para uma String de M digitos
+  private long hash(String key, int M)
+  {
+    long h = 0;
+    for (int j = 0; j < M; j++)
+      h = (h * R + key.charAt(j)) % Q;
+    return h;
+  }
+
+  // Retorna o índice do primeiro caractere do pattern buscado em sua primeira ocorrência
+  // MUITOS ERROS eu acho
+  public int search(String txt)
+  {
+    long txtHash = hash(txt, M);
+//    StdOut.println("txtHash = " + txtHash + " || patHash = " + patHash);
+    if (patHash == txtHash) return 0;
+    for (int i = M; i < N; i++)
+    {
+      // (a + b) % Q = ((a % Q) + (b % Q)) % Q
+      // (a * b) % Q = ((a % Q) * (b % Q)) % Q
+      txtHash = (txtHash + Q - RM1 * txt.charAt(i - M) % Q) % Q;
+//      txtHash = ((txtHash % Q) + ((-RM1 * txt.charAt(i - M) % Q) % Q)) % Q;
+      StdOut.println("1 - " + txtHash);
+      txtHash = (txtHash * R + txt.charAt(i)) % Q;
+//      txtHash = ((((txtHash % Q) * (R % Q)) % Q) + (txt.charAt(i) % Q)) % Q;
+      StdOut.println("2 - " + txtHash);
+      if (patHash == txtHash) return (i - M + 1);
+    }
+
+    return N;
+  }
+
+  // Pega um inteiro e o converte para uma String de tamanho L
+  private static String buildPattern(int num, int L)
+  {
+    int aux = num;
+    char[] patAux = new char[L];
+    for (int i = L - 1; i > -1; i--)
+    {
+      patAux[i] = (char) ((aux % 10) + 48);
+      aux /= 10;
+    }
+    String s = new String(patAux);
+
+    return s;
+  }
+
+  public static void main(String[] args)
+  {
+    long startTime = System.nanoTime ();
+
+    int L = Integer.parseInt(args[0]);
+    UniqueLRK URLK;
+
+    // Se há um segundo argumento, N, de entrada na linha de comando
+    if (args.length > 1)
+    {
+      int N = Integer.parseInt(args[1]);
+
+      // Sequência de N digitos gerados pseudo-aleatoriamente
+      String txt;
+      char[] nums_aux = new char[N];
+      for (int i = 0; i < N; i++)
+      {
+        int a = StdRandom.uniform(10) + 48;
+        nums_aux[i] = (char) a;
+      }
+      txt = new String(nums_aux);
+
+      if (L != 0)
+      {
+        int l;
+        int count = 0;
+        int lim = (int) Math.pow(10, L);
+//        StdOut.println("oi");
+        long q = longRandomPrime(N, L);  // L é o tamanho do pattern. Logo, M = L
+//        StdOut.println("tchau");
+        for (l = 0; l < lim; l++)
+        {
+          String pat = buildPattern(l, L);
+//          StdOut.println("pat = " + pat);
+//          StdOut.println("pre ULRK");
+          UniqueLRK ULRK = new UniqueLRK(pat, txt, L, N, q);
+//          StdOut.println("pre search");
+          int s = ULRK.search(txt);
+//          StdOut.println("s = " + s + " || N = " + ULRK.N);
+          if (s != ULRK.N) count++;
+//          StdOut.println(count);
+          if (count == lim) break;
+//          StdOut.println();
+        }
+        StdOut.println(count);
+      }
+      else  // else if (L == 0)
+      {
+        boolean flag = false;
+        for (L = 0; N /10 > 0; L++) N /= 10;  // Pega o valor inicial de L a ser verificado
+        L++;
+        StdOut.println("Li = " + (L - 1));
+
+        int l;
+        int count = 0;
+        int lim = (int) Math.pow(10, L - 1);
+        StdOut.println(lim);
+        long q = longRandomPrime(N, L);
+        StdOut.println(txt);
+        while (count != lim)
+        {
+          L--;
+          StdOut.println(L);
+          if (L == 0) break;
+          for (l = 0; l < lim; l++)
+          {
+            String pat = buildPattern(l, L);
+            UniqueLRK ULRK = new UniqueLRK(pat, txt, L, N, q);
+            int s = ULRK.search(txt);
+            StdOut.println("pat = " + pat + " || s = " + s);
+            if (s != ULRK.N) count++;
+//            StdOut.println("count = " + count);
+          }
+          lim = (int) Math.pow(10, L);
+          StdOut.println("lim = " + lim);
+          count = 0;
+        }
+        StdOut.println("L = " + L);
+      }
+    }
+    // Se não há um segundo argumento, N, de entrada na linha de comando
+    else  // else if (args.length == 0)
+    {
+      // Lê um texto da entrada padrão
+      In in = new In();
+      String text = in.readAll();
+
+      if (L != 0)
+      {
+
+      }
+      else  // else if (L == 0)
+      {
+
+      }
+    }
+    long stopTime = System.nanoTime ();
+    double deltaTime = (double) (stopTime - startTime) / 1000000000;
+    StdOut.println ("delta time = " + deltaTime);
+  }
+}

@@ -1,0 +1,105 @@
+/***************************************************************
+* 
+* MAC0323 - Algoritmos e Estruturas de Dados II
+*
+* Nome: Vítor Kei Taira Tamada
+* NUSP: 8516250
+* Busca de links em páginas WWW
+*
+***************************************************************/
+
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
+public class LinkFinderNEW
+{
+  public static void main(String[] args)
+  {
+    // Verifica se há o argumento -s
+    boolean flag = false;
+    if (args.length == 2)
+    {
+      String s = args[0];
+      if (s.equals("-s"))
+        flag = true;
+      else
+      {
+        StdOut.println("\nERROR: args[0] != -s\n");
+        System.exit(1);
+      }
+    }
+
+    In in = new In(args[args.length - 1]);
+    String input = in.readAll();
+    TST<Integer> st = new TST<Integer>();
+
+    // Pega o base href
+    String href = new String();
+    String base_href = "base href=\"[\\S\"]*\"";
+    Pattern p_aux = Pattern.compile(base_href);
+    Matcher m_aux = p_aux.matcher(input);
+    if(m_aux.find())
+    {
+      String[] s = m_aux.group().split("\"");
+      href = s[1].substring(0, s[1].length() - 1);
+    }
+
+    // Pega as regexps
+    String regexp = "https?://[[\\S]&&[^\"]]+|href=\"[[\\S]&&[^\"]]+\"";
+    Pattern pattern = Pattern.compile(regexp);
+    Matcher matcher = pattern.matcher(input);
+
+    for (int i = 0; matcher.find(); i++)
+    {
+      // Verifica se o padrão é um href
+      if (matcher.group().substring(0, 6).equals("href=\""))
+      {
+        String[] href_aux = matcher.group().split("\"");
+
+        // Evita pegar padrões que não são links, como javascript.void(0), que não tem / no começo
+        if (href_aux[1].charAt(0) == '/')
+        {
+          if (flag) st.put(href.concat(href_aux[1]), i);
+          else      StdOut.println(href.concat(href_aux[1]));
+        }
+
+        else if (href_aux[1].substring(0, 4).equals("http"))
+        {
+          if (flag) st.put(href_aux[1], i);
+          else      StdOut.println(href_aux[1]);
+        }
+      }
+      // Verifica se o padrão é um garbage text (e.g.: http://www')
+      else if (matcher.group().substring(0, 4).equals("http"))
+      {
+        // Verifica se o padrão começa com http ou https e, dependendo do caso, se a 4ª letra depois de http:// é um ponto (www.) e age de acordo
+        if (matcher.group().substring(4, 5).equals("s"))
+        {
+          if (matcher.group().substring(11, 12).equals("."))
+          {
+            if (flag) st.put(matcher.group(), i);
+            else      StdOut.println(matcher.group());
+          }
+        }
+        else
+        {
+          if (matcher.group().substring(10, 11).equals("."))
+          {
+            if (flag) st.put(matcher.group(), i);
+            else      StdOut.println(matcher.group());
+          }
+        }
+      }
+      else
+      {
+        if (flag) st.put(matcher.group(), i);
+        else      StdOut.println(matcher.group());
+      }
+    }
+
+    // Se o argumento -s tiver sido inserido, imprime as palavras ordenadamente
+    if (flag)
+      for (String s : st.keys())
+        StdOut.println(s);
+  }
+}

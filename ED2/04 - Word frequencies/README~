@@ -1,0 +1,30 @@
+READ ME - Creative Exercise 3.1.52 (Word frequencies; IntroCS)
+
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+
+Arquivos escritos para este exercício:
+  readText.java
+  WordFrequencies.java
+
+Arquivos prontos e bibliotecas do algs4 e IntroCS utilizadas:
+  Quick3way.java
+  StdIn.java
+  StdOut.java
+
+Arquivo de teste utilizado:
+  in.txt
+
+Comandos de compilação:
+  javac readText.java
+  javac sortCount.java
+  javac Quick3way.java
+
+Comando de execução:
+  java readText < in.txt | java Quick3way | java WordFrequencies
+
+Notas:
+-Os comando de compilação e execução escritos aqui são os que eu utilizei nos meus testes
+-O programa ignora strings que contém números, independente da quantidade (contanto que seja maior do que 0). Ou seja, l33t, 4kids, w00t, m8 são "palavras" completamente ignoradas e descartadas
+-O programa não consegue processar "palavras" compostas de caracteres especiais apenas. Para que um caractere especial seja removido do texto, ele tem que estar junto de um caractere normal (e.g.: Quem? (C) Você!!! R$)
+

@@ -1,0 +1,2307 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pt-br" lang="pt-br" dir="ltr">
+
+<head>
+      <base href="http://www.ime.usp.br/" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="keywords" content="Instituto de Matem&amp;aacute;tica e Estat&amp;iacute;stica, IME, USP, eventos, not&amp;iacute;cias" />
+  <meta name="generator" content="www.ime.usp.br" />
+  <title>Instituto de Matemática e Estatística | IME-USP - Instituto de Matemática e Estatística</title>
+  <link href="/" rel="canonical" />
+  <link href="http://www.ime.usp.br/index.php?option=com_search&amp;view=article&amp;id=191&amp;Itemid=258&amp;format=opensearch&amp;lang=pt-br" rel="search" title="Buscar Instituto de Matemática e Estatística" type="application/opensearchdescription+xml" />
+  <link rel="stylesheet" href="http://www.ime.usp.br/modules/mod_latestnewsenhanced/style.css.php?security=1&amp;suffix=88&amp;item_w=100&amp;font_s=14" type="text/css" />
+  <link rel="stylesheet" href="/modules/mod_lofarticlesslideshow/assets/jstyle.css" type="text/css" />
+  <link rel="stylesheet" href="/media/mod_languages/css/template.css" type="text/css" />
+  <link rel="stylesheet" href="/modules/mod_ariextmenu/mod_ariextmenu/js/css/menu.min.css" type="text/css" />
+  <link rel="stylesheet" href="/modules/mod_ariextmenu/mod_ariextmenu/js/css/menu.fix.css" type="text/css" />
+  <style type="text/css">
+UL#ariext89 LI A{font-size:12px;font-weight:normal;text-transform:none;text-align:left;}
+  </style>
+  <script src="/media/jui/js/jquery.min.js" type="text/javascript"></script>
+  <script src="/media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
+  <script src="/media/jui/js/jquery-migrate.min.js" type="text/javascript"></script>
+  <script src="/media/system/js/caption.js" type="text/javascript"></script>
+  <script src="/modules/mod_latestnewsenhanced/js/paginate.js" type="text/javascript"></script>
+  <script src="/media/system/js/mootools-core.js" type="text/javascript"></script>
+  <script src="/media/system/js/core.js" type="text/javascript"></script>
+  <script src="/modules/mod_lofarticlesslideshow/assets/jscript.js" type="text/javascript"></script>
+  <script src="/modules/mod_ariextmenu/mod_ariextmenu/js/ext-core.js" type="text/javascript"></script>
+  <script src="/modules/mod_ariextmenu/mod_ariextmenu/js/menu.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+jQuery(window).on('load',  function() {
+				new JCaption('img.caption');
+			});jQuery(document).ready(function($) {$(".latestnewsenhanced_88.newslist").pajinate({    item_container_id : ".newsitems",    nav_panel_id : ".pagination",    items_per_page: 3,    num_page_links_to_display: 0,    wrap_around: true,    nav_label_prev: "Ant",    nav_label_next: "Próx"});});;(function() { var _menuInit = function() { new Ext.ux.Menu("ariext89", {"transitionDuration":0.2}); Ext.get("ariext89").select(".ux-menu-sub").removeClass("ux-menu-init-hidden"); }; if (!Ext.isIE || typeof(MooTools) == "undefined" || typeof(MooTools.More) == "undefined") Ext.onReady(_menuInit); else window.addEvent("domready", _menuInit); })();
+  </script>
+  <!--[if IE]><link rel="stylesheet" type="text/css" href="/modules/mod_ariextmenu/mod_ariextmenu/js/css/menu.ie.min.css" /><![endif]-->
+  <!--[if lt IE 8]><script type="text/javascript" src="/modules/mod_ariextmenu/mod_ariextmenu/js/fix.js"></script><![endif]-->
+
+
+  <link rel="stylesheet" href="/templates/system/css/system.css" type="text/css" />
+  <link rel="stylesheet" href="/templates/ime_usp/css/template.css" type="text/css" />
+</head>
+
+<body id="page_bg">
+
+  
+    <div id="header">      
+      <a href="http://www.ime.usp.br/"><div class="logo"></div></a>
+      <div id="top_right">
+        <div id="top_right_top">
+      
+
+<div class="custom"  >
+	<p style="text-align: right;">&nbsp;<a href="http://www5.usp.br/" target="_blank"><img style="vertical-align: middle;" src="/images/arquivos/aconteceime/brasao_usp_corV4.0.png" alt="brasao usp corV4.0" width="53" height="77" /></a></p></div>
+               
+        </div>
+    
+        
+      </div>
+    </div>
+  <div id="header_down_bg">
+          <div id="header_down">
+      <div id="pillmenu">
+<div id="ariext89_container" class="ux-menu-container ux-menu-clearfix">
+
+	<ul id="ariext89" class="ux-menu ux-menu-horizontal">
+					<li class="ux-menu-item-main ux-menu-item-level-0 ux-menu-item182 ux-menu-item-parent-pos0">
+				<a href="/instituto" class=" ux-menu-link-level-0 ux-menu-link-first" title="">
+					Instituto									</a>
+						</li>
+					<li class="ux-menu-item-main ux-menu-item-level-0 ux-menu-item-parent ux-menu-item245 ux-menu-item-parent-pos1">
+				<a href="javascript:void(0);" class=" ux-menu-link-level-0 ux-menu-link-parent" title="">
+					Departamentos										<span class="ux-menu-arrow"></span>
+									</a>
+			
+	<ul class="ux-menu-sub ux-menu-init-hidden">
+					<li class=" ux-menu-item-level-1 ux-menu-item246">
+				<a href="/dcc" class=" ux-menu-link-level-1" title="">
+					Ciência da Computação									</a>
+						</li>
+					<li class=" ux-menu-item-level-1 ux-menu-item247">
+				<a href="/mae" class=" ux-menu-link-level-1" title="">
+					Estatística									</a>
+						</li>
+					<li class=" ux-menu-item-level-1 ux-menu-item248">
+				<a href="/mat" class=" ux-menu-link-level-1" title="">
+					Matemática									</a>
+						</li>
+					<li class=" ux-menu-item-level-1 ux-menu-item250">
+				<a href="/map" class=" ux-menu-link-level-1" title="">
+					Matemática Aplicada									</a>
+						</li>
+			</ul>
+			</li>
+					<li class="ux-menu-item-main ux-menu-item-level-0 ux-menu-item-parent ux-menu-item251 ux-menu-item-parent-pos2">
+				<a href="javascript:void(0);" class=" ux-menu-link-level-0 ux-menu-link-parent" title="">
+					Ensino										<span class="ux-menu-arrow"></span>
+									</a>
+			
+	<ul class="ux-menu-sub ux-menu-init-hidden">
+					<li class=" ux-menu-item-level-1 ux-menu-item252">
+				<a href="/grad" class=" ux-menu-link-level-1" title="">
+					Graduação									</a>
+						</li>
+					<li class=" ux-menu-item-level-1 ux-menu-item253">
+				<a href="/pos" class=" ux-menu-link-level-1" title="">
+					Pós-Graduação									</a>
+						</li>
+					<li class=" ux-menu-item-level-1 ux-menu-item254">
+				<a href="/vestibulando" class=" ux-menu-link-level-1" title="">
+					Vestibulando									</a>
+						</li>
+			</ul>
+			</li>
+					<li class="ux-menu-item-main ux-menu-item-level-0 ux-menu-item256 ux-menu-item-parent-pos3">
+				<a href="/pesquisa" class=" ux-menu-link-level-0" title="">
+					Pesquisa									</a>
+						</li>
+					<li class="ux-menu-item-main ux-menu-item-level-0 ux-menu-item264 ux-menu-item-parent-pos4">
+				<a href="/cex" class=" ux-menu-link-level-0" title="">
+					Cultura e Extensão									</a>
+						</li>
+					<li class="ux-menu-item-main ux-menu-item-level-0 ux-menu-item284 ux-menu-item-parent-pos5">
+				<a href="/crint" class=" ux-menu-link-level-0" title="">
+					Internacional									</a>
+						</li>
+					<li class="ux-menu-item-main ux-menu-item-level-0 ux-menu-item307 ux-menu-item-parent-pos6">
+				<a href="/bib" class=" ux-menu-link-level-0" title="">
+					Biblioteca									</a>
+						</li>
+					<li class="ux-menu-item-main ux-menu-item-level-0 ux-menu-item304 ux-menu-item-parent-pos7">
+				<a href="/index.php?option=com_content&amp;view=article&amp;id=227&amp;Itemid=302&amp;lang=pt-br&amp;catid=8" class=" ux-menu-link-level-0 ux-menu-link-last" title="">
+					Contatos									</a>
+						</li>
+			</ul>
+</div></div>
+      <div id="header_down_right">
+        <div id="search"><div class="search">
+	<form action="/" method="post" class="form-inline">
+		<label for="mod-search-searchword" class="element-invisible"> </label> <input name="searchword" id="mod-search-searchword" maxlength="20"  class="inputbox search-query" type="text" size="20" value="Buscar..."  onblur="if (this.value=='') this.value='Buscar...';" onfocus="if (this.value=='Buscar...') this.value='';" /> <input type="image" value="Buscar" class="button" src="/" onclick="this.form.searchword.focus();"/>		<input type="hidden" name="task" value="search" />
+		<input type="hidden" name="option" value="com_search" />
+		<input type="hidden" name="Itemid" value="258" />
+	</form>
+</div>
+</div>
+        <div id="flags"><div class="mod-languages">
+
+	<ul class="lang-inline">
+						<li class="lang-active" dir="ltr">
+			<a href="/">
+							<img src="/media/mod_languages/images/pt_br.gif" alt="Português (BR)" title="Português (BR)" />						</a>
+			</li>
+								<li class="" dir="ltr">
+			<a href="/en">
+							<img src="/media/mod_languages/images/en.gif" alt="English (UK)" title="English (UK)" />						</a>
+			</li>
+				</ul>
+
+</div>
+</div>          
+      </div>
+          </div>
+        </div>
+    <div id="tudo">
+    <div id="centro">
+          <div id="slideshow">
+      <!------------------------------------- THE CONTENT ------------------------------------------------->
+<div id="lofass92" class="lof-ass " style="height:auto; width:auto">
+<div class="lofass-container  lof-css3 red lof-snright">
+    
+        <div class="preload"><div></div></div>
+            <div class="lof-startstop"><div></div></div>
+         
+     <!-- MAIN CONTENT --> 
+      <div class="lof-main-wapper" style="height:300px;width:700px;">
+      	
+                      <div class="lof-main-item ">
+                              
+                <img src="http://www.ime.usp.br/cache/lofthumbs/700x300-mapeamento-empreendedores.png" title="Mapeamento de Empreendedores da USP" width="700" alt="Mapeamento de Empreendedores da USP" >				
+                 
+                     
+                 <div class="lof-description">
+                    <h4><a target="_parent" title="Mapeamento de Empreendedores da USP" href="/index.php?option=com_content&amp;view=article&amp;id=1282&amp;catid=19&amp;Itemid=1047&amp;lang=pt-br">Mapeamento de Empreendedores da USP</a></h4>
+                                        <p>A Agência USP de Inovação, Núcleo de Inovação Tecnológica da Universidade de São Paulo, deseja...</p>
+                                     </div>
+                                              </div> 
+                        <div class="lof-main-item">
+                              
+                <img src="http://www.ime.usp.br/cache/lofthumbs/700x300-2ei.png" title="2ª Escola de Inverno do IME-USP" width="700" alt="2ª Escola de Inverno do IME-USP" >				
+                 
+                     
+                 <div class="lof-description">
+                    <h4><a target="_parent" title="2ª Escola de Inverno do IME-USP" href="/index.php?option=com_content&amp;view=article&amp;id=987&amp;catid=19&amp;Itemid=836&amp;lang=pt-br">2ª Escola de Inverno do IME-USP</a></h4>
+                                        <p>Em sua segunda edição, a Escola de Inverno do IME, intitulada "Computação Criativa: dos jogos à...</p>
+                                     </div>
+                                              </div> 
+                        <div class="lof-main-item">
+                              
+                <img src="http://www.ime.usp.br/cache/lofthumbs/700x300-siicusp.png" title="Simpósio Internacional de Iniciação Científica e Tecnológica da USP" width="700" alt="Simpósio Internacional de Iniciação Científica e Tecnológica da USP" >				
+                 
+                     
+                 <div class="lof-description">
+                    <h4><a target="_parent" title="Simpósio Internacional de Iniciação Científica e Tecnológica da USP" href="/index.php?option=com_content&amp;view=article&amp;id=1249&amp;catid=19&amp;Itemid=1038&amp;lang=pt-br">Simpósio Internacional de Iniciação Científica e Tecnológica da USP</a></h4>
+                                        <p>O Simpósio Internacional de Iniciação Científica e Tecnológica da USP&nbsp;(SIICUSP) é um evento...</p>
+                                     </div>
+                                              </div> 
+                        <div class="lof-main-item">
+                              
+                <img src="http://www.ime.usp.br/cache/lofthumbs/700x300-IMEmorias-700x300.jpg" title="Projeto IMEmórias" width="700" alt="Projeto IMEmórias" >				
+                 
+                     
+                 <div class="lof-description">
+                    <h4><a target="_parent" title="Projeto IMEmórias" href="/destaque/imemorias">Projeto IMEmórias</a></h4>
+                                        <p>&nbsp;Grandes feitos já foram realizados dentro do Instituto de Matemática e Estatística da USP...</p>
+                                     </div>
+                                              </div> 
+                        <div class="lof-main-item">
+                              
+                <img src="http://www.ime.usp.br/cache/lofthumbs/700x300-concurso-processo-seletivo-docentes.png" title="Concursos" width="700" alt="Concursos" >				
+                 
+                     
+                 <div class="lof-description">
+                    <h4><a target="_parent" title="Concursos" href="/destaques/concursos">Concursos</a></h4>
+                                        <p>Concurso para Professor Titular
+Departamento de Estatística do IME&nbsp;(Retificação do...</p>
+                                     </div>
+                                              </div> 
+                    
+      </div>
+      <!-- END MAIN CONTENT --> 
+        <!-- NAVIGATOR -->
+                      <div class="lof-buttons-control">
+                  <a href="/" onclick="return false;" class="lof-previous">Previous</a>
+                  <a href="/" class="lof-next"  onclick="return false;">Next</a>
+                </div>
+                        
+              <div class="lof-navigator-outer">
+                    <ul class="lof-navigator">
+                                            <li>
+                            <div>
+                                                                 <img src="http://www.ime.usp.br/cache/lofthumbs/60x60-mapeamento-empreendedores.png" title="Mapeamento de Empreendedores da USP" width="60" alt="Mapeamento de Empreendedores da USP" > 
+                                                                                                  <h4>Mapeamento de Empreendedores da USP</h4>
+                                                                                                                            </div>    
+                        </li>
+                                             <li>
+                            <div>
+                                                                 <img src="http://www.ime.usp.br/cache/lofthumbs/60x60-2ei.png" title="2ª Escola de Inverno do IME-USP" width="60" alt="2ª Escola de Inverno do IME-USP" > 
+                                                                                                  <h4>2ª Escola de Inverno do IME-USP</h4>
+                                                                                                                            </div>    
+                        </li>
+                                             <li>
+                            <div>
+                                                                 <img src="http://www.ime.usp.br/cache/lofthumbs/60x60-siicusp.png" title="Simpósio Internacional de Iniciação Científica e Tecnológica da USP" width="60" alt="Simpósio Internacional de Iniciação Científica e Tecnológica da USP" > 
+                                                                                                  <h4>Simpósio Internacional de Iniciação Científica e Tecnológica da USP</h4>
+                                                                                                                            </div>    
+                        </li>
+                                             <li>
+                            <div>
+                                                                 <img src="http://www.ime.usp.br/cache/lofthumbs/60x60-IMEmorias-700x300.jpg" title="Projeto IMEmórias" width="60" alt="Projeto IMEmórias" > 
+                                                                                                  <h4>Projeto IMEmórias</h4>
+                                                                                                                            </div>    
+                        </li>
+                                             <li>
+                            <div>
+                                                                 <img src="http://www.ime.usp.br/cache/lofthumbs/60x60-concurso-processo-seletivo-docentes.png" title="Concursos" width="60" alt="Concursos" > 
+                                                                                                  <h4>Concursos</h4>
+                                                                                                                            </div>    
+                        </li>
+                          
+                    </ul>
+              </div>
+              
+  </div>
+ </div> <script type="text/javascript">
+
+  var _lofmain =  $('lofass92'); 
+   var object = new LofArticleSlideshow( _lofmain,
+                  { 
+                    fxObject:{
+                    transition:Fx.Transitions.Quad.easeInOut,  
+                    duration:500                    },
+                    startItem:0,
+                    interval:5000,
+                    direction :'vrdown', 
+                    navItemHeight:100,
+                    navItemWidth:312,
+                    navItemsDisplay:3,
+                    navPos:'right',
+					autoStart:1,
+					descOpacity:1                  } );
+      object.registerButtonsControl( 'click', {next:_lofmain.getElement('.lof-next'),
+                         previous:_lofmain.getElement('.lof-previous')} );
+  
+</script>
+
+  
+      </div>
+      <div id="wrapper">    
+        <div id="destaques_home">        
+          <div id="rightcolumn">
+            		<div class="moduletable">
+					<h3>NOTÍCIAS</h3>
+					
+<div class="latestnewsenhanced_88 newslist">
+	<ul class="newsitems">
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1285&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Falling Walls Lab São Paulo 2016" >
+										<span>Falling Walls Lab São Paulo 2016</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">27.06.2016</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1037&amp;catid=20&amp;Itemid=880&amp;lang=pt-br" title="Maratona de Programação" >
+										<span>Maratona de Programação</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">13.06.2016</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1180&amp;catid=20&amp;Itemid=1006&amp;lang=pt-br" title="Olimpíada Brasileira de Matemática - OBM 2016" >
+										<span>Olimpíada Brasileira de Matemática - OBM 2016</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">13.06.2016</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1273&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Prof Carlos Humes homenageado na UFAM" >
+										<span>Prof Carlos Humes homenageado na UFAM</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">08.06.2016</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1234&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Pesquisadores do IME-USP tem artigo premiado no SBRC 2016" >
+										<span>Pesquisadores do IME-USP tem artigo premiado no SBRC 2016</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">01.06.2016</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1216&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Outreach Mission" >
+										<span>Outreach Mission</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">12.05.2016</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1181&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Projeto IMEmórias" >
+										<span>Projeto IMEmórias</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">19.04.2016</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1176&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Atividades do IME são destaque no portal da Secretaria da Educação do Estado de São Paulo " >
+										<span>Atividades do IME são destaque no portal da Secretaria da Educação do Estado de São Paulo </span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">18.04.2016</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1099&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Concursos Abertos" >
+										<span>Concursos Abertos</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">04.04.2016</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1130&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Workshop​s gratuitos pelo Sistema Integrado de Bibliotecas da USP (SIBiUSP)" >
+										<span>Workshop​s gratuitos pelo Sistema Integrado de Bibliotecas da USP (SIBiUSP)</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">09.03.2016</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1100&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Editais do Programa Santander Universidades" >
+										<span>Editais do Programa Santander Universidades</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">27.01.2016</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1098&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="LASCON 2016" >
+										<span>LASCON 2016</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">07.01.2016</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1095&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Aluno de Pós-Graduação do IME tem trabalho aceito no ICSE " >
+										<span>Aluno de Pós-Graduação do IME tem trabalho aceito no ICSE </span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">15.12.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1092&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Meetup no IMEmpreende" >
+										<span>Meetup no IMEmpreende</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">10.12.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1088&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Curso de Ciências Moleculares ganha Prêmio Santander Universidades" >
+										<span>Curso de Ciências Moleculares ganha Prêmio Santander Universidades</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">26.11.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1087&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Gincana do Vivendo a USP" >
+										<span>Gincana do Vivendo a USP</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">25.11.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1086&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="APP Challenge 2016" >
+										<span>APP Challenge 2016</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">25.11.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1079&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Ciclo de Palestras em Swarm Computing e Internet das Coisas" >
+										<span>Ciclo de Palestras em Swarm Computing e Internet das Coisas</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">17.11.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1081&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Alunos do IME premiados na XLI Conferencia Latinoamericana en Informática" >
+										<span>Alunos do IME premiados na XLI Conferencia Latinoamericana en Informática</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">13.11.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1080&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Professor John H. Hubbard visita o IME de 3 a 13 de novembro" >
+										<span>Professor John H. Hubbard visita o IME de 3 a 13 de novembro</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">29.10.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1078&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="6a Semana da Escrita Científica" >
+										<span>6a Semana da Escrita Científica</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">26.10.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1076&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Boletim da CIPA do IME" >
+										<span>Boletim da CIPA do IME</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">21.10.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1075&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="II Seminário IBGE de portas abertas para a escola" >
+										<span>II Seminário IBGE de portas abertas para a escola</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">13.10.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1072&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Aprender com Cultura e Extensão " >
+										<span>Aprender com Cultura e Extensão </span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">08.10.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1063&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Pyladies São Paulo" >
+										<span>Pyladies São Paulo</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">28.09.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1065&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="IME recebe Prêmio Tese Destaque USP" >
+										<span>IME recebe Prêmio Tese Destaque USP</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">24.09.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1055&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Inglês na USP" >
+										<span>Inglês na USP</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">11.09.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1054&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Tutorial sobre desenvolvimento ágil de SaaS para a Nuvem no IME-USP" >
+										<span>Tutorial sobre desenvolvimento ágil de SaaS para a Nuvem no IME-USP</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">08.09.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1053&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Premiado Curso de Ciência da Computação " >
+										<span>Premiado Curso de Ciência da Computação </span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">08.09.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1045&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Cerimônia de premiação da 10ª edição da OBMEP" >
+										<span>Cerimônia de premiação da 10ª edição da OBMEP</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">17.08.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=224&amp;catid=20&amp;Itemid=230&amp;lang=pt-br" title="IME recebe prêmio para melhor Semana de Recepção aos Calouros de 2015" >
+										<span>IME recebe prêmio para melhor Semana de Recepção aos Calouros de 2015</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">15.10.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1042&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Professor do Departamento de Matemática do IME recebe prêmio SBM 2015" >
+										<span>Professor do Departamento de Matemática do IME recebe prêmio SBM 2015</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">30.07.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1041&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Nova grade curricular do BCC-IME-USP " >
+										<span>Nova grade curricular do BCC-IME-USP </span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">30.07.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1028&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Software livre é tema da 27ª edição da revista Computação Brasil" >
+										<span>Software livre é tema da 27ª edição da revista Computação Brasil</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">26.06.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/comunicacao/noticias/map-poli" title="MAP: Novas turmas de Análise Matemática para Poli" >
+										<span>MAP: Novas turmas de Análise Matemática para Poli</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">25.06.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1027&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Professor do DCC-IME foi eleito Conselheiro da SBC" >
+										<span>Professor do DCC-IME foi eleito Conselheiro da SBC</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">24.06.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1024&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="50 anos de TI na USP" >
+										<span>50 anos de TI na USP</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">18.06.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1018&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Startups em busca de mais espaço na USP" >
+										<span>Startups em busca de mais espaço na USP</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">17.06.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=1010&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="#Climathon – 2015 (São Paulo)" >
+										<span>#Climathon – 2015 (São Paulo)</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">11.06.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=988&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Professor do DCC-IME recebe prêmio de melhor revisor de artigos do SBRC" >
+										<span>Professor do DCC-IME recebe prêmio de melhor revisor de artigos do SBRC</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">27.05.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=982&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="IME oferece disciplinas optativas dedicadas ao ensino de software livre" >
+										<span>IME oferece disciplinas optativas dedicadas ao ensino de software livre</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">20.05.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=980&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="DCC - Premiação da aluna Camila Fernandez Achutti" >
+										<span>DCC - Premiação da aluna Camila Fernandez Achutti</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">15.05.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=978&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Programa de aceleração de startups no IME-USP quer converter ciência em negócios inovadores" >
+										<span>Programa de aceleração de startups no IME-USP quer converter ciência em negócios inovadores</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">14.05.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/comunicacao/noticias/ameaca-seg" title="Pesquisa busca criar mecanismos para detectar antecipadamente ameaças de segurança em redes de computadores" >
+										<span>Pesquisa busca criar mecanismos para detectar antecipadamente ameaças de segurança em redes de computadores</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">29.04.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=942&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Professor Chaim Samuel Hönig é eleito como Associado Honorário pela SBM" >
+										<span>Professor Chaim Samuel Hönig é eleito como Associado Honorário pela SBM</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">15.04.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=940&amp;catid=20&amp;Itemid=757&amp;lang=pt-br" title="Startup Farm" >
+										<span>Startup Farm</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">08.04.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=926&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Prêmio GTPI -  Jacques Bouchara" >
+										<span>Prêmio GTPI -  Jacques Bouchara</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">13.02.2015</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=886&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Professor Vyacheslav Futorny é eleito para a Academia Brasileira de Ciências" >
+										<span>Professor Vyacheslav Futorny é eleito para a Academia Brasileira de Ciências</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">04.12.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=884&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Estudante de SP vence 10ª Olimpíada de Matemática das escolas públicas" >
+										<span>Estudante de SP vence 10ª Olimpíada de Matemática das escolas públicas</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">02.12.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=879&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Alunos do IME ganham medalha de ouro e prata na final brasileira da XIX Maratona de Programação" >
+										<span>Alunos do IME ganham medalha de ouro e prata na final brasileira da XIX Maratona de Programação</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">10.11.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=878&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="IME recebe prêmio de melhor dissertação no SBSEG 2014" >
+										<span>IME recebe prêmio de melhor dissertação no SBSEG 2014</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">09.11.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=865&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="USP/IME - Prêmio Melhores Universidades" >
+										<span>USP/IME - Prêmio Melhores Universidades</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">22.10.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=862&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Prêmio de melhor artigo dos anais do SBBD 2014" >
+										<span>Prêmio de melhor artigo dos anais do SBBD 2014</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">21.10.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=863&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Artur Ávila, a medalha Fields e a escola brasileira de matemática" >
+										<span>Artur Ávila, a medalha Fields e a escola brasileira de matemática</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">15.10.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=864&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Virada Científica da USP" >
+										<span>Virada Científica da USP</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">11.10.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=861&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Alunos do Ensino Médio de Minas Gerais visitam o DCC" >
+										<span>Alunos do Ensino Médio de Minas Gerais visitam o DCC</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">10.10.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=841&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Recepção aos estudantes estrangeiros - 2º semestre/2014" >
+										<span>Recepção aos estudantes estrangeiros - 2º semestre/2014</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">26.09.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=827&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="IME na 8ª Feira das Profissões da USP" >
+										<span>IME na 8ª Feira das Profissões da USP</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">08.09.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=843&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Estatística recebe 5 estrelas" >
+										<span>Estatística recebe 5 estrelas</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">08.09.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=842&amp;catid=20&amp;Itemid=450&amp;lang=pt-br" title="Ciência da Computação recebe 5 estrelas" >
+										<span>Ciência da Computação recebe 5 estrelas</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">05.09.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=218&amp;catid=20&amp;Itemid=232&amp;lang=pt-br" title="IME ganha prêmio do Concurso de Dissertações de Mestrado" >
+										<span>IME ganha prêmio do Concurso de Dissertações de Mestrado</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">27.08.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=225&amp;catid=20&amp;Itemid=231&amp;lang=pt-br" title="Aluna do IME recebe título pela Indiana University of Pennsylvania" >
+										<span>Aluna do IME recebe título pela Indiana University of Pennsylvania</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">21.08.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=216&amp;catid=20&amp;Itemid=229&amp;lang=pt-br" title="Matemática e música - Tema do "Café Científico" no Parque CienTec" >
+										<span>Matemática e música - Tema do "Café Científico" no Parque CienTec</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">19.08.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=223&amp;catid=20&amp;Itemid=228&amp;lang=pt-br" title="Inscrições abertas: Curso de Inglês preparatório para o exame IELTS" >
+										<span>Inscrições abertas: Curso de Inglês preparatório para o exame IELTS</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">18.06.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news odd">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=220&amp;catid=20&amp;Itemid=226&amp;lang=pt-br" title="Inscrições abertas para concurso de apoio a eventos científicos" >
+										<span>Inscrições abertas para concurso de apoio a eventos científicos</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">04.06.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+				
+						<li class="newsitem">
+							
+						
+			
+				<div class="news even">	
+						
+								
+											<div class="newsinfo infoleft">
+								
+					
+											
+													<h6 class="newstitle">
+																	<a href="/index.php?option=com_content&amp;view=article&amp;id=221&amp;catid=20&amp;Itemid=224&amp;lang=pt-br" title="BioCAS-2014 - Auxílio financeiro de participação no evento" >
+										<span>BioCAS-2014 - Auxílio financeiro de participação no evento</span>
+									</a>
+															</h6>
+												
+													<div class="newsextra"><span class="newsdate">29.05.2014</span></div>										
+						
+											
+												
+												
+											</div>	
+				</div>
+			</li>
+			</ul>
+	<div class="pagination"></div>
+				
+
+</div>
+		</div>
+			<div class="moduletable">
+					
+
+<div class="custom"  >
+	<p style="text-align: right;"><span style="text-align: right;"><img src="/images/arquivos/imagens/bt_mais.png" alt="bt mais" width="14" height="14" /> </span><a href="/comunicacao/noticias" style="text-align: right;">mais notícias</a></p></div>
+		</div>
+			<div class="moduletable">
+					<h3>EVENTOS</h3>
+					<table class="mod_events_latest_table" width="100%" border="0" cellspacing="0" cellpadding="0" align="center"><tr><td class="mod_events_latest_first" style="border-color:"><span class="mod_events_latest_date">28.06.2016 | 14:00</span> <span class="mod_events_latest_content"><a href="/comunicacao/eventos/icalrepeat.detail/2016/06/28/1836/55|60|61|62|63|64|67|68|70|71|72|73|75|77|78|79|80|81|82|84|85|89|90|91|92|93|94|95|97|98|99|100/mobilidade-humana-no-territorio-nacional-e-sua-relacao-com-modelos-metapopulacionais-em-epidemiologia?lang=pt-br"  target="_top" >Mobilidade humana no território nacional e sua relação com modelos metapopulacionais em epidemiologia</a></span></td></tr>
+<tr><td class="mod_events_latest" style="border-color:"><span class="mod_events_latest_date">18.07.2016 | 08:00</span> <span class="mod_events_latest_content"><a href="/comunicacao/eventos/icalrepeat.detail/2016/07/18/1689/55|60|61|62|63|64|67|68|70|71|72|73|75|77|78|79|80|81|82|84|85|89|90|91|92|93|94|95|97|98|99|100/escola-sao-paulo-de-ciencia-avancada-em-algoritmos-combinatoria-e-otimizacao?lang=pt-br"  target="_top" >Escola São Paulo de Ciência Avançada em Algoritmos, Combinatória e Otimização</a></span></td></tr>
+<tr><td class="mod_events_latest" style="border-color:"><span class="mod_events_latest_date">26.08.2016 | 16:00</span> <span class="mod_events_latest_content"><a href="/comunicacao/eventos/icalrepeat.detail/2016/08/26/1829/55|60|61|62|63|64|67|68|70|71|72|73|75|77|78|79|80|81|82|84|85|89|90|91|92|93|94|95|97|98|99|100/titulo-a-brief-survey-on-homogenization-techniques-with-some-physical-applications-palestrante-micol-amar-facolta-di-ingegneria-sapienza-universita-di?lang=pt-br"  target="_top" >Título: &quot;A brief survey on homogenization techniques with some physical applications&quot; - Palestrante: Micol Amar (Facoltà di Ingegneria - Sapienza Università di Roma)</a></span></td></tr>
+</table>
+		</div>
+			<div class="moduletable">
+					
+
+<div class="custom"  >
+	<p style="text-align: right;"><img src="/images/arquivos/imagens/bt_mais.png" alt="bt mais" /> <a href="/comunicacao/eventos/cat.listevents/">mais eventos</a></p></div>
+		</div>
+			<div class="moduletable">
+					<h3>DEFESAS</h3>
+					<table class="mod_events_latest_table" width="100%" border="0" cellspacing="0" cellpadding="0" align="center"><tr><td class="mod_events_latest_first" style="border-color:"><span class="mod_events_latest_date">27.06.2016 | 15:00</span> <span class="mod_events_latest_content"><a href="/comunicacao/defesas/icalrepeat.detail/2016/06/27/1825/65|66|74|76|87|88|101|102|117|118|119|120/mestrado-uma-analise-critica-de-um-recurso-educacional-aberto-digital-concebido-para-o-ensino-aprendizagem-da-estatistica-no-ensino-medio?lang=pt-br"  target="_top" >Mestrado: Uma análise crítica de um recurso educacional aberto digital concebido para o ensino-aprendizagem da Estatística no Ensino Médio.  </a></span></td></tr>
+<tr><td class="mod_events_latest" style="border-color:"><span class="mod_events_latest_date">28.06.2016 | 14:00</span> <span class="mod_events_latest_content"><a href="/comunicacao/defesas/icalrepeat.detail/2016/06/28/1827/65|66|74|76|87|88|101|102|117|118|119|120/mestrado-transformacoes-geometricas-planas-um-estudo-experimental-e-dinamico?lang=pt-br"  target="_top" >Mestrado: Transformações geométricas planas: um estudo experimental e dinâmico</a></span></td></tr>
+<tr><td class="mod_events_latest" style="border-color:"><span class="mod_events_latest_date">28.06.2016 | 14:00</span> <span class="mod_events_latest_content"><a href="/comunicacao/defesas/icalrepeat.detail/2016/06/28/1807/65|66|74|76|87|88|101|102|117|118|119|120/doutorado-selecao-de-modelos-para-campos-aleatorios-markovianos-discretos-sobre-grafos?lang=pt-br"  target="_top" >Doutorado: &quot;Seleção de modelos para campos aleatórios Markovianos discretos sobre grafos&quot;</a></span></td></tr>
+</table>
+		</div>
+			<div class="moduletable">
+					
+
+<div class="custom"  >
+	<p style="text-align: right;"><img src="/images/arquivos/imagens/bt_mais.png" alt="bt mais" /> <a href="/comunicacao/defesas/cat.listevents/">mais defesas</a></p></div>
+		</div>
+	                
+          </div>        
+        </div>
+        <div id="destaque_principal"></div>
+        <div id="cursosseparator" align="center">
+    <!--<img src="/templates//images/cursosseparator.png" />-->
+    		<div class="moduletable">
+					
+
+<div class="custom"  >
+	<p><img src="/images/arquivos/cursosseparator.png" alt="cursosseparator" width="600" height="16" />&nbsp;</p></div>
+		</div>
+	
+    </div>
+        <div id="cursos">		<div class="moduletable">
+					
+
+<div class="custom"  >
+	<table id="Table_01" style="width: 600px; height: 287px;" border="0" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td rowspan="11"><a href="/grad"><img src="/images/cursos/cursosoferecidos_01.gif" alt="" width="120" height="287" /></a></td>
+<td><a href="/dcc/grad" title="Bacharelado em Ciência da Computação"><img src="/images/cursos/cursosoferecidos_02.gif" alt="" width="180" height="28" /></a></td>
+<td rowspan="11"><a href="/pos"><img src="/images/cursos/cursosoferecidos_03.png" alt="" width="121" height="287" /></a></td>
+<td><a href="/posbioinfo/" title="Bioinformática"><img src="/images/cursos/cursosoferecidos_04.gif" alt="" width="179" height="28" /></a></td>
+</tr>
+<tr>
+<td><img src="/images/cursos/cursosoferecidos_05.gif" alt="" width="180" height="22" /></td>
+<td><img src="/images/cursos/cursosoferecidos_06.gif" alt="" width="179" height="22" /></td>
+</tr>
+<tr>
+<td><a href="/be" title="Bacharelado em Estatística"><img src="/images/cursos/cursosoferecidos_07.gif" alt="" width="180" height="30" /></a></td>
+<td><a href="/dcc/pos" title="Ciência da Computação"><img src="/images/cursos/cursosoferecidos_08.gif" alt="" width="179" height="30" /></a></td>
+</tr>
+<tr>
+<td><img src="/images/cursos/cursosoferecidos_09.gif" alt="" width="180" height="21" /></td>
+<td><img src="/images/cursos/cursosoferecidos_10.gif" alt="" width="179" height="21" /></td>
+</tr>
+<tr>
+<td><a href="/bm" title="Bacharelado em Matemática"><img src="/images/cursos/cursosoferecidos_11.gif" alt="" width="180" height="27" /></a></td>
+<td><a href="/mae/pos" title="Estatística"><img src="/images/cursos/cursosoferecidos_12.gif" alt="" width="179" height="27" /></a></td>
+</tr>
+<tr>
+<td><img src="/images/cursos/cursosoferecidos_13.gif" alt="" width="180" height="24" /></td>
+<td><img src="/images/cursos/cursosoferecidos_14.gif" alt="" width="179" height="24" /></td>
+</tr>
+<tr>
+<td><a href="/lm" title="Licenciatura em Matemática"><img src="/images/cursos/cursosoferecidos_15.gif" alt="" width="180" height="27" /></a></td>
+<td><a href="/mat/pos" title="Matemática"><img src="/images/cursos/cursosoferecidos_16.gif" alt="" width="179" height="27" /></a></td>
+</tr>
+<tr>
+<td><img src="/images/cursos/cursosoferecidos_17.gif" alt="" width="180" height="23" /></td>
+<td><img src="/images/cursos/cursosoferecidos_18.gif" alt="" width="179" height="23" /></td>
+</tr>
+<tr>
+<td><a href="/map/grad" title="Bacharelado em Matemática Aplicada"><img src="/images/cursos/cursosoferecidos_19.gif" alt="" width="180" height="27" /></a></td>
+<td><a href="/map/pos" title="Matemática Aplicada"><img src="/images/cursos/cursosoferecidos_20.gif" alt="" width="179" height="27" /></a></td>
+</tr>
+<tr>
+<td><img src="/images/cursos/cursosoferecidos_21.gif" alt="" width="180" height="15" /></td>
+<td><img src="/images/cursos/cursosoferecidos_22.gif" alt="" width="179" height="15" /></td>
+</tr>
+<tr>
+<td><a href="/map/grad" title="Bacharelado em Matemática Aplicada e Computacional"><img src="/images/cursos/cursosoferecidos_23.gif" alt="" width="180" height="43" /></a></td>
+<td><a href="/posmpemat" title="Mestrado Profissional em Ensino de Matemática"><img src="/images/cursos/cursosoferecidos_24.gif" alt="" width="179" height="43" /></a></td>
+</tr>
+</tbody>
+</table></div>
+		</div>
+	</div>
+        <div id="destaques">
+      <div id="destaquesseparator" align="center">
+      <!--<img src="/templates//images/cursosseparator.png" />-->
+      		<div class="moduletable">
+					
+
+<div class="custom"  >
+	<p><img src="/images/arquivos/destaquesseparator.png" alt="destaquesseparator" width="600" height="16" />&nbsp;</p></div>
+		</div>
+	
+      </div>
+          <!--<div align="center">
+      <!--<img src="/templates//images/destaquesseparator.png" /></div>-->
+          		<div class="moduletable">
+					
+
+<div class="custom"  >
+	<p>&nbsp;</p>
+<table border="0" cellpadding="4" cellspacing="4">
+<tbody>
+<tr>
+<td valign="middle" align="center"><a href="/bib"><img src="/images/arquivos/home/destaques/destaque_bib.jpg" alt="destaque bib" width="136" height="83" /></a></td>
+<td valign="middle" align="center"><a href="/~cea/"><img src="/images/arquivos/home/destaques/destaque_cea.png" alt="destaque cea" width="136" height="83" /></a></td>
+<td valign="middle" align="center"><a href="http://matemateca.ime.usp.br/"><img src="/images/arquivos/home/destaques/logomarca_matemateca.jpg" alt="logomarca matemateca" width="136" height="83" /></a></td>
+<td valign="middle" align="center"><a href="/caem/"><img src="/images/arquivos/home/destaques/destaque_caem.jpg" alt="destaque caem" width="136" height="83" /></a></td>
+</tr>
+<tr>
+<td valign="middle" align="center"><a href="/acervovirtual/"><img src="/images/arquivos/home/destaques/destaque_acervo.jpg" alt="destaque acervo" width="136" height="83" /></a></td>
+<td valign="middle" align="center"><a href="http://ccsl.ime.usp.br"><img src="/images/arquivos/home/destaques/destaque_ccsl.jpg" alt="destaque ccsl" width="136" height="83" /></a></td>
+<td valign="middle" align="center"><a href="https://linux.ime.usp.br/"><img src="/images/arquivos/home/destaques/destaque_redelinux.jpg" alt="destaque redelinux" width="136" height="83" /></a></td>
+<td valign="middle" align="center"><a href="/ativestat"><img src="/images/arquivos/departamentos/mae/ativestat/logos/ae3_logo_mini.png" alt="ativestat" width="136" height="83" /></a></td>
+</tr>
+<tr>
+<td valign="middle" align="center"><a href="http://www.numec.prp.usp.br/" target="_blank"><img alt="logo-numec" src="/images/arquivos/home/destaques/logo-numec.png" /></a></td>
+<td valign="middle" align="center"><a href="http://www.cec.ime.usp.br/"><img src="/images/arquivos/home/destaques/destaque_cec.jpg" alt="destaque cec" /></a></td>
+<td valign="middle" align="center"><a href="http://cmmr2016.ime.usp.br/" target="_blank"><img style="border: 1px solid #dfe5e7;" src="/images/arquivos/home/destaques/cmmr-2016.jpg" alt="cmmr-2016" width="124" height="82" /></a></td>
+<td valign="middle" align="center"><a href="http://www.icm2018.org/portal/conteudo.php?pag=inc.principal_"><img style="border: 1px solid #dfe5e7;" src="/images/arquivos/home/destaques/icm2018.png" alt="destaque aaamat" width="136" height="83" /></a></td>
+</tr>
+</tbody>
+</table></div>
+		</div>
+	
+          <!--<div id="destaque1">		<div class="moduletable">
+					
+
+<div class="custom"  >
+	<p>&nbsp;</p>
+<table border="0" cellpadding="4" cellspacing="4">
+<tbody>
+<tr>
+<td valign="middle" align="center"><a href="/bib"><img src="/images/arquivos/home/destaques/destaque_bib.jpg" alt="destaque bib" width="136" height="83" /></a></td>
+<td valign="middle" align="center"><a href="/~cea/"><img src="/images/arquivos/home/destaques/destaque_cea.png" alt="destaque cea" width="136" height="83" /></a></td>
+<td valign="middle" align="center"><a href="http://matemateca.ime.usp.br/"><img src="/images/arquivos/home/destaques/logomarca_matemateca.jpg" alt="logomarca matemateca" width="136" height="83" /></a></td>
+<td valign="middle" align="center"><a href="/caem/"><img src="/images/arquivos/home/destaques/destaque_caem.jpg" alt="destaque caem" width="136" height="83" /></a></td>
+</tr>
+<tr>
+<td valign="middle" align="center"><a href="/acervovirtual/"><img src="/images/arquivos/home/destaques/destaque_acervo.jpg" alt="destaque acervo" width="136" height="83" /></a></td>
+<td valign="middle" align="center"><a href="http://ccsl.ime.usp.br"><img src="/images/arquivos/home/destaques/destaque_ccsl.jpg" alt="destaque ccsl" width="136" height="83" /></a></td>
+<td valign="middle" align="center"><a href="https://linux.ime.usp.br/"><img src="/images/arquivos/home/destaques/destaque_redelinux.jpg" alt="destaque redelinux" width="136" height="83" /></a></td>
+<td valign="middle" align="center"><a href="/ativestat"><img src="/images/arquivos/departamentos/mae/ativestat/logos/ae3_logo_mini.png" alt="ativestat" width="136" height="83" /></a></td>
+</tr>
+<tr>
+<td valign="middle" align="center"><a href="http://www.numec.prp.usp.br/" target="_blank"><img alt="logo-numec" src="/images/arquivos/home/destaques/logo-numec.png" /></a></td>
+<td valign="middle" align="center"><a href="http://www.cec.ime.usp.br/"><img src="/images/arquivos/home/destaques/destaque_cec.jpg" alt="destaque cec" /></a></td>
+<td valign="middle" align="center"><a href="http://cmmr2016.ime.usp.br/" target="_blank"><img style="border: 1px solid #dfe5e7;" src="/images/arquivos/home/destaques/cmmr-2016.jpg" alt="cmmr-2016" width="124" height="82" /></a></td>
+<td valign="middle" align="center"><a href="http://www.icm2018.org/portal/conteudo.php?pag=inc.principal_"><img style="border: 1px solid #dfe5e7;" src="/images/arquivos/home/destaques/icm2018.png" alt="destaque aaamat" width="136" height="83" /></a></td>
+</tr>
+</tbody>
+</table></div>
+		</div>
+	</div>
+          <div id="destaque2"></div>-->
+        </div>
+        <!--<div id="bottom_line_separator"><img src="/templates//images/bottom_line_separator.png"></div>  
+        <div id="destaque_bottom">
+          <div id="destaque_bottom_acontece_no_ime"></div>  
+          <div id="destaque_bottom_defesas"><p id="destaques_titulo">Pr&#211ximas defesas</p></div>  
+        </div>  -->    
+        <div id="links_uteis_bottom">
+          <div align="center">
+            <!--
+            <img src="/templates/ime_usp/images/linksuteisseparator.png" />
+            -->
+          </div>
+          
+        </div>  
+      </div>  
+        </div>
+    <div class="clr"></div>
+
+    <!--footer start-->
+    <div id="footergrad">
+      <div id="footer_up"><div id="footer_column">		<div class="moduletable">
+					<h3>CONTATO</h3>
+					
+
+<div class="custom"  >
+	<p><a href="/contatos">Telefones<br /></a><a href="/assessoria">Imprensa</a><br /><a href="/com/webmaster"></a><a href="/contatos/ouvidoria">Ouvidoria</a><br /><a href="/com/webmaster">Webmaster</a>&nbsp;</p></div>
+		</div>
+	</div>
+<div id="footer_column">		<div class="moduletable">
+					<h3>ACESSO RÁPIDO</h3>
+					
+
+<div class="custom"  >
+	<p><a href="/concursos">Concursos</a><br /><a href="/tourvirtual/" target="_blank">IME Virtual<br /></a><a href="https://uspdigital.usp.br/" target="_blank">USP Digital</a><br /><a href="http://www.transparencia.usp.br/" target="_blank">Transparência USP</a><br /><a href="http://www.uspvirtual.usp.br/" target="_blank">USP Virtual</a><a href="https://webmail.ime.usp.br/" target="_blank"><br /><br /><br /><br /><br /></a>&nbsp;</p></div>
+		</div>
+	</div>
+<div id="footer_column">		<div class="moduletable">
+					<h3>SERVIÇOS</h3>
+					
+
+<div class="custom"  >
+	<p><a href="http://sistemas.ime.usp.br" target="_blank">Sistemas IME</a><br /><a href="https://webmail.ime.usp.br/" target="_blank">Webmail</a>&nbsp;</p></div>
+		</div>
+	</div>
+<div id="footer_column">		<div class="moduletable">
+					
+
+<div class="custom"  >
+	<p><a href="https://www.facebook.com/imeusp"><img src="/images/arquivos/imagens/facebook-48.png" alt="fb icon" /></a><a href="https://twitter.com/usp_ime"><img src="/images/arquivos/imagens/twitter-48.png" alt="twitter-icon" width="48" height="48" /></a><a href="/sobre/acontecenoime"> <img src="/images/arquivos/imagens/iconeacontece.png" alt="iconeacontece" width="45" height="45" /></a><a href="/comunicacao/album-de-fotos?lang=pt-br"> <img src="/images/arquivos/imagens/camera-48.png" alt="icone camera" /></a></p></div>
+		</div>
+	</div>
+
+</div>
+    <div id="footer_down">
+        <div id="footer_down_left">		<div class="moduletable">
+					
+
+<div class="custom"  >
+	<div style="text-align: justify;"><strong>Instituto de Matemática e Estatística da Universidade de São Paulo</strong><br /><strong>Rua do Matão, 1010 - CEP 05508-090 - São Paulo - SP</strong></div>
+<p>&nbsp;</p></div>
+		</div>
+	</div>
+        <div id="footer_down_right">		<div class="moduletable">
+					
+
+<div class="custom"  >
+	<div style="text-align: right;"><a href="/localizacao"><img alt="maps-icon" src="/images/arquivos/imagens/mapa-48.png" /></a>&nbsp;<a href="/localizacao">Como chegar</a>
+</div> </div>
+		</div>
+	</div>
+      </div>
+    </div>
+    <!--footer end-->
+  </div>
+  
+<!-------------------------------------------------Google Analitycs--------------------------------------------------->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16554103-6']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-------------------------------------------------PÓS DCC--------------------------------------------------->
+<script type="text/javascript">
+
+ var _gaq = _gaq || [];
+ _gaq.push(['_setAccount', 'UA-16889368-1']);
+ _gaq.push(['_trackPageview']);
+
+ (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+ })();
+
+</script>
+<!-------------------------------------------------------------------------------------------------------------------->
+</body>
+</html>

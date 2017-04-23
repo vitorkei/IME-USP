@@ -1,5 +1,9 @@
 #lang plai-typed
 
+; Primeira linguagem - "calculadora"
+; Tem apenas operadores aritméticas básicos e condicional simples (if)
+; (soma, subtração, multiplicação, divisão, negação e condicional)
+
 ; Contém as operações primitivas
 (define-type ArithC
   [numC (n : number)]

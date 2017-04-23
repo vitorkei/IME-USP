@@ -1,0 +1,11 @@
+#lang plai-typed
+
+(define-type ExprC
+  [numC (n : number)]
+  [idC  (s : symbol)]
+  [plusC (l : ExprC) (r : ExprC)]
+  [multC (l : ExprC) (r : ExprC)]
+  [fdC (name : symbol) (arg : symbol) (body : ExprC)]
+  [appC (fun : ExprC) (arg : ExprC)] ; a aplicação recebe uma função
+  [ifC (condition : ExprC) (yes : ExprC) (no : ExprC)]
+  )

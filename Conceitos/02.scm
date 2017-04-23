@@ -1,5 +1,9 @@
 #lang plai-typed
 
+; Segunda linguagem
+; Criar e armazenar funções em uma biblioteca para serem chamadas
+; Environment - evita que as funções sejam percorridas duas vezes (troca de argumentos e interpretação)
+
 ; "template" de uma função
 (define-type FunDefC
   [fdC (name : symbol) (arg : symbol) (body : ExprC)])
@@ -105,8 +109,14 @@
              (numC 1)
              (multC (appC 'fatorial (plusC (idC 'n) (numC -1)))
                     (idC 'n)))]
-   [fdC 'narciso 'narciso (multC (idC 'narciso) (numC 1000))]))
+   [fdC 'narciso 'narciso (multC (idC 'narciso) (numC 1000))]
+   [fdC 'blub 'x (plusC (idC 'x) (numC 5))]))
+; biblioteca de teste
+(define bib
+  (list
+   [fdC 'blub 'x (plusC (idC 'x) (numC 2))]))
 
+; Testes
 (interp (desugar (parse '(+ -1400 (call fatorial 7)))) mt-env biblioteca)
 (interp (desugar (parse '(call dobro (+ 5 1)))) mt-env biblioteca)
 (interp (desugar (parse '(call fatorial 7))) mt-env biblioteca)
@@ -121,3 +131,15 @@
 (interp (desugar (parse '(call fatorial 3)))
         mt-env
         biblioteca)
+
+(define y 1)
+(define f (let ((z y)) (lambda (x) (+ x y z))))
+(define y 2)
+
+; Chamar funções de mesmo nome de bibliotecas diferentes
+(interp (desugar (parse '(call blub 10)))
+        mt-env
+        biblioteca)
+(interp (desugar (parse '(call blub 10)))
+        mt-env
+        bib)

@@ -1,0 +1,50 @@
+Notas da apostila plai-typed (9 páginas)
+-Geral:
+   Se uma função tiver argumentos, é necessário colocar o nome da função
+   e todos os argumentos dentro do mesmo parenteses
+     Exemplos:
+       (define (mn m n) (+ m n)) ; correto
+       (define mn 25)            ; correto
+       (define mn m n (+ m n))   ; incorreto
+       
+   Sempre que o tipo de um argumento for declarado,
+   é preciso colocá-lo entre colchetes. O mesmo vale para funções
+     Exemplos:
+       (define (m5 [m : number]) (+ m 5)) ; correto
+       (define (m5 m : number) (+ m 5))   ; incorreto 
+       (define (m) : number 5)            ; correto
+       (define m ; number 5)              ; incorreto
+       
+   plai-typed parece que sabe quando é atribuição de variável e quando
+   é função
+     Exemplos:
+       (define v 20)             ; é uma variável
+       (define l (lambda () 22)) ; é uma função
+       (+ v l)                   ; não funciona, pois chamada de função
+                                 ; precisa ser feita com o nome da função
+                                 ; entre parenteses
+       (+ v (l))                 ; funciona
+   
+-Pg 4
+   (define-values (marca preço) (values "Taipa" 43.23)) 
+     define-values serve para atribuir vários valores em paralelo
+     Variável marca recebe o valor "Taipa" que é uma string
+     Variável preço recebe o valor 43.23 que é um number
+
+   (define (3* [ n : number ]) : number (* 3 n))
+     Cria uma função chamada 3* que recebe um number n como argumento e retorna
+     um number que é igual ao triplo de n
+
+   Quando se pré determina o tipo de uma variável/função/coisa, utiliza-se o :
+   Nos exemplos acima, o tipo de n é number e o tipo da função,
+   que é o que ela retorna, também é number
+
+-Pg5
+   (lambda (id ...) expr)
+   (lambda (id ...) : type expr)
+     lambda é uma função anônima que recebe quantos argumentos forem especificados e retorna o resultado da expressão
+     exemplos:
+       ((lambda (x) (+ x 5)) 11)          ; => 11 + 5 = 16
+       ((lambda (x) : number (+ x 1)) 10) ; => 10 + 1 = 11
+       (define soma2 (lambda ([x : number]) : number (+ x 2)))
+         ; (soma2 5) => 5 + 2 = 7

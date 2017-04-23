@@ -46,11 +46,16 @@
     [numC (n) n]
     [plusC (l r)   (+ (interp l) (interp r))]
     [multC (l r)   (* (interp l) (interp r))]
-    [ifC   (c s n) (if (zero? (interp c)) (interp n) (interp s))]
+    [ifC   (c s n) (if (zero? (interp c)) (interp s) (interp n))]
     ))
 
 (define (interpS [a : ArithS]) (interp (desugar a)))
 
-(parse '(if (- 3 2) 42 (+ 5 8)))
+;(parse '(if (- 3 2) 42 (+ 5 8)))
 (interpS (parse '(if (- 3 2) 42 (+ 5 8))))
 (interpS (parse '(if (- 3 3) 42 (+ 5 8))))
+(interpS (parse '(if (- 3 4) 42 (+ 5 8))))
+
+
+
+

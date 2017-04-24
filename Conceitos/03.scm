@@ -1,5 +1,7 @@
 #lang plai-typed
 
+; Funções passam a retornar valores (Value) ao invés de apenas números
+
 (define-type ExprC
   [numC (n : number)]
   [idC  (s : symbol)]
@@ -118,6 +120,6 @@
 (interpS '(+ 10 (call (func dobra x (+ x x)) 16)))
 
 ;; Testes da apostila
-(interpS '(func f1 x (func f2 x (+ x x))))
-(interpS '(call (func f1 x (func f2 x (+ x x))) 4))
+(interpS '(func f1 x (func f2 x (+ x x)))) ; associação de x em f1 não se propaga para f2, pois os environments são diferentes
+(interpS '(call (func f1 x (func f2 x (+ x x))) 4)) ; idem a função de cima
 ; (interpS '(call (call (func f1 x (func f2 y (+ x y))) 4) 5)) ; função dá erro, pois x não está definido

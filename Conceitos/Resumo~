@@ -1,0 +1,65 @@
+Capítulo 1 - Introdução
+
+"define-type" cria um novo tipo enquanto "type-case" verifica qual o tipo e toma a devida ação.
+
+===========================
+
+Capítulo 2 - Primeira linguagem
+
+define-type ArithC
+  Definição de uma primeira linguagem (ArithC), que executa apenas soma e multiplicação.
+  
+parse
+  Recebe uma s-expression e retorna um ArithS.
+  Para isso, é necessário uma função que recebe uma entrada (s-expression) para ser processada e retornada em um determinado formato que nossa linguagem ainda precisa interpretar.
+
+interp
+  Recebe um ArithC e retorna um number.
+  A saída do parse é então interpretada pelo interp e enviada para o compilador do plai-typed em um formato que ele consegue ler.
+  
+define-type ArithS
+  Como as operações de subtração e menos unário não passam de aplicações de soma e de multiplicação, cria-se um novo tipo (ArithS) com açucar sintático. Essas operações são devidamente tratadas no parse, interp e desugar.
+  
+desugar
+  Recebe um ArithS e retorna um ArithC.
+  Como o ArithS é um ArithC com açúcar sintático, precisamos de uma função que remova esse açucar. A função desugar recebe como entrada ArithS e retornar como ArithC.
+  
+Condicional (if)
+  Como o if não é nem uma operação de adição nem de multiplicação, ele precisa ser colocado diretament no ArithC e, portanto, no ArithS também. Por causa disso, ele precisa ser devidamente tratado no parse, interp e desugar.
+  
+===========================
+
+Capítulo 3 - Segunda linguagem
+
+define-type FunDefC
+  Por hora, não há funções para serem chamadas - apenas blocos de código que precisam ser digitados todas as vezes que quisermos o usar. O tipo FunDefC possui um nome (symbol), argumento (symbol) e um corpo (ExprC, que será definido mais adiante). Por enquanto, possui apenas um argumento.
+
+define-type ExprC
+  Em comparação com ArithC, ExprC precisa de duas novas entradas: identificadores (idC) e aplicação de função (appC). Enquanto o idC serve para encontrar a função em um environment (a principio, uma biblioteca), o appC serve para efetivamente chamar a função, uma vez que seus argumentos são o nome da função e seu argumento.
+
+ExprS & desugar
+  desugar recebe um ExprS e retorna um ExprC.
+  ExprS é um tipo definido por define-type.
+  Se quiser manter o açúcar sintático como no capítulo 1, é necessário fazer as respectivas alterações em ArithS e desugar para se tornarem ExprS e desugar (do ExprS), ou seja, adicionar idS e appS.
+
+subst
+  Recebe ExprC, symbol e ExprC e retorna ExprC.
+  Função que recebe três argumento a, b e c.
+  c é uma ExprC com um symbol b que será substituído por uma outra ExprC a.
+  O objetivo da função é substituir o argumento passado, que chega como um símbolo, para o devido formato ExprC.
+
+interp
+  Recebe ExprC e listof FunDefC e retorna number.
+  Age da mesma forma que o interp do ArithC, mas adaptado para utilizar ExprC e FunDefC.
+
+get-fundef
+  Recebe um symbol e um listof FunDefC e retorna FunDefC
+  Busca a função dentre as funções existentes na listof FunDefC que foi passada como argumento.
+
+parse
+  Recebe uma s-expression e retorna uma ExprS.
+  Funciona da mesma forma que o parse do ArithC, mas com um caso a mais: se first sl for igual a call. Ou seja, ele verifica se é uma chamada de função e toma a ação necessária.
+
+define biblioteca
+  Lista de fdC (listof fdC).
+  É uma lista de funções definidas para poderem ser chamadas pelo nome ao invés de terem que ser digitadas todas as vezes que quiser que sejam usadas. É uma dessas que é

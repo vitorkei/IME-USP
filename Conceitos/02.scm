@@ -59,11 +59,11 @@
     ; Aplicação de função é que precisa de subst
     [appC (f a)
           (local ([define fd (get-fundef f fds)]) ;pega a def em fd
-            (interp (fdC-body fd) ; expresão
-                    (extend-env
-                        (bind (fdC-arg fd) (interp a env fds))
-                        env) ; novo environment
-                    fds))]
+                 (interp (fdC-body fd) ; expresão
+                         (extend-env (bind (fdC-arg fd)
+                                           (interp a env fds))
+                          env) ; novo environment
+                  fds))]
     [plusC (l r) (+ (interp l env fds) (interp r env fds))]
     [multC (l r) (* (interp l env fds) (interp r env fds))]
     [ifC (c y n) (if (zero? (interp c env fds)) (interp y env fds) (interp n env fds))]))
@@ -124,17 +124,14 @@
  (interp (desugar (parse '(call narciso (call fatorial 7)))) mt-env biblioteca)
  5040000)
 
-(interp (appC 'f1 (numC 3)) mt-env
+(interp (appC 'f1 (numC 3))
+        mt-env
         (list
          [fdC 'f1 'x (appC 'f2 (numC 4))]
          [fdC 'f2 'y (plusC (idC 'x) (idC 'y))]))
 (interp (desugar (parse '(call fatorial 3)))
         mt-env
         biblioteca)
-
-(define y 1)
-(define f (let ((z y)) (lambda (x) (+ x y z))))
-(define y 2)
 
 ; Chamar funções de mesmo nome de bibliotecas diferentes
 (interp (desugar (parse '(call blub 10)))

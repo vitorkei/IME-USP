@@ -35,7 +35,7 @@ define-type FunDefC
   Por hora, não há funções para serem chamadas - apenas blocos de código que precisam ser digitados todas as vezes que quisermos o usar. O tipo FunDefC possui um nome (symbol), argumento (symbol) e um corpo (ExprC, que será definido mais adiante). Por enquanto, possui apenas um argumento.
 
 define-type ExprC
-  Em comparação com ArithC, ExprC precisa de duas novas entradas: identificadores (idC) e aplicação de função (appC). Enquanto o idC serve para encontrar a função em um environment (a principio, uma biblioteca), o appC serve para efetivamente chamar a função, uma vez que seus argumentos são o nome da função e seu argumento.
+  Em comparação com ArithC, ExprC precisa de duas novas entradas: identificadores (idC) e aplicação de função (appC). Enquanto o idC serve para encontrar os símbolos que serão substituidos pelos devidos argumentos, o appC serve para efetivamente chamar a função, uma vez que seus argumentos são o nome da função e seu argumento.
 
 ExprS & desugar
   desugar recebe um ExprS e retorna um ExprC.
@@ -62,4 +62,18 @@ parse
 
 define biblioteca
   Lista de fdC (listof fdC).
-  É uma lista de funções definidas para poderem ser chamadas pelo nome ao invés de terem que ser digitadas todas as vezes que quiser que sejam usadas. É uma dessas que é
+  É uma lista de funções definidas para poderem ser chamadas pelo nome ao invés de terem que ser digitadas todas as vezes que quiser que sejam usadas. É uma dessas que é chamada como segundo argumento do interp.
+
+===========================
+
+Capítulo 4 - Ambientes (Environments)
+
+define-type Binding
+  Ao utilizar a função subst, as funções são percorridas duas vezes: uma para trocar os argumentos e outra para interpretar a função (e executá-la). O tipo Binding associa um symbol a um number de tal forma que a troca seja feita apenas em tempo de execução.
+
+define-type-alias Env (listof Binding) & define mt-env empty & define extend-env cons
+  Uma lista de Bindings forma o environment. mt-env é um environment vazio e extend-env é uma função que estende o environment. Graças ao environment, não é mais necessário utilizar a função subst.
+
+interp
+  Recebe uma ExprC, um Env e um listof FunDefC e retorna um number
+  interp recebeu mais um argumento: o environment. Todas as chamadas recursivas agora precisam receber env como argumento também. A associação do Binding é feita nesta parte.

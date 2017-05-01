@@ -3,13 +3,13 @@
 ; Funções passam a retornar valores (Value) ao invés de apenas números
 
 (define-type ExprC
-  [numC (n : number)]
-  [idC  (s : symbol)]
+  [numC  (n : number)]
+  [idC   (s : symbol)]
   [plusC (l : ExprC) (r : ExprC)]
   [multC (l : ExprC) (r : ExprC)]
-  [fdC (name : symbol) (arg : symbol) (body : ExprC)] ; declaração faz parte da expressão
-  [appC (fun : ExprC) (arg : ExprC)] ; a aplicação recebe uma função
-  [ifC (condition : ExprC) (yes : ExprC) (no : ExprC)]
+  [fdC   (name : symbol) (arg : symbol) (body : ExprC)] ; declaração faz parte da expressão
+  [appC  (fun : ExprC) (arg : ExprC)] ; a aplicação recebe uma função
+  [ifC   (condition : ExprC) (yes : ExprC) (no : ExprC)]
   )
 
 (define-type ExprS
@@ -105,6 +105,11 @@
          
          [(call) (appS    (parse (second sl))
                           (parse (third sl)))]
+
+         [(if)   (ifS     (parse (second sl))
+                          (parse (third sl))
+                          (parse (fourth sl)))]
+
          
          [else (error 'parse "invalid list input")]))]
     [else (error 'parse "invalid input")]))

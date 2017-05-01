@@ -6,6 +6,8 @@ Capítulo 1 - Introdução
 
 Capítulo 2 - Primeira linguagem
 
+  Criaremos uma lingaugem simples que executa operações aritméticas e o condicional if
+
 define-type ArithC
   Definição de uma primeira linguagem (ArithC), que executa apenas soma e multiplicação.
   
@@ -30,6 +32,8 @@ Condicional (if)
 ===========================
 
 Capítulo 3 - Segunda linguagem
+
+  Aprimoraremos a linguagem possibilitando que sejam criadas funções para serem chamadas de tal forma que se torna desnecessário reescrevê-la todas as veze que quiser a utilizar. Entretanto, essas funções PRECISAM de uma biblioteca para serem armazenadas.
 
 define-type FunDefC
   Por hora, não há funções para serem chamadas - apenas blocos de código que precisam ser digitados todas as vezes que quisermos o usar. O tipo FunDefC possui um nome (symbol), argumento (symbol) e um corpo (ExprC, que será definido mais adiante). Por enquanto, possui apenas um argumento.
@@ -68,6 +72,8 @@ define biblioteca
 
 Capítulo 4 - Ambientes (Environments)
 
+  Para evitar que as funções sejam percorridas sempre duas vezes, cria-se os environments, que armazenam o valor (number por hora) de cada symbol em uma lista
+
 define-type Binding
   Ao utilizar a função subst, as funções são percorridas duas vezes: uma para trocar os argumentos e outra para interpretar a função (e executá-la). O tipo Binding associa um symbol a um number de tal forma que a troca seja feita apenas em tempo de execução.
 
@@ -77,3 +83,79 @@ define-type-alias Env (listof Binding) & define mt-env empty & define extend-env
 interp
   Recebe uma ExprC, um Env e um listof FunDefC e retorna um number
   interp recebeu mais um argumento: o environment. Todas as chamadas recursivas agora precisam receber env como argumento também. A associação do Binding é feita nesta parte.
+
+lookup
+  Recebe um symbol e um Env e retorna um number
+  Procura o symbol passado no Env e retorna seu respectivo valor caso exista no Env.
+
+===========================
+
+Capítulo 5 - Funções como valores
+
+  Por hora, as expressões retornam apenas números. Neste capítulo, isso será aprimorado.
+
+define-type ExprC
+  Passa a ter o tipo fdC também como uma estrutura do tipo.
+  appC-fun passa a ser ExprC ao invés de symbol.
+
+define-type Value
+  Novo tipo de retorno para o interp, já que agora as funções retornam valores ao invés de apenas números.
+
+num+ & num*
+  Recebem Value, Value (os dois elementos da soma ou da multiplição) e retornam Value (resultado)
+  Como agora a linguagem trabalha com Value e não apenas number, as operações aritméticas precisam ser devidamente adaptadas.
+
+interp
+  O interp agora precisa verificar a estrutura fdC também.
+  appC não precisa mais buscar f com get-fundef. Ao invés disso, ele é interpretado chamando (interp f env).
+
+desugar
+  Adiciona-se o fdS
+  Altera o appS para que desugar seja executado no fun também.
+
+parse
+  cond passa a verificar mais um caso: se a s-expression recebida é um symbol. Em caso positivo, retorna idS convertendo a s-expression para um symbol.
+  O caso de a s-expression ser uma lista passa a ter mais um caso verificado: se o primeiro symbol da lista é "func" e executa a ação correspondente (fdS).
+
+interpS
+  Apenas como um apoio, ele é apenas um interp com o mt-env já incluido, removendo a necessidade de incluí-lo em toda chamada de função.
+
+===========================
+
+Capítulo 6 - Closures (Fechamentos)
+
+  Associações precisam ser propagadas para funções internas (funções dentro de funções por exemplo). Entretanto, os environments são criados a partir do zero a cada aplicação de função.
+
+define-type ExprC
+  fdC -> lamC
+    (name : symbol) -> removido, pois nomes não são mais necessários.
+
+define-type Value
+  funV -> closV
+    (name : symbol) -> removido
+    (env : Env) adicionado
+  O valor de retorno não é mais uma função ou um número, mas um closure ou número.
+
+desugar
+  fdS -> lamS
+    (n a b) -> (a b)
+    Correspondente mudança na ação tomada.
+  Precisa fazer as alterações correspondentes.
+
+parse
+  fdS -> lamS
+    Correspondentes mudanças na ação tomada.
+  Prcisa fazer as alterações correspondentes.
+
+interp
+  fdC -> lamC
+    (n a b) -> (a b)
+    (funV n a b) -> (closV a b env)
+  appC passa a usar o environment do closure chamado (closV-env) ao invés de um environment vazio (mt-env)
+
+Nomeando funções
+  É possível dar nome para as funções, bastando colocá-las no environment. Também é possível usar o desugar para dar nomes "menos feios".
+
+===========================
+
+Capítulo 7 - Mutação

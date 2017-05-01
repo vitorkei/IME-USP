@@ -69,11 +69,13 @@
     [lamC (a b) (closV a b env)] ; definição de função captura o environment
     [appC (f a)
           (local ([define f-value (interp f env)])
-            (interp (closV-body f-value)
-                    (extend-env
-                      (bind (closV-arg f-value) (interp a env))
-                      (closV-env f-value)
-                    )))]
+                 (interp (closV-body f-value)
+                         (extend-env
+                           (bind
+                             (closV-arg f-value)
+                             (interp a env))
+                           (closV-env f-value)
+                         )))]
     [plusC (l r) (num+ (interp l env) (interp r env))]
     [multC (l r) (num* (interp l env) (interp r env))]
     [ifC (c y n) (if (zero? (numV-n (interp c env))) (interp y env) (interp n env))]
@@ -90,23 +92,31 @@
 (define (parse [s : s-expression]) : ExprS
   (cond
     [(s-exp-number? s) (numS (s-exp->number s))]
-    [(s-exp-symbol? s) (idS (s-exp->symbol s))] ; pode ser um símbolo livre nas definições de função
+    [(s-exp-symbol? s) (idS  (s-exp->symbol s))] ; pode ser um símbolo livre nas definições de função
     [(s-exp-list? s)
      (let ([sl (s-exp->list s)])
        (case (s-exp->symbol (first sl))
-         [(+) (plusS (parse (second sl))
-                     (parse (third sl)))]
-         [(*) (multS (parse (second sl))
-                     (parse (third sl)))]
-         [(-) (bminusS (parse (second sl))
-                       (parse (third sl)))]
-         [(~) (uminusS (parse (second sl)))]
-         [(func) (lamS (s-exp->symbol (second sl)) (parse (third sl)))] ; definição
-         [(call) (appS (parse (second sl))
-                       (parse (third sl)))]
-         [(if) (ifS (parse (second sl))
-                    (parse (third sl))
-                    (parse (fourth sl)))]
+         [(+)    (plusS   (parse (second sl))
+                          (parse (third sl)))]
+         
+         [(*)    (multS   (parse (second sl))
+                          (parse (third sl)))]
+         
+         [(-)    (bminusS (parse (second sl))
+                          (parse (third sl)))]
+         
+         [(~)    (uminusS (parse (second sl)))]
+         
+         [(func) (lamS    (s-exp->symbol (second sl))
+                          (parse         (third sl)))] ; definição
+
+         [(call) (appS    (parse (second sl))
+                          (parse (third sl)))]
+         
+         [(if)   (ifS     (parse (second sl))
+                          (parse (third sl))
+                          (parse (fourth sl)))]
+         
          [else (error 'parse "invalid list input")]))]
     [else (error 'parse "invalid input")]))
 

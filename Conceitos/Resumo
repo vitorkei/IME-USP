@@ -159,3 +159,62 @@ Nomeando funções
 ===========================
 
 Capítulo 7 - Mutação
+
+  A ideia de mutação é fazer a saída de um trecho de código mudar se o valor da variável de entrada for alterada. Isso é feito por meio de box, que possui as operações de armazenamento, recuperação e alteração. 
+  O environment guarda a associação de um symbol a um number (Location). Esse number, por sua vez, é a posição de memória do symbol. Nessa posição de memória, existe um Value. A associação da posição de memória a esse Value é feito pelo Storage (que, quando é um (listof Storage), se torna um Store).
+  O pacote (box) carrega em si um número: Location. Ele leva esse Location e o coloca no devido lugar no environment, lugar onde o nome está associado.
+
+define-type ExprC
+  Adicionados boxC, unboxC, setboxC & seqC
+  Definição, desempacotamento e empacotamento de pacotes, e lista de duas expressões que devem ser executadas sequencialmente.
+
+define-type ExprS
+  Alterada de acordo com ExprC
+
+define-type Value
+  Adicionada estrutura [boxV (v : Value)]
+
+define-type-alias Location
+  number
+  Posição na memória de um symbol.
+
+define-type Binding
+  (val : number) -> (val : Location)
+
+define-type Storage
+  Similar ao Environment.
+  Valor armazenado em uma determinada posição da memória
+
+define-type-alias Store (listof Storage)
+  lista de Storage
+
+define mt-store empty
+define override-store cons
+
+interp
+  Adicionados boxC e unboxC
+
+define-type Result
+  v*s é um construtor - o * não é nenhuma operação específica.
+
+new-loc
+  Retorna a próxima localização disponível
+
+===========================
+
+Capítulo 8 - Variáveis
+
+  Ao utilizar variáveis, o valor do identificador, que é a caixa, muda diretamente.
+  Enquanto o capítulo 7 cobre mutação utilizando boxes, o capítulo 8 faz isso com variáveis (diretamente).
+
+define-type ExprC
+  Recebe o construtor setC e perde boxC, unboxC e setboxC.
+
+define-type Value
+  Perde o construtor boxV
+
+===========================
+
+Capítulo 9 - Estruturas recursivas
+interp
+  Adicionado [setC (var val) ...]

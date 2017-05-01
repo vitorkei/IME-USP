@@ -1,0 +1,14 @@
+#lang plai-typed
+
+(define-type ExprC
+  [numC (n : number)]
+  [idC (s : symbol)]
+  [plusC (l : ExprC) (r : ExprC)]
+  [multC (l : ExprC) (r : ExprC)]
+  [lamC (arg : symbol) (body : ExprC)]
+  [appC (fun : ExprC) (arg: ExprC)]
+  [ifC (condition : ExprC) (yes : ExprC) (no : ExprC)]
+  [boxC (arg : ExprC)] ; A box propriamente dita
+  [unboxC (arg : ExprC)] ; desempacota
+  [setboxC (b : ExprC) (v : ExprC)] ; empacota
+  [seqC (b1 : ExprC) (b2 : ExprC)] ; executa b1 e depois b2

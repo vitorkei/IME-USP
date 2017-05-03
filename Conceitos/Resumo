@@ -206,6 +206,7 @@ Capítulo 8 - Variáveis
 
   Ao utilizar variáveis, o valor do identificador, que é a caixa, muda diretamente.
   Enquanto o capítulo 7 cobre mutação utilizando boxes, o capítulo 8 faz isso com variáveis (diretamente).
+  A utilidade de utilizar caixas ou variáveis é que, com isso, é possível alterar o valor de um nome sem precisar instanciar um nome completamente novo.
 
 define-type ExprC
   Recebe o construtor setC e perde boxC, unboxC e setboxC.
@@ -216,5 +217,6 @@ define-type Value
 ===========================
 
 Capítulo 9 - Estruturas recursivas
+
 interp
   Adicionado [setC (var val) ...]

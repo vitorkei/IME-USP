@@ -12,7 +12,7 @@ public class FirstFallingBallApp
     double v = v0;
     double g = 9.8;
     
-    for (int n = 0; n < 1429; n++)
+    while(y > 0)
     {
       y = y + v * dt;
       v = v - g * dt;
@@ -27,6 +27,6 @@ public class FirstFallingBallApp
     System.out.println ("analytic y = " + yAnalytic + " || v = " + vAnalytic);
     
     System.out.println ("Error");
-    System.out.println ("y: " + Math.abs(Math.abs(y - yAnalytic) / (y + yAnalytic)) + " || v: " + Math.abs(Math.abs(v - vAnalytic) / (v + vAnalytic)));
+    System.out.println ("y: " + Math.abs((y - yAnalytic) / (y + yAnalytic)) + " || v: " + Math.abs((v - vAnalytic) / (v + vAnalytic)));
   }
 }

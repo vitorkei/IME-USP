@@ -218,5 +218,46 @@ define-type Value
 
 Capítulo 9 - Estruturas recursivas
 
+  Recursão pode ser feito referenciando objetos de mesmo tipo ou o mesmo objeto. O primeiro caso é simples (i.e.: árvores e listas). O segundo é mais complexo: é necessário utilizar mutação.
+  O capítulo consiste na criação de uma função recursiva (fatorial no caso).
+
+ExprS
+  Adicionado letS
+
+parser
+  Adicionado def
+
+===========================
+
+Capítulo 10 - Orientação a objetos
+
+  Objeto é um agrupamento de funções, acompanhado de meios para escolher uma delas. De forma mais simples, um objeto é um valor que mapeia nomes a outros valores ou métodos. A diferença está no conjunto de nomes em cada objeto.
+  Se um objeto pode ser visto como uma coleção de valores com nomes, então é possíbel implementá-lo com um lambda e um case.
+  
+define-type Value
+  Adicionado [objV (ns : (listof symbol)) (vs : (listof Value))]
+  Um objeto passa a ser um valor possível.
+
+ExprC
+  Adicionado [objC (ns : (listof symbol)) (es : (listof ExprC))]
+  Adicionado [msgC (o : ExprC) (n : symbol)]
+  Objetos também passam a fazer parte da linguagem (objC), bem como o valor associado a um nome, tipo o.n (msgC).
+
 interp
-  Adicionado [setC (var val) ...]
+  Adicionado [objC (ns es) (objV  ns (map (lambda (e) (interp e env)) es))]
+  Adicionado [msgC (o n) (lookup=msg n (interp o env))]
+  Interpretar um objeto significa interpretar seus valores (objC).
+  A interpretação do msgC consiste em buscar o valor - precisa da função lookup-msg.
+
+define lookup-msg
+  Recebe um symbol, um Value e retorna um Value
+  Semelhante ao lookup
+
+apply
+  Elemento de racket, transforma a lista passada como argumento em uma lista de argumentos
+
+Construtor
+  Função chamada na criação do objeto.
+
+Estado
+  Basta usar variáveis ou boxes.

@@ -1,0 +1,46 @@
+import java.lang.Math;
+
+public class FirstFallingBallApp
+{
+  public static void main (String[] args)
+  {
+    double y0 = 10;
+    double v0 = 0;
+    double t = 0;
+    double dt = 0.0001;
+    double y = y0;
+    double v = v0;
+    double g = 9.8;
+    
+    while(y > 0)
+    //for (int n = 0; n < 100; n++)
+    {
+      y = y + v * dt;
+      v = v - g * dt;
+      t = t + dt;
+    }
+    
+    System.out.println ("Results");
+    System.out.println ("final time = " + t);
+    System.out.println ("y = " + y + " || v = " + v);
+    double yAnalytic = y0 + v0 * t - 0.5 * g * t * t;
+    double vAnalytic = v0 - g * t;
+    System.out.println ("analytic y = " + yAnalytic + " || v = " + vAnalytic);
+    
+    System.out.println ("Error relativo");
+    if (y > yAnalytic)
+      System.out.println ("e_r(y) = " + Math.abs(yAnalytic / (y + yAnalytic)));
+    else
+      System.out.println ("e_r(y) = " + Math.abs(y / (y + yAnalytic)));
+    
+    if(v > vAnalytic)
+      System.out.println("e_r(v) = " + Math.abs(vAnalytic / (v + vAnalytic)));
+    else
+      System.out.println("e_a(v) = " + Math.abs(v / (v + vAnalytic)));
+    
+    System.out.println("\nErro absoluto");
+    System.out.println("e_a(y) = " + Math.abs(y - yAnalytic));
+    System.out.println("e_a(v) = " + Math.abs(v - vAnalytic));
+    
+  }
+}

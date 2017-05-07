@@ -1,0 +1,36 @@
+from FallingBall import FallingBall
+
+if __name__ == '__main__':
+  ball = FallingBall()
+  ball2 = FallingBall()
+  y0 = 10
+  v0 = 0
+  
+  ball.t = 0
+  ball.dt = 0.01
+  ball.y = y0
+  ball.v = v0
+  
+  ball2.t = 0
+  ball2.dt = 0.00475
+  ball2.y = y0
+  ball2.v = v0
+  
+  while ball.y > 0:
+    ball.step()
+  while ball2.y > 0:
+    ball2.step()
+  
+  print "Results"
+  print "final time = ", ball.t
+  print "acceleration = ", FallingBall.g
+  
+  print "\nBALL 1"
+  print "y = ", ball.y, "\nv = ", ball.v
+  print "analytic y = ", ball.analyticPosition(y0, v0)
+  print "analytic v = ", ball.analyticVelocity(v0)
+  
+  print"\nBALL 2"
+  print "y = ", ball2.y, "\nv = ", ball2.v
+  print "analytic y = ", ball2.analyticPosition(y0, v0)
+  print "analytic v = ", ball2.analyticVelocity(v0)

@@ -261,3 +261,29 @@ Construtor
 
 Estado
   Basta usar variáveis ou boxes.
+
+Herança
+  Para um objeto ser estendido, ele precisa saber quem é seu pai. Uma solução para isso é o objeto construir seu próprio pai, usando os parâmetros que recebeu. Tudo que é necessário é o construtor do objeto receber o construtor do pai como parâmetro adicional. Dessa forma, os construtores dos pais, avós e etc. são chamados em cadeia. Dessa forma, cada objeto ganha uma cópia particular de tudo que está acima na hierarquia.
+
+  Quase classe - blob
+    Essa construção de objeto cria e chama os métodos dos pais, que se comportam como classes, mas não são classes completas pois são apenas estendidas. Essa definição parcial é chamada de blob: uma função parametrizada pelos pais.
+
+  Protótipos
+    Outra alternativa é o construtor do objeto receber uma referência para o pai já pronto ao invés de chamar o construtor do pai - utilizar protótipos ao invés de classes. Com protótipos, é possível construir o comportamento da classe, mas não o contrário: não é possível construir protótipos utilizando o comportamente da classe.
+
+  Herança múltipla
+    Um objeto pode herdar membros de vários outros, não apenas de um só (herança múltipla). Como a busca deve ser feita é um problema.
+    Subindo na hierarquia: os métodos da classe tem prioridade sobre os métodos da classe mãe quando são chamados (super)
+    Descendo na hierarquia: os métodos da classe mão tem prioridade sobre os métodos da classe, sendo estes chamados apenas quando necessário (inner)
+  
+  mixin
+    Completa classe ao invés de estendê-la.
+  
+  trait
+    Resolve o problema de mixins acumulados que podem entrar em conflito caso tenham métodos e assinaturas iguais, pois incluem restrições sobre mixins.
+    Métodos de um trait tem precedência sobre os métodos da classe mãe, mas são substituídos pelos da classe.
+    Não dependa da ordem de inclusão.
+
+===========================
+
+Capítulo 11 - Gerenciamento de memória

@@ -283,5 +283,10 @@ Herança
     Resolve o problema de mixins acumulados que podem entrar em conflito caso tenham métodos e assinaturas iguais, pois incluem restrições sobre mixins.
     Métodos de um trait tem precedência sobre os métodos da classe mãe, mas são substituídos pelos da classe.
     Não dependa da ordem de inclusão.
-    
+
+===========================
+
+Capítulo 11 - Gerenciamento de memória
+
+Coleta de lixo
   

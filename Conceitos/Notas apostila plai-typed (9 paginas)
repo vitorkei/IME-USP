@@ -13,7 +13,7 @@ Notas da apostila plai-typed (9 páginas)
        (define (m5 [m : number]) (+ m 5)) ; correto
        (define (m5 m : number) (+ m 5))   ; incorreto 
        (define (m) : number 5)            ; correto
-       (define m ; number 5)              ; incorreto
+       (define m : number 5)              ; incorreto
        
    plai-typed parece que sabe quando é atribuição de variável e quando
    é função

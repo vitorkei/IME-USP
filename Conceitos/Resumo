@@ -287,3 +287,6 @@ Herança
 ===========================
 
 Capítulo 11 - Gerenciamento de memória
+
+Coleta de lixo
+  Coleta de lixo é a liberação/recuperação de memória que não está sendo mais usada. Dois problemas podem ocorrer: falta de solidez (recuperação muito cedo) e falta de completude (recuperação muito tardia).

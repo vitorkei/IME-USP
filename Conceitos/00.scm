@@ -59,6 +59,7 @@
 (interpS (parse '(if (- 3 2) 42 (+ 5 8))))
 (interpS (parse '(if (- 3 3) 42 (+ 5 8))))
 (interpS (parse '(if (- 3 4) 42 (+ 5 8))))
+(interpS (parse '(+ 3 2)))
 
 
 

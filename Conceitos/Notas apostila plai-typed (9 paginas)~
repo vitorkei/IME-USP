@@ -48,5 +48,3 @@ Notas da apostila plai-typed (9 páginas)
        ((lambda (x) : number (+ x 1)) 10) ; => 10 + 1 = 11
        (define soma2 (lambda ([x : number]) : number (+ x 2)))
          ; (soma2 5) => 5 + 2 = 7
-
--Pg6

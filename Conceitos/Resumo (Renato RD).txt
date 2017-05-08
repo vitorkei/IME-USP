@@ -1,0 +1,503 @@
+RACKET
+
+* Antes, em geral, teríamos a criação do programa como:
+    
+    Código fonte ----> Tokens -----> código
+                 lexer        parser 
+
+  Agora, faremos algo diferente:
+    
+    Código fonte ----> Tokens -----> árvore interna ------> código
+                 lexer        parser                backend
+
+  Teremos, agora, uma ÁRVORE, e ela será construída pelo parser 
+  para que represente o código.
+    
+  Teríamos 3 notações que gerariam uma mesma árvore:
+    3 * (10 + 4)   infixa               *
+    3 10 4 + *     posfixa             / \
+    (* 3 (+ 10 4)) prefixa            3   +
+                                         / \
+                                        10  4
+  
+  A terceira representação é a mais simples para que nós possamos 
+  representar a estrutura natural da árvore - e ela é perfeitamente
+  interpretável em Lisp, Scheme e Racket.
+
+* Estrutura de Racket
+    ÁTOMOS -> valores (42, "string", #t (verdadeiro), #f (falso))
+    
+    LISTAS -> 
+        (a b c ..)  'a' pode ser uma função, e é indistinda a uma 
+        (+ 2 3)     variável. Por esse motivo a linguagem é FUNCIONAL,
+                    pois a função é tratada como uma variável comum.
+
+* Toda lista é executada. Porém, em alguns casos, seria interessante
+  se pudéssemos gerar uma LISTA SEM EXECUÇÃO (como um vetor). Neste
+  caso, a sintaxe é:
+                                '(a b c)
+
+* Toda EXPRESSÃO começa com uma PROCEDURE (que pode ter quase 
+  qualquer tipo de caractere, exceto alguns como parênteses).
+        (* 3 2)                 -> válido
+        (* 2 (+ 7 6 5 1 2)      -> válido
+        ()                      -> inválido: procedimentos devem ter
+                                             sempre operador
+        '()                     -> válido: lista vazia
+
+* Podemos definir um novo nome para uma variável, usando a 
+  procedure 'define':
+    > (define x 5)
+
+* As listas são representações simplificadas (abreviações) de 
+  construções criadas por 'cons'. O 'cons' gera pares, que 
+  são simplificadamente representados com um '.' entre eles.
+  
+    > (cons 5 6)
+        (5 . 6)
+    > (define x (cons 5 6))
+    > (car x)
+        5
+    > (cdr x)
+        6
+
+* 'car' é sempre o primeiro elemento do par. 'cdr', o segundo. 
+  Poderíamos ter, por exemplo:
+    > (define x (cons '(1 2 3) '(4 5 6)))
+    > (car x)
+        '(1 2 3)
+    > (cdr x)
+        '(4 5 6)
+    > (cdr (cdr x))
+        '(5 6)
+    > (cddr c)       @ Uma abreviação
+        '(5 6)
+
+* Uma lista é um conjunto de pares ligados, com o 'car' um elemento
+  e o 'cdr' uma outra lista. Ex:
+    > (car '(1 2))          
+        1                   Uma lista é um par ordenado de um 
+    > (cdr '(1 2))          elemento e uma sublista.
+        '(2)                
+    > (car (cons 1 2))      
+        1                   Um cons é apenas um par de dois elementos
+    > (car (cons 1 2))      (que podem ou não ser listas)
+        2
+
+* Podemos fazer comparações também:
+    > (eq  1 '(1))
+        Se o resultado da avaliação de ambos é igual
+    > (eqv 1 '(1))
+        Se a representação de ambas são equivalentes
+    > (eq? 1 '(1))
+        Se o texto é igual (como string)
+
+* É possível trabalhar com números racionais (2/3) ou complexos (3+2i).
+
+* Podemos criar funções anônimas (lambdas)
+    > (λ (x) (* x x))
+       ^  ^  ^^^^^^^-- Ação a ser executada
+       |  '-- Argumento (átomo)
+       '-- Será função anônima
+
+* Usaremos a versão 'plai-typed', do livro principal da disciplina,
+  para que possamos realizar vários usos.
+* O Racket surgiu do Scheme, que veio de uma variação do Lisp.
+
+* Em átomos, temos dois elementos principais:
+    - Átomos: #\a (caracter); "Conceitos" (string); 
+              15.3, 12, 3*1/2, 2+3i (números);
+              λ (procedimentos);
+    - Listas: São um conjunto de pares (cons):
+              (a, b, c, d, e)
+              (a . (b . (c . (d . (e . ()))))
+               ^    ^    ^        ^^^^^^^^
+               |    |    |        car  cdr
+               |    |    |   ^^^^^^^^^^^^^
+               |    |   car       cdr
+               |    |   ^^^^^^^^^^^^^^^^^^^
+               |   car            cdr
+               |   ^^^^^^^^^^^^^^^^^^^^^^^^^
+              car                 cdr 
+            (cabeça)            (cauda)
+    
+    As listas são interessantes porque podem ser executadas. 
+    Dessa maneira, qualquer coisa pode ser um identificador, 
+    excetuando os nomes que seriam de átomos:
+        (+, 1, 3) -> Faz a soma de 1 com 3
+    
+    Uma lista pode NÃO ser executada: para isso, podemos colocar
+    um apóstrofe (') antes da lista. A execução é, então, adiada.
+
+* Procedimentos
+    Um procedimento pode ser criado com:
+    (λ (lista de argumentos) execução)
+    
+    Podemos usar o procedimento 'apply' para passar um outro
+    procedimento como ARGUMENTO, a ser aplicado em uma lista.
+    
+    Ou, simplificando: (define (nome lista_de_argumentos) (execução))
+    
+    É possível, até mesmo, criar 'fábricas de função':
+        (define (faz* n) (λ (k) (* n k)))
+        ((faz* 7) 6)
+        > 42
+        
+    Chama-se de 'fechamento' (closure) uma função que carrega o 
+    ambiente com ela. No exemplo acima, o valor de 'n', quando
+    o procedimento é criado, cria-se uma ASSOCIAÇÃO entre o 'n'
+    e a nova procedure. Esse é o 'ambiente' da variável, que 
+    fica salvo. Em geral, este ambiente pode existir apenas em
+    tempo de compilação.
+
+=================================================================
+
+PLAI-TYPED
+
+Veremos agora uma linguagem TIPADA
+#lang play-typed
+
+Não temos mais 'car' ou 'cdr'. No lugar dela, usaremos a função
+'list' para definir o tipo listas e 'first' para conseguir o 
+'car' de um par e/ou uma lista. Ex:
+    
+    > (first (list 1 2 3))
+    - number
+    1
+
+No play-typed, o apóstrofe tem tratamento diferente:
+    > (+ 1 2)       @ É executado e recebemos o retorno
+    - number
+    3
+    
+    > '(+ 1 2)      @ Cria-se uma s-expression. Um tipo novo que
+                    @ poderá ser interpretado.
+    - s-expression
+    '(+ 1 2)
+    
+    > (list 1 2)    @ Uma sequência de números, de certo tipo.
+    - (listof number)
+    '(1 2)
+
+Para fazer o 'cast' entre s-expression e listas, precisamos usar
+o operador 's-exp->list'.
+
+Podemos fazer listas de listas:
+    > (list (list 1 2) (list 4 5 6 7)) @ Listas de listas, como em Python
+    - (listof (listof number))
+    '((1 2) (4 5 6 7))
+
+    > (list-ref (list 1 2 3 4 5 6) 3) @ Recupera um elemento de uma lista
+    - number
+    3
+
+    > (vector 1 2 3) @ Vector: Tem tamanho FIXO, não pode ser MODIFICADO
+                     @         e usualmente é mais rápido.
+    - (vectorof number)
+    '#(1 2 3)
+
+Com o plai-typed, podemos declarar tipos com 'define'. Para
+declarar EXPLICITAMENTE o tipo de um nome, colocamos de forma extra
+um ':':
+    > (define c "string")
+    - string
+    "string"
+    
+    > (define c : number 2)
+    - number
+    2
+    
+    > @ Já faz a verificação de tipagem previamente
+    > (define c : number "string")
+    - Erro
+
+Outra forma de lista, que na realidade age como uma struct de C/C++,
+é o 'value':
+    > (values 9 8 "outro")
+    - (number * number * string)
+    '#(9 8 "outro")
+    
+    > @ Usando values para 'declarar' vários lugares.
+    > (define-values (marca valor) (values "Prada" 3.50))
+    > marca
+    - string
+    "Prada"
+    > valor
+    - number
+    3.5
+    
+Fazendo funções:
+    
+    > (define (3* n) (* 3 n))
+    > (3* 8)
+    - number
+    24
+    
+    > @ Define a função com TIPO DE ARGUMENTO e TIPO DE RETORNO
+    > (define 3* [n : number]) : number (* 3 n)
+    
+    > ((λ ([x : number]) : number (+ x x)) 21)
+    - number
+    42
+    
+    > @ A sintaxe abaixo funciona como um 
+    > (define mais2 : (number -> number) (λ(x) (+ x 2)))
+    > (mais2 89)
+    - number
+    91
+    > mais2
+    - (number -> number)
+    #procedure:...
+
+Ainda no plai-typed, existe o fechamento (em que a função leva o 
+contexto de algumas variáveis no seu ambiente com ela).
+
+=================================================================
+
+Core Language
+================
+
+Na aula passada, criamos uma primeira estrutura que mostrava como era
+uma aritmética simples, somadora de números. O tipo ArithC tinha 3
+possibilidades de construção: número (tipo primitivo, a base da
+recursão) ou, recursivamente, um plusC/multC com duas ArithC.
+
+(define-type ArithC                               multC
+  [ numC  (n : number) ]                          /   \ 
+  [ plusC (l : ArithC) (r : ArithC) ]         plusC   plusC
+  [ multC (l : ArithC) (r : ArithC) ]         /   \   /   \
+)                                           numC  numC numC numC
+
+Mas como poderíamos adicionar uma SUBTRAÇÃO (-)? Poderíamos criar um
+tipo diferente de Aritmética, que tivesse o tipo subtração:
+
+(define-type ArithS                               (- a b)
+  [ numS    (n : number) ]                           ↓
+  [ plusS   (l : ArithS) (r : ArithS) ]           bminusS
+  [ multS   (l : ArithS) (r : ArithS) ]            /   \   
+  [ bminusS (l : ArithS) (r : ArithS) ]         numS   numS
+)                                                   a     b
+
+Mas como poderíamos converter para a árvore de ArithS para ArithC?
+Poderíamos usar uma conversão:
+                     (- a b) → (+ a (* -1 b))
+
+A árvore gerada seria, então:
+    
+     plusC         | Chama-se o processo de introduzir a árvore mais 
+     /   \         | complexa de AÇÚCAR SINTÁTICO. Entretanto, não é 
+  numC   multC     | necessário ter que tornar a gramática do backend
+   a     /   \     | mais complexa. Para retirar o açúcar sintático,
+      numC   numC  | em geral cria-se uma função DESUGAR, que pega a 
+       -1     b    | árvore primária e torna-a mais simples.
+                   | 
+                   | Um exemplo tradicional de açúcar sintático é um 
+                   | FOR - que é convertido para um while.
+
+Quando criamos uma linguagem, temos uma GRAMÁTICA, que define as regras
+relacionadas à como a linguagem é lida pelo parser. A gramática segue 
+uma sintaxe própria. Esta é convertida para uma sintaxe abstrata: a 
+árvore com ArithS. Depois, para outra sintaxe abstrata, a que descreve
+a árvore de ArithC. Poderíamos ter quantos níveis de gramática fosse
+necessário.
+
+A nossa função desugar ficaria:
+(define (desugar [as : ArithS]) : ArithC
+  (type-case ArithS as
+    [ numS    (s)   (numC n) ]
+    [ plusS   (l r) (plusC (desugar l) (desugar r)) ]
+    [ multS   (l r) (plusC (desugar l) (desugar r)) ]
+    [ bminusS (l r) (plusC (desugar l) 
+                      (multC (numC -1) (desugar r)) ) ]
+))
+
+O interpretador é ainda o mesmo:
+(define (interp [a : ArithC]) : number
+  (type-case ArithC a
+    [numC (n) n]
+    [plusC (l r) (+ (interp l) (interp r))]
+    [multC (l r) (* (interp l) (interp r))]
+
+O parser para o ArithS será
+(define (parse [s : s-expression]) : ArithS
+  (cond
+    [(s-exp-number? s) (numS (s-exp->number s))]
+    [(s-exp-list? s)
+      (let ([sl (s-exp->list s)])
+        (case (s-exp->symbol (first sl))
+          [(+) (plusS (parse (second sl)) (parse (third sl)))]
+          [(*) (multS (parse (second sl)) (parse (third sl)))]
+          ; agora temos o '-'
+          [(-) (bminusS (parse (second sl)) (parse (third sl)))]
+        [else (error 'parse "invali list input")]
+    ))]
+  [else (error 'parse "invalid input"')]
+))
+
+Para não precisarmos fazer conversões explícitas, podemos criar um
+'interpS', que já aceita um ArithS como entrada e intepreta:
+(define (interpS [a : ArithS]) (interp (desugar a)))
+
+Como poderíamos, agora, criar um - unário? Também podemos usar um 
+açucar sintático. Para isso, modifiquemos o ArithS:
+
+(define-type ArithS
+  [ numS    (n : number) ]                    
+  [ plusS   (l : ArithS) (r : ArithS) ]       
+  [ multS   (l : ArithS) (r : ArithS) ]       
+  [ bminusS (l : ArithS) (r : ArithS) ]       
+  [ uminusS (e : ArithS) ]                    
+)
+
+Podemos multiplicar qualquer expressão por -1. Teríamos, então, que
+converter usando o desugar:
+
+(define (desugar [as : ArithS]) : ArithC
+  (type-case ArithS as
+    [ numS    (s)   (numC n) ]
+    [ plusS   (l r) (plusC (desugar l) (desugar r)) ]
+    [ multS   (l r) (plusC (desugar l) (desugar r)) ]
+    [ bminusS (l r) (plusC (desugar l) 
+                      (multC (numC -1) (desugar r)) ) ]
+    [ uminusS (e)   (desugar (bminusS (numS 0) e))
+))
+
+Essa solução é válida, mas ela tem um problema sutil: em uminusS, 
+temos uma RECURSÃO. Precisamos garantir que a recursão pare sempre.
+Em casos como um cálculo de fatorial (por exemplo), estamos 
+reduzindo o problema sempre. Esse é um tipo de RECURSÃO ESTRUTURAL
+(pegando, sempre, um problema menor). Entretanto, no caso acima,
+quando usamos o bminusS, estamos aumentando nosso problema um 
+pouco, dado que a chamada de 'desugar' foi sobre o bminusS, e não
+sobre o e. Esse é um tipo de RECURSÃO GENERATIVA (chamada 
+recursiva feita sobre algo um pouco maior), e tem o potencial de
+não parar (não necessariamente, mas o potencial existe).
+
+Para evitarmos isso, temos uma solução: trocar o uminusS
+
+(define (desugar [as : ArithS]) : ArithC
+  (type-case ArithS as
+    [ numS    (s)   (numC n) ]
+    [ plusS   (l r) (plusC (desugar l) (desugar r)) ]
+    [ multS   (l r) (plusC (desugar l) (desugar r)) ]
+    [ bminusS (l r) (plusC (desugar l) 
+                      (multC (numC -1) (desugar r)) ) ]
+    [ uminusS (e)   (multC (numC -1) (desugar e))
+))
+
+Temos, portanto, um desugar sobre 'e', reduzindo o problema. A 
+recursão é ESTRUTURAL, e não GENERATIVA. O grande truque é 
+fazer o produto por -1. Estamos sempre gerando sobre as primitivas,
+criando açúcar sintático só sobre as primitivas, sem gerar açúcar
+sobre açúcar.
+
+O interpretador continua o mesmo, pois ainda temos o ArithC.
+
+O parser, porém, agora precisará reconhecer o bminusS.
+Como o '-' seria identificado como número, usaremos o ~ para ser
+interpretado como '-'.
+
+(define (parse [s : s-expression]) : ArithS
+  (cond
+    [(s-exp-number? s) (numS (s-exp->number s))]
+    [(s-exp-list? s)
+      (let ([sl (s-exp->list s)])
+        (case (s-exp->symbol (first sl))
+          [(+) (plusS (parse (second sl)) (parse (third sl)))]
+          [(*) (multS (parse (second sl)) (parse (third sl)))]
+          [(-) (bminusS (parse (second sl)) (parse (third sl)))]
+          ; o '~' será o sinal negativo
+          [(~) (uminusS (parse (second sl)))]
+        [else (error 'parse "invali list input")]
+    ))]
+  [else (error 'parse "invalid input"')]
+))
+
+O fato de termos de usar o ~ como sinal de - é porque o parser depende
+do parser do Racket. Se o scanner fosse feito por nós, poderíamos usar
+um LOOKAHEAD para que pudéssemos testar qual o tipo de -.
+
+=================================================================
+
+    * ArithC
+    
+                 ArithC
+     .-----------' | | '---------------------.
+     |      .------' '------.       .........|.........
+    numC  plusC           multC     :       ifC       :
+          /   \           /   \     :      / | \      :
+     ArithC   ArithC  ArithC ArithC : ArithC | ArithC :
+                                    :     ArithC      :
+                                    '''''''''''''''''''
+                                Precisaríamos mudar o ArithC
+                                para criar um ifC. Ele teria
+                                3 argumentos: condição, ação
+                                se verdadeira, ação se falsa.
+
+    * desugar (ArithS -> ArithC)
+
+        ...
+        [ ifS (c y n) (ifC (desugar c) (desugar y) (desugar n)) ]
+    
+    Estamos devolvendo um ArithC usando um desugar.
+    
+    * Interpretador (ArithC -> number)
+    ...
+       [ ifC (c s n) (if (zero? (interp c)) (interp n) (interp s)) ] 
+    
+   
+    Não é possível criar um operador de divisão a partir dos operadores
+    primitivos já implementados - precisaríamos mexer no ArithC, ou
+    usar um primitivo 'inverso' (mas não seria necessário)
+
+(define-type ArithC                  
+  [ numC  (n : number) ]             
+  [ plusC (l : ArithC) (r : ArithC)                ]
+  [ multC (l : ArithC) (r : ArithC)                ]
+  [ ifC   (c : ArithC) (y : ArithC) (s : ArithC)   ]
+)                                    
+
+(define-type ArithS                    
+  [ numS    (n : number)                           ]
+  [ plusS   (l : ArithS) (r : ArithS)              ]
+  [ multS   (l : ArithS) (r : ArithS)              ]
+  [ bminusS (l : ArithS) (r : ArithS)              ]
+  [ uminusS (e : ArithS)                           ]
+  [ ifS     (c : ArithS) (y : ArithS) (s : ArithS) ]
+)
+
+(define (desugar [as : ArithS]) : ArithC
+  (type-case ArithS as
+    [ numS    (s)     (numC n) ]
+    [ plusS   (l r)   (plusC (desugar l) (desugar r))           ]
+    [ multS   (l r)   (plusC (desugar l) (desugar r))           ]
+    [ bminusS (l r)   (plusC (desugar l) 
+                             (multC (numC -1) (desugar r)))     ]
+    [ uminusS (e)     (multC (numC -1)   (desugar e))           ]
+    [ ifS     (c y n) (ifC (desugar c) (desugar y) (desugar n)) ]
+))
+
+(define (interp [a : ArithC]) : number
+  (type-case ArithC a
+    [numC  (n)     n]
+    [plusC (l r)   (+ (interp l) (interp r))]
+    [multC (l r)   (* (interp l) (interp r))]
+    [ifC   (c y n) (if (zero? (interp c)) (interp y) (interp n))]
+))
+
+(define (parse [s : s-expression]) : ArithS
+  (cond
+    [(s-exp-number? s) (numS (s-exp->number s))]
+    [(s-exp-list? s)
+      (let ([sl (s-exp->list s)])
+        (case (s-exp->symbol (first sl))
+          [(+)  (plusS (parse (second sl)) (parse (third sl)))   ]
+          [(*)  (multS (parse (second sl)) (parse (third sl)))   ]
+          [(-)  (bminusS (parse (second sl)) (parse (third sl))) ]
+          [(~)  (uminusS (parse (second sl)))                    ]
+          [(if) (ifS (parse (first sl)) 
+                    (parse (second sl)) (parse (third sl)))      ]
+        [else (error 'parse "invali list input")                 ]
+    ))]
+  [else (error 'parse "invalid input"')]
+))

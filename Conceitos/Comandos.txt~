@@ -1,0 +1,37 @@
++ a b
+  realiza a soma de a com b
+
+- a b
+  realiza a subtração de a com b
+
+* a b
+  realiza a multiplicação de a com b
+
+~ a
+  multiplica a por -1 (menos unário)
+
+if cond if_yes if_no
+  avalia cond. Se cond for verdade, executa o bloco de código if_yes. Caso contrário, executa if_no
+
+call a b
+  a é um symbol e b uma ExprS (expressão)
+  chama função de nome a e cujo corpo é b
+
+func a b c
+  a é o nome da função (symbol)
+  b é o argumento (symbol)
+  c é o corpo (ExprS)
+  retorna o valor da função de nome a, argumento b e corpo c
+  
+  utilizando lamS, recebe apenas b e c, ou seja, argumento e corpo
+
+-# a
+  a é um argumento/valor (ExprS)
+  Cria um pacote (box) de valor a
+
+># a
+  a é um argumento/valor (ExprS)
+
+!# a b
+  a é uma ExprS
+  b é uma ExprS

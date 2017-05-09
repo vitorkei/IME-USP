@@ -998,8 +998,8 @@ Nosso tipo de retorno será, a partir de agora:
           [(-)  (bminusS (parse (second sl)) (parse (third sl)))]
           [(if) (ifS (parse (first sl)) 
                     (parse (second sl)) (parse (third sl)))
-          [(func) (lamS (s-exp->sumbol (second sl)) 
-                       (s-exp->symbol (third sl))    )]
+          [(func) (lamS (s-exp->symbol (second sl)) 
+                        (s-exp->symbol (third sl))    )]
           [(call) (appS (s-exp->symbol (second sl)) (parse (third sl)) )]
         [else (error 'parse "invali list input")]
     ))]
@@ -1399,13 +1399,13 @@ RECURSÃO
                       { a si mesmo
 - Controle → função recursiva
 
-        .-----.       |   
+        .-----.       |   outro elemento do mesmo tipo
         |     |       |   .---.   .---.   .---.   .---.
         |--.--|       |   | *-:-->| *-:-->| *-:-->| *-:--.
         |  |  |       |   '---'   '---'   '---'   '---'  |
         '--'--'       |     ^----------------------------'
          /   \        |   
-        /     \       |                 
+        /     \       |             a si mesmo
    .-----.   .-----.  |               .---.
    |     |   |     |  |               | *-:-.
    |--.--|   |--.--|  |               '---' |
@@ -1414,20 +1414,21 @@ RECURSÃO
 
 Para criarmos AUTORREFERÊNCIAS, precisaremos de dois passos:
 1) Criar uma associação (variável/box) não definida;
-2) Depois, tricar o valor para a localização da própria variável.
+2) Depois, trocar o valor para a localização da própria variável.
 
 As duas 'dependências' necessárias são:
 1) Criar MUTAÇÕES na variável;
 2) Usar SEQUENCIAMENTO de ações.
 
 Esse procedimento nos permitiria CORRIGIR o exemplo do let da 
-seção anterior. Se pudermos PEGAR o próprio 'endereço' da 
-variável b (guardando em b a chave da tabela de símbolos store).
+seção anterior (terceiro exemplo). Se pudermos PEGAR o próprio
+'endereço' da variável b (guardando em b a chave da tabela de
+símbolos store).
 
 Um outro problema de autorreferência seria:
 > (interpS 
     '(def fat 1729 (func n (if n (* n (call fat (-n 1))) 1)))
-)
+  )
     ERROR: lookup: fat não foi encontrado
 
 Poderíamos tentar resolver usando um SEQUENCIAMENTO. Com ele,
@@ -1453,7 +1454,7 @@ tornaria um laço.
 
 Essa solução que encontramos usa, de certa maneira, uma recursão
 implícita. Usamos a alteração de ESTADO para criar a recursão. 
-Haveria alguma maneira de criarmos a recursão SEM STORE.
+Haveria alguma maneira de criarmos a recursão SEM STORE?
 
 ; Um Fibonacci tradicional seria este. 
 ; O que devemos colocar no passo para criar a recursão?
@@ -1523,3 +1524,427 @@ Haveria alguma maneira de criarmos a recursão SEM STORE.
     )
     (λ (g) (λ (n) (if (zero? n) 1 (* n (g (- n 1)))
 )
+
+Para criar um combinador na nossa linguagem, usaríamos:
+
+(call
+    (call 
+        (func p
+            (call
+                (func m (call m m))
+                (func f (call p (func a (call (call f f) a)) ) )
+            )
+        )
+        ; Fibonacci:
+        (func g (func n (ifS n 1 (mulS n (call g (bminusS n 1))))))
+    )
+    ; Número para chamar o Fibonacci:
+    42
+)
+
+=================================================================
+
+ORIENTAÇÃO A OBJETOS
+======================
+
+Semânticamente, um objeto é o encapsulamento de uma ideia, para
+abstrairmos estes conceitos.
+
+Concretamente, podemos pensar em um objeto como uma coleção de 
+VALORES (dados) com métodos associadas a eles (funções).
+
+Em nossa linguagem, uma função é um tipo de primeira classe.
+Logo, se pudermos criar uma LISTA com valores, já podemos ter
+uma classe/objeto.
+
+Porém, precisamos ACESSAR estes valores: precisamos ter um SELETOR
+que associa um nome aos seus valores (uma TABELA DE SÍMBOLOS).
+
+Como estamos no contexto de uma linguagem funcional, usaremos listas
+como nossa TABELA DE SÍMBOLOS. Teremos mais duas estruturas:
+
+* No core, o objC:
+    { lista de nomes, lista de ExprC }
+    [ objC (ns : (listof symbol)) (es : (listof exprC)) ]
+    A lista de nome corresponde aos nomes das funções
+    enquanto as expressões são o corpo delas
+    
+* Para termos um objeto concreto, usamos um objV:
+    { lista de nomes, lista de Valores }
+    [ objV (ns : (listof symbol)) (vs : (listof Value)) ]
+
+Dado um objV, precisaremos ter uma maneira de conseguir o valor
+específico de UM ARGUMENTO dentro da closure. Para tanto, usaremos
+o 'msgC' no Core (vindo da ideia do Smaltalk que "enviamos uma 
+mensagem" ao objeto para requisitar um de seus argumentos). Ela
+ficaria:
+    
+    [ msgC (o : ExprC) (n : symbol) ]
+    Busca o valor/campo (n) no objeto (o)
+
+Mas, no açúcar, poderíamos adicionar um pouquinho mais: a aplicação,
+para quando tivermos um argumento que for uma closure (como o->n(a) 
+ou o.n(a)):
+    
+    [ msgC (o : ExprS) (n : symbol) (a : ExprS) ]
+
+Para o desugar, algumas modificações da implementação:
+    
+    ; Usaremos um map para percorrer a LISTA de campos para,
+    ; então, desaçucararmos cada elemento.
+    [ objS   (ns es) (objC ns (map (λ e) (desugar e)) es) ]
+    
+    ; Faça desugar do objeto, selecione o campo 'n' com msgC
+    ; e então aplique o desugar de a em appC 
+    [ msgS   (o n a) (appC (msgC (desugar o) n) (desugar a)]
+
+Interpretador, sem STORE (porque não o estaos usando):
+    
+(define (interp [a : ExprC] [env : Env]) : Value
+  (type-case ExprC a
+    ...
+    [objC (ns es) (objV ns (map (λ (e) (interp e env)) es)) ]
+    [msgC (o n)   (lookup-msg n (onterp o env))] ; seletor
+  )
+)
+
+(define (lookup-msg [n : symbol] [o : obj]) : Value
+    (type-case Value o
+        [objV (nomes valores)
+            (cond 
+                (empt? nomes) (error 'Argument does not exist')
+                [else (cond
+                    ; Procuramos no primeiro elemento. Se for, já o 
+                    ; devolvemos.
+                    [(symbol=? n (first nomes))
+                         (bind-val (first valores))]
+                    
+                    ; Caso contrário, devolvemos o "cdr" do plai-typed
+                    ; o "rest", aplicando no lookup. É o passo da recursão
+                    [else (lookup-msg
+                        n (objV (rest nomes) (rest valores))
+                    )]
+                
+                )] ; else cond
+            )]
+        [else (error 'lookup error')]
+))
+
+=================================================================
+
+Até agora, usávamos o plai-typed com várias estruturas sobre ele.
+Agora, vamos MUDAR e usar um SUBCONJUNTO do próprio Racket para 
+tornar mais rápido.
+
+Nossa nova definição de objeto será usando o objeto como um 
+"multiplexador": basicamente, ele será um λ que recebe como parâmetro 
+um NOME DO MÉTODO. Deste nome, virá uma closure (o "corpo" da função)
+e poderemos aplicar o método.
+
+(define (o-constr-1 x)
+    (lambda (m)
+        (case m
+            [(addX) (lambda (y) (+ x y))]
+)))
+
+Os atributos do construtor (no caso, o x) estão salvos no Environment
+do primeiro lambda (com parâmetro do nome do método).
+
+Para facilitar a "aplicação" do método, usaremos novamente uma estrutura 
+chamada 'msg' (que estava em nosso antigo Core). Ele receberá 3
+argumentos: o objeto sobre o qual aplicaremos, o nome do método e 
+uma LISTA DE ARGUMENTOS para o método. Usando as características do
+Racket/Plai, essa lista de argumentos será passada usando o operador
+'.' da lista, que separa o "resto dos argumentos" como uma sublista
+própria.
+
+(define (msg o m . a)
+;            ^ ^   ^-- argumentos (o . separa o "resto da lista", 
+;            | '-- método          como o @_ do Perl)
+;           obj 
+    (apply (o 'm) a) )
+
+Primeiro, chamamos o objeto passando como parâmetro o NOME do método.
+Em seguida, usamos o operador APPLY, do Racket, que "quebra" a lista
+em pedaços e os passa como parâmetros separados para o método devolvido
+para aquele dado objeto.
+
+O nosso 'msg' funciona, então, como um '.' do C/C++/Java/Python.
+
+A partir de agora, veremos vários conceitos de POO e suas implementações
+usando o Racket.
+
+MUDANÇA DE ESTADO
+===================
+
+Podemos criar mudanças de estado também (o que é bem útil, pela
+maneira do objeto):
+
+(define (o-state-1 count)
+    (lambda (m)
+        (case m
+            [(inc) (lambda () (set! count (+ count 1)))]
+            [(dec) (lambda () (set! count (- count 1)))]
+            [(get) (lambda () count)]
+)))
+
+MÉTODOS PRIVADOS
+===================
+
+Também conseguiremos ter métodos privados: para tanto, usamos o
+'let', que é (no fundo) um lambda e que, por levar a associação
+APENAS em seu Environment, terá o símbolo como local:
+
+(define (o-state-1 init)
+    (lambda (m)
+        (let ([count init])
+            (case m
+                [(inc) (lambda () (set! count (+ count 1)))]
+                [(dec) (lambda () (set! count (- count 1)))]
+                [(get) (lambda () count)]
+))))
+
+MÉTODOS ESTÁTICOS
+===================
+
+Para termos métodos/atributos estáticos, apenas precisamos mudar 
+a posição do "let":
+
+(define (o-state-2 init)
+    ; Se trocarmos o argumento por um λ, teremos um método estático
+    (let ([count 0])
+        (begin
+            (set! count (+ count 1))
+            (lambda (m)
+                (case m
+                    [(inc) (lambda () (set! count (+ count 1)))]
+                    [(dec) (lambda () (set! count (- count 1)))]
+                    [(get) (lambda () count)]
+)))))
+
+AUTORREFERÊNCIA
+===================
+
+E o problema da autorreferência? Devemos usar o truque de setar um
+objeto vazio (com valor 'dummy'):
+
+(define (o-self init)
+  ; Criamos o símbolo com um valor dummy
+  (let ([self 'dummy])
+    (begin
+      ; Setamos o objeto, agora, como sendo nosso lambda
+      ; seletor. Mas como o símbolo está definido, podemos
+      ; nos referenciar a ele mesmo.
+      (set! self
+        (lambda (m)
+          (case m
+            [(inc) (lambda () (set! count (+ count 1)))]
+            [(dec) (lambda () (set! count (- count 1)))]
+            [(get) (lambda () count)]
+            [(first)  (lambda (x) (msg self 'second (+ x 1)))]
+            [(second) (lambda (x) (+ x 1))]
+      )))
+      self
+)))
+
+AUTORREFERÊNCIA (com combinador-Y)
+===================================
+
+(define (o-self-no! init)
+  ; Criamos o símbolo com um valor dummy
+  (lambda (m)
+    (case m
+      ; Estamos passando os métodos como referência para si
+      ; próprio. Dado que ele é argumento, o símbolo pode ser
+      ; usado.
+      [(first)  (lambda (self x) (msg/self self 'second (+ x 1)))]
+      [(second) (lambda (self x) (+ x 1))]
+)))
+
+(define (msg/self o m .a)
+  (apply (o m) o a))
+
+LATE BINDING
+===================
+
+Podemos criar, também, uma chamada em tempo de execução (late binding).
+Ela surge naturalmente, pois BUSCAMOS o nome de um método, dentro do
+objeto, durante o tempo de execução. No exemplo seguinte, de uma 
+árvore, NÃO TEMOS garantia que o método 'add' existe. Porém, a
+busca pelo nome na nossa "tabela" de símbolos é o late binding.
+
+; nó externo (vazio)
+(define (mt)
+    (let ([self 'dummy])
+        (begin 
+            (set! self
+                (lambda (m)
+                    (case m
+                        [(add) (lambda () 0)] ; retorna 0
+))))))
+
+; nó interno (com valor)
+(define (node v l r)
+    (let ([self 'dummy])
+        (begin 
+            (set! self
+                (lambda (m)
+                    (case m
+                        [(add) (lambda () (+ v  ; soma filhos esq/dir
+                                            (msg l 'add) 
+                                            (msg r 'add)
+                        ))]
+            )))
+)))
+
+=================================================================
+
+HERANÇA
+=========
+
+* métodos ↔ nomes
+    - Conjunto finito e fixo ou não;
+    - Nomes podem ser estáticos ou dinâmicos.
+
+    .----------.--------------.------------.
+    | conjunto |     fixo     |  variável  |
+    |   nome   |              |            |
+    |----------|--------------|------------|
+    | Estático |     Java     |  --------  |
+    |          |              |  --------  |
+    |----------|--------------|------------|
+    | Dinâmico | Introspecção | linguagens |
+    |          |  (Reflexão)  | de  script |
+    '----------'--------------'------------'
+    
+    Quando temos um conjunto de métodos fixos, com nomes dinâmicos, 
+    temos uma analogia ao Reflections do Java, em que podemos acessar
+    um campo de uma classe usando uma string. No caso acima, tratamos
+    apenas de métodos, mas a introspecção é mais poderosa que isso.
+    
+    Usar métodos da maneira variável, com um conjunto dinâmico, é
+    comum a linguagens de script como Perl e Python. Em ambos, o 
+    objeto é representado por um HASH com chave sendo string e 
+    valor uma variável ou método. Poderíamos ter mais de uma 
+    chave associada ao objeto, e mesmo criar novos métodos durante
+    a execução.
+    
+    Nesta disciplina, trataremos principalmente do conjunto estático
+    e fixo, comum às linguagens compiladas.
+    
+    A versão estática/variável não faz tanto sentido - de que adianta
+    podermos definir vários métodos, se não pudermos colocar novos 
+    nomes? É mais simples tomar o caminho estático/fixo e/ou o 
+    dinâmico/variável.
+    
+    Em nossa sub-linguagem do Racket, como identificar qual o método?
+    
+    (define o-e
+        (λ (m)
+            (case m ; para idntificar os símbolos
+                [f1  (λ (a) ...)]
+                [g42 (λ (b) ...)]
+                [else (error "Method not found")]
+    )))
+    
+    E para chamar, usamos:
+    (msg o-e 'f1 13) → desaçucarado para ((o-e 'f1) 13)
+    
+    No else acima, temos um erro. Mas o que precisaríamos se quiséssemos
+    herança? Simples! Bastaria chamarmos o método do pai. Assim, 
+    sequiríamos uma hierarquia até a sua raiz. A alteração ficaria:
+    
+    (define o-e
+        (λ (m)
+            (case m ; para idntificar os símbolos
+                [f1  (λ (a) ...)]
+                [g42 (λ (b) ...)]
+                [else (father m)]
+    )))
+    
+* Construtores em Herança
+    
+    Para criarmos definitivamente Herança, precisamos ter uma 
+    referência/apontador para o 'pai' do objeto. Mas ao criarmos 
+    o objeto filho, não temos o objeto pai ainda. Para fazermos a
+    construção, precisaremos de um argumento ADICIONAL no construtor
+    de um objeto: o construtor da classe PAI. Com ele, poderemos
+    começar construindo a classe pai e, depois, ir para a filha.
+    
+    (define (filho constr-pai a1 a2 ... an)
+        (let ([pai (constr-pai a1 a2 ... an)
+              [self 'dummy])
+            (begin
+                (set !self
+                    (λ(m)
+                        (case m
+                            [f1  (λ (a) ...)]
+                            [g42 (λ (b) ...)]
+                            ...
+                            [else (pai m)]  ; chamada de função para 
+                                            ; o método pai
+                    )))
+                self
+            )
+    ))
+    
+    Se em vez de um construtor do pai tivéssemos uma lista deles,
+    e na resolução do conflito usássemos um case (if-else), 
+    teríamos um esquema de HERANÇA MULTIPLA (e que pode gerar muita
+    dor de cabeça).
+
+* Protótipos
+    
+    Quando temos classes, cada vez que construímos um novo objeto
+    estamos fazendo toda a hierarquia de classes para o novo 
+    objeto. Porém, e se ao invés disso passássemos uma REFERÊNCIA
+    PARA UM OBJETO JÁ PRONTO? Essa é a ideia de PROTÓTIPO, que é 
+    mais abstrato que CLASSE. Vários 'clones' podem estar associados
+    ao mesmo protótipo, e depois se desassociarem dele.
+    
+    Essa é a forma pela qual JavaScript faz POO.
+
+* Busca por métodos
+    
+                      /\        ()      || 
+                      ||        /\      || 
+      Sair da classe  ||       /  \     || Sair de uma classe PAI
+      filha e ir para ||      /    \    || e buscar métodos na 
+      a classe pai é  ||     ()    ()   || filha é chamado de INNER
+      natural da      ||     /\     |   || 
+      herança         ||    /  \    |   || 
+                      ||   /    \   ()  || 
+                      ||  ()    ()      \/ 
+
+* Problemas de herança múltipla
+    
+    Quando temos HERANÇA MÚLTIPLA, temos um grande problema: nossa
+    árvore da hierarquia de classes se torna um GRAFO. E como um
+    grafo, podemos ter subcasos extranhos:
+    
+                       ()     O diamante é um caso
+                       ^^     bem patológico. 
+                      /  \    
+                     /    \   Deveríamos ter apenas
+                    ()    ()  1 ou 2 objetos da 
+                     ^    ^   classe pai de todos
+                      \  /    no nível 1?
+                       \/     
+                       ()     
+    
+    E como deveríamos percorrer o grafo? Busca em largura ou
+    profundidade?
+    
+* Mixin e Trait
+    
+    Uma solução para problemas de herança múltipla é fazer o MIXIN, que 
+    consiste em "injetar" métodos dentro de uma classe. De certa 
+    maneira, estamos pegando os métodos da classe filha e estamos 
+    substituindo/tirando da classe pai. É a solução adotada, por 
+    exemplo, por C++ para resolver seus problemas de herança múltipla.
+    
+    Ainda assim, poderíamos ter 2 mixin's para cada pai na herança
+    múltipla. E se ambos os ramos tivessem métodos de mesmo nome,
+    haveria conflito na hora de montar a classe final. TRAIT surgiu
+    para os compiladores gerarem erro se isso ocorrer. Sem ele, o
+compilador tenta resolver de alguma maneira.

@@ -1374,7 +1374,7 @@ Na nossa linguagem, podemos ter o açúcar:
     [letS (s : symbol) (v : value) (b : body)]
 
 No Desugar, transformaríamos para o λ:
-    [letS (id val expr) (appC (lamC if (desugar expr)) (desugar val))]
+    [letS (id val expr) (appC (lamC id (desugar expr)) (desugar val))]
 
 O interpretador é o mesmo (pois o let é açúcar), mas precisamos 
 colocar algo no parser:

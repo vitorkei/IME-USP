@@ -1841,7 +1841,7 @@ HERANÇA
     
     (define o-e
         (λ (m)
-            (case m ; para idntificar os símbolos
+            (case m ; para identificar os símbolos
                 [f1  (λ (a) ...)]
                 [g42 (λ (b) ...)]
                 [else (error "Method not found")]
@@ -1852,7 +1852,7 @@ HERANÇA
     
     No else acima, temos um erro. Mas o que precisaríamos se quiséssemos
     herança? Simples! Bastaria chamarmos o método do pai. Assim, 
-    sequiríamos uma hierarquia até a sua raiz. A alteração ficaria:
+    sequenciaríamos uma hierarquia até a sua raiz. A alteração ficaria:
     
     (define o-e
         (λ (m)
@@ -1947,4 +1947,4 @@ HERANÇA
     múltipla. E se ambos os ramos tivessem métodos de mesmo nome,
     haveria conflito na hora de montar a classe final. TRAIT surgiu
     para os compiladores gerarem erro se isso ocorrer. Sem ele, o
-compilador tenta resolver de alguma maneira.
+    compilador tenta resolver de alguma maneira.

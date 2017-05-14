@@ -1947,4 +1947,705 @@ HERANÇA
     múltipla. E se ambos os ramos tivessem métodos de mesmo nome,
     haveria conflito na hora de montar a classe final. TRAIT surgiu
     para os compiladores gerarem erro se isso ocorrer. Sem ele, o
-compilador tenta resolver de alguma maneira.
+    compilador tenta resolver de alguma maneira.
+
+=================================================================
+
+HERANÇA MÚLTIPLA
+==================
+
+    (D)    | A herança múltipla pode ser muito útil, para que o objeto
+     ^     | seja de duas características. Porém, em casos como ao lado
+    / \    | (herança diamante), a maneira pela qual ocorra a busca e 
+  (B) (C)  | herança de métodos pode acabar produzindo comportamentos
+   ^   ^   | diferentes. Sâo necessárias várias heurísticas para que
+    \ /    | a herança múltipla funcione.
+    (A)    | 
+
+MIXIN
+=======
+
+Por causa de todos os problemas que podem ocorrer com a herança
+múltipla, muitas linguages a evitam. Para, porém, poder admitir vários
+comportamentos distintos, faz-se a herança simples + alguma coisa.
+
+ (B)       | Uma das formas de contornar a herança múltipla é o 
+  ^   M    | MIXIN. O Mixin faz uma INJEÇÃO de métodos/atributos já 
+  |  (≡ )  | definidos dentro dele na classe. A diferença da herança
+ (A) -'    | é que UM MIXIN NÃO PODE TER CLASSE PAI. Assim, evita-se
+           | a situação do diamante (o Mixin é como uma raiz de uma
+           | hierarquia de classes).
+
+Podemos fazer uma certa "implementação" com a seguinte notação:
+
+    class C extends B ; Classe com herança
+    classext E { }    ; Mixin
+    C = E(B)          ; C é uma extensão de B com o Mixing E
+
+Mas e se colocássemos vários Mixin na classe? Se houvesse métodos com 
+a mesma assinatura, haveria CONFLITO. Por isso os Mixin ainda podem
+dar problema.
+
+As interfaces, como em Java, são um conceito mais FRACO de Mixin - 
+não tem definições de métodos e nem atributos não estáticos/constantes.
+
+TRAITS
+========
+
+Traits 
+    - É como o mixin, mas não implementa estado (sem variáveis);
+    - Conflitos de nome/assinatura precisam ser resolvidos 
+      explicitamente (nomes de funções iguais precisam de 
+      desambiguação);
+    - Funciona como código "inline" (flattening).
+
+Os traits funcionam como se estivéssemos dando um #include do C/C++
+dentro de uma classe. Um exemplo seria:
+
+<?php 
+    class SayHello {
+        public function sayHello() {
+            echo "Hello";
+        }
+    }
+    
+    trait SayWorld {
+        public function sayHello() {
+            super::sayHello();
+            echo "World";
+        }
+    }
+    
+    class MyHelloWorld extends Base {
+        use SayWorld;
+    }
+    
+    $o = new MyHelloWorld();
+    $o.sayHello();
+    
+    # Não haveria conflito, pois o trait só está fazendo uma 
+    # redefinição do método. A classe pai e o trait não conflitam.
+?>
+
+E como, em PHP, resolveríamos os conflitos de forma "explícita"?
+
+<?php
+    trait A {
+        public function smalltalk { echo "a"; }
+        public function bigtalk   { echo "A"; }
+    }
+    
+    trait B {
+        public function smalltalk { echo "b"; }
+        public function bigtalk   { echo "B"; }
+    }
+    
+    class Talker {
+        use A, B {
+            B::smallTalk insteadof A;
+            A::bigTalk   insteadof B;
+            B::bigTalk   as talk;
+            # A partir de agora, o smallTalk virá de B, o
+            # bigTalk de A e o bigTalk de B poderia ser 
+            # chamado usando o novo nome 'talk'.
+    }
+?>
+
+=================================================================
+
+Vamos discutir algumas ideias, sem implementar explicitamente na
+linguagem, formas de gerenciamento de memória.
+
+Fizemos duas implementações:
+* Usando 'box', cuja manipulação era explícita;
+* Usando variáveis, que eram ENDEREÇOS nos quais estavam armazenados
+  os conteúdos.
+
+Numa arquitetura de 32 bits, mantemos para cada função um FRAME,
+que funciona como:
+    
+    |            |  ^    :  Essa técnica é interessante, mas 
+    |            |  |    :  nem sempre temos espaço suficiente,
+    |            |  |    :  ou precisamos de espaço em Runtime.
+    |------------|  |    :  O espaço em Runtime é alocado diretamente
+    | parms      |  |    :  do Storage:
+    |------------|  |    :  
+    | return     |  |    :  | | | | | | | | | | | | | | | | | | | | | |
+    |------------|  |    :  '---------------'     '-----'       '-----'
+    | old_base   | -'    :  
+    |------------|       :  O malloc do C vai ao SO e pede uma seção 
+    | local vars | <.    :  de memória. Ao longo do tempo, isso pode
+    |------------|  |    :  ser problemático, pois causa fragmentação
+    |    ...     |  |    :  da RAM (o mesmo pode ocorrer no disco). 
+                         :  É necessário liberar memória - e para isso
+  Essas variáveis        :  usa-se o 'free'. 
+  locais eram chamadas   :  
+  de 'automáticas'.      :  Uma forma de automatizar este novo processo
+  Podem ser criadas e    :  é a Garbage Collection, em suas várias
+  destruídas facilmente. :  formas. Um Garbage Collector precisa ter:
+                         :  
+                         :  * Robustez (soundness):
+                         :    Não liberar memória antes da hora.
+                         :  * Completude (completeness):
+                         :    Não liberar tarde demais.
+                         :  * Rapidez (speedy):
+                         :    Ser rápido (sempre importante).
+                         :  
+                         :  Não é possível ter os 3 ao mesmo tempo.
+                         :  Em geral, as linguagens escolhem 2: 
+                         :  a robustez e a velocidade (a falta de 
+                         :  memória em geral é menos comum).
+                         :  
+
+FORMAS DE GERENCIAMENTO AUTOMÁTICO
+====================================
+
+Existem dois métodos principais para fazermos Garbage Collection:
+
+* Contagem de Referências:
+    Simplesmente, para cada nova alocação, cria-se um contador 
+    adicional com a memória. Para cada ponteiro novo, incrementa-se 
+    o contador. Para cada vez que a referência deixar de existir,
+    o contador é decrementado. Se o contador chegar a 0,
+    não há mais referência para o bloco, e então liberamos a memória
+    referente a ele.
+
+* Garbage Collection:
+    O programa monta um GRAFO, composto em duas partes: um 
+    "root set", que é o conjunto de variáveis que estão em todos 
+    os environments disponíveis no momento da Garbage Collection, 
+    e o "live set", que é o conjunto de memória apontada por todas
+    estas variáveis.
+    
+    Forma-se, com isso, uma árvore:
+            
+    Root set                * * * * * * * * * *
+    -----------------------/-\-----/-----\---\---------------------
+    Live set     *--*     *   *   *       *   *
+                     *     \ /     \     /
+                  *         *       *---*
+    
+    Os ciclos são ignorados. Simplesmente, parte-se do Root Set e
+    vai para o Live Set. Tudo que não estiver sendo apontado pelo
+    Root Set vai para o Live Set (pode ser liberado, segundo
+    a apostila).
+    
+    Descobrir quem está no Root Set é difícil. É como se fosse 
+    necessário provar quem está no Root Set. Mas ao exigir essa
+    introspecção, e dado que um programa é um sistema formal 
+    (máquina de Turing), cai-se no Teorema da Incompletude de Gödel.
+    Ou seja: para ganhar-se mais completude, perde-se robustez.
+    
+    Para fazer tudo isso, o Garbage Collection precisa ver:
+    1) O tipo e representação de todos os objetos/estruturas;
+    2) Não pode ocorrer:
+        - Referências primordiais fora do root set;
+        - Referências fora de pontos específicos (cast de tipos
+          para referências).
+
+    C/C++ tem problemas com Garbage Collection porque há os casts
+    para tipos como ponteiros. Isso já é uma grande dificuldade.
+
+=================================================================
+
+HOSPEDEIRO
+============
+
+Quando construímos nossa linguagem, criamos vários níveis:
+1) Linguagem "Açucarada" (Sugar);
+2) Linguagem Central     (Core);
+3) Linguagem Hospedeira  (Racket);
+
+Ao desenvolvermos uma linguagem, de forma geral, utilizamos alguma
+plataforma/linguagem "hospedeira", sobre a qual a nova linguagem 
+será feita. No caso de linguagens compiladas, ela pode ser a própria
+máquina ou máquinas virtuais. No caso de linguagens interpretadas, é
+a linguagem na qual foi feito o interpretador.
+
+Quando definimos o valor, tínhamos:
+(define-type Value
+    [numV  (n : number)]
+    [closV (a : symbol) (b : body) (e : env)]
+)
+
+numV usa todos os tipos do Racket (hospedeiro), a fim de facilitarmos
+a construção da linguagem - já que ela suporta inteiros, ponto
+flutuante, complexos e frações. Será que poderíamos usar também o
+outro tipo - a closure - para fazer isto?
+
+Sim! E as modificações são simples:
+
+* Primeiro, no Value:
+(define-type Value
+    [numV  (n : number)]
+    ; A closure será a própria closure do Racket.
+    ; Ela simplesmente pega um valor e o retorna.
+    ; O argumento e o ambiente estão implicitamente 
+    ; salvos dentro do próprio lambda.
+    [closV (f : (Value -> Value)]
+)
+
+* Em segundo lugar, no interpretador:
+    [lamC (a b) (closV (lambda (arg-val)
+                    (interp
+                        (extend-env (bind a arg-val)
+                            (
+
+Estamos implementando uma linguagem funcional - subconjunto do 
+Lisp/Scheme/Racket - numa linguagem funcional. E, por esse motivo,
+podemos delegar muito para a linguagem hospedeira. Mas isso pode
+trazer vantagens e desvantagens:
+
+* Se tivéssemos uma linguagem hospedeira e DE SUPERFÍCIE (central)
+ diferentes, muitas dificuldades poderiam existir. Por exemplo: 
+    - Se a linguagem de superfície tivesse lazyness, e a linguagem
+      hospedeira, eager, uma execução válida no ambiente lazyness
+      poderia ser inválida no contexto eager;
+    - Esse problema traz outro: as mensagens de erro, válidas numa
+      linguagem (por exemplo, divisão por 0 executada na eager, mas
+      não executada na lazy) poderia não ser na outra. Tanto da 
+      hospedeira para a de superfície, como vice-e-versa.
+
+* A dependência da linguagem hospedeira pode QUEBRAR a linguagem
+  de superfície, se as características da hospedeira se alterarem
+  com o tempo.
+
+ENVIRONMENT COM LAMBDAS
+=========================
+
+Fizemos a alteração de trocar os closV de implementação de forma
+prática para uma implementação usando o hospedeiro Racket.
+
+Em nossa linguagem, toda a parte de Environment estava encapsulada.
+Como seria possível trocar o Environment como lista de associações
+e usar lambdas?
+    
+Definindo formalmente:
+    Env     -> λ (symbol -> Value)
+    mt-env  -> λ ERRO
+    
+O environment, para cada símbolo, nos devolverá um valor. Por outro
+lado, mt-env deverá retornar um ERRO, dado um símbolo - pois ao tentar
+achar qualquer coisa num environment vazio, sempre haverá nada para
+retornar.
+
+Então:
+(define (mt-env [name : symbol])
+    (error 'lookup: did not find')
+)
+
+; Temos aqui duas closures: uma do extend-env, que recebe dois
+; argumentos (binding e o environment), e o lambda que será retornado.
+; 
+; Ao criarmos este novo lambda, temos uma closure - o binding 'b' e
+; o environemnt 'e' na função na qual estão inseridas ficam armazenadas
+; no ENVIRONMENT DO CLOSURE DO RACKET. Toda vez este lambda, 
+; representando o Environment, tiver um símbolo, ele busca no 
+; seu próprio binding. Caso contrário, ele busca no environment que
+; existia quando ele foi criado.
+; 
+; Esquematicamente, os environments mais complexos são:
+;
+; ..........................    
+; .....................    |    
+; ................    |    |    Temos, aqui dentro, a nossa 
+; ...........    |    |    |    "LISTA DE ASSOCIAÇÕES". Porém,
+; ......    |    |    |    |    ela está MASCARADA dentro das
+; |    |    |    |    |    |    chamadas recursivas dos lambdas
+; | b1 | b2 | b3 | b4 | b5 |    do Racket. Para um dado environment
+; |    |    |    |    |    |    e, o binding b1 e o environment e1
+; '....'    |    |    |    |    com os quais ele foi construído
+; ..........'    |    |    |    estão guardados DENTRO do environment
+; ...............'    |    |    do próprio closure.
+; ....................'    |    
+; .........................'    
+; 
+(define (extend-env [b : Binding] [e : Env])
+    (λ ([name : symbol]) : Value
+        (if (symbol=? name (bind-name))
+            (bind-val b)
+            (lookup name e)
+)))
+
+(define (lookup [name : symbol] [e : Env]) (e name))
+
+=================================================================
+
+AÇÚCAR
+========
+
+O processo de construção de açúcar permite transformar uma sintaxe 
+em outra:
+            sintaxe A ----------------------> sintaxe B
+                                               (core)
+
+O primeiro exemplo que utilizamos para açúcar sintático foi:
+        (let (var val) body) --> ((λ (var) body) val)
+
+Mas assim como conseguimos criar regras de açúcar diretamente na 
+linguagem açucarada, também poderíamos fazê-lo EM TEMPO DE INTERPRETAÇÃO
+(on the fly).
+
+No Racket, existe essa opção, por meio dos comando:
+    (define-syntax macro regra)
+                         ^^^^^- { syntax-rules
+                                { syntax-case
+
+Criaremos um "novo let". Para que o próprio Racket não se confunda, 
+usaremos o nome "my-let" com números 1,2,... para eles.
+
+(define-syntax my-let-1
+    (syntax-rules () ; arg para definir associações locais às regras
+        
+        ; Lista de regras de tradução
+        [(my-let-1 (var val) body) ((lambda (var) body) val)]
+        
+        ; Cada uma das regras trabalha como MACRO - nenhuma 
+        ; modificação é criada e só se traduz de um para outro.
+))
+
+Podemos aceitar argumentos como listas de qualquer tamanho, usando
+o símbolo "...". Ele funciona como os TEMPLATES VARIÁDICOS do C++ 
+ou as funções com múltiplos argumentos do C:
+
+                    ..----------------------------..-------------..
+                    \/                            /\             /\
+         Constroi 'n' pares (var val)       Pega 'n' vars  Pega 'n' vals
+                _____________                 _________       ________
+    [(my-let-2 [(var val) ...] body) ((lambda (var ...) body) val ...)]
+
+O Dr. Racket tem a opção MACRO-STEPPER, que mostra qual o resultado das
+EXPANSÕES DE MACROS criadas pelo define-syntax. Entretanto, nem sempre
+o resultado pode ser o esperado, pois o Racket pode OTIMIZAR os
+argumentos variádicos para seus próprios lambdas.
+
+PROBLEMAS
+-----------
+
+Os macros são interessantes, mas podem gerar problemas parecidos com as
+macros de C/C++: os erros não são checados quando definimos as novas
+regras sintáticas. Por exemplo
+
+* Racket                          | * C/C++
+                                  | 
+; Em vez de um símbolo para       | // Definição do Macro em C ou C++.
+; argumento, colocamos um número  | // Não usamos paerênteses suficientes
+(my-let-1 (1 5) 1)                | #define SQUARE(X) X*X
+                                  | 
+; A tradução ficaria:             | // A expressão:
+((λ (1) 1) 5)                     | SQUARE(2+2);
+                                  | 
+; O erro, porém seria:            | // Seria traduzida em:
+    lambda: not an identifier,    | 2+2*2+2
+    identifier with default, or   | 
+    keyword in: 1                 | // O resultado 8 é diferente de 16
+
+SYNTAX-CASE
+=============
+
+Poderemos usar,agora, o SYNTAX-CASE, mais geral, para que façamos
+regras válidas.
+
+Ele receberá uma lista de pares [A, B], com:
+* A, o padrão a ser identificado na linguagem;
+* B, cujo VALOR INTERPRETADO será associado a A;
+
+O fato dele associar o VALOR INTERPRETADO da expressão B pode ser 
+ruim, caso queiramos apenas devolver uma expressão. Para isso, usaremos
+um truque relacionado ao operador #' (à frente).
+
+; Associamos o nome 'my-let-3' a um símbolo x. O 'x' é um auxiliar, 
+; que permite chamar RECURSIVAMENTE a estrutura do define-syntax.
+; Isso é importante porque o símbolo "my-let-3" poderia ser utilizado
+; dentro do pattern ou valor. Temos, então, este auxiliar.
+(define-syntax (my-let-3 x)
+    
+    ; O 'x' de acima é passado para o syntax-case, como um 'this'.
+    (syntax-case x ()
+        [
+         ; Padrão a ser identificado
+         (my-let-3 (var val) body) 
+         
+         ; O símbolo #' serve para que o syntax-case devolva a 
+         ; própria expressão, e não o resultado da execução dela.
+         ; Em geral, para não executarmos, usamos apenas '. Porém,
+         ; ' transforma uma expressão em s-expression. O syntax-case
+         ; EXIGE que o argumento seja um PEDAÇO DE SINTAXE - e o
+         ; operador #' é o que evita a execução e devolve um pedaço
+         ; de sintaxe. O #' será necessário em todos os casos em que
+         ; quisermos usar um pedaço do pattern, sem executá-lo (o que
+         ; seria, inclusive, impossível, pois ele não existe ainda
+         ; dentro da macro).
+         #'((lambda (var) body) val)
+        ]
+))
+
+O my-let-3 faz exatamente o mesmo que o my-let-2, mas usa o syntax-case.
+Entretanto, o syntax-case tem uma segunda forma que pode ser útil.
+Ele não receberá mais pares [A B], em que associa-se o padrão A 
+ao valor (B). Teremos como argumentos trincas [A P B], com:
+* A, o padrão;
+* B, cujo valor interpretado será associado a A;
+* P (predicado), as RESTRIÇõES a serem avaliadas.
+
+(define-syntax (my-let-4 x)
+    (syntax-case x ()
+        [
+         ; Padrão a ser identificado 
+         (my-let-4 (var val) body) 
+        
+         ; Predicado a ser avaliado
+         ; Se 'var' não for identificador, dará erro.
+         (identifier? #'var)
+         
+         ; Igual ao caso do my-let-3
+         #'((lambda (var) body) val)
+        ]
+))
+
+SYNTAX-CASE RECURSIVO
+=======================
+
+Vejamos um exemplo de syntax-case RECURSIVO. Para isso, vamos
+implementar uma forma de OR usando IF's recursivamente:
+
+(define-syntax (my-or-1 x)
+  (syntax-case x ()
+    ; Usamos um template variádico
+    [(my-or-1 e0 e1 ...)
+      #'(if e0
+            e0
+            (my-or-1 e1 ...))
+            ; Reusamos o template variádico com menos 1 argumento.
+            ; Como a lista é finita, uma hora a recursão para.
+))
+
+Esse comando dá um erro, porque no final não teremos mais como expandir
+o my-or-1. Consideremos o exemplo:
+                            (my-or-1 #f #t)
+
+O resultado da expansão seria:
+(if #f #f (my-or-1 #t))
+           ^^^^^^^-- (if #t #t (my-or-1))
+                                ^^^^^^^-- Sem argumentos, é desconhecido
+
+Precisamos adicionar uma nova regra ao syntax-case, para quando ele 
+tem 0 argumentos.
+
+(define-syntax (my-or-2 x)
+  (syntax-case x ()
+    [(my-or-2) 
+      #'#f]
+    [(my-or-2 e0 e1 ...)
+      #'(if e0
+            e0
+            (my-or-2 e1 ...))
+))
+
+Poderíamos adicionar um passo a mais, com apenas um argumento. O
+anterior já funciona, mas poderíamos adicionar um caso extra: apenas
+um argumento, em que o devolvemos.
+
+(define-syntax (my-or-3 x)
+  (syntax-case x ()
+    [(my-or-3) 
+      #'#f]
+    [(my-or-3 e0) 
+      #'e0]
+    [(my-or-3 e0 e1 ...)
+      #'(if e0
+            e0
+            (my-or-3 e1 ...))
+))
+
+Nesse caso, naturalmente, nunca entraremos no caso base my-or-3 vazio.
+Poderíamos retirá-lo, para dar erro de sintaxe, OU devolver falso nos
+casos errados.
+
+Consideremos agora o seguinte exemplo:
+(let ([blah #f])
+(my-or-3
+    (begin ((set! blah (not blah)) blah)
+    #f)
+)
+
+O resultado expandido será:
+(if (begin ((set! blah (not blah)) blah))
+    (begin ((set! blah (not blah)) blah))
+    (my-or-4 #f))
+
+O valor devolvido seria #f (errado!).
+
+Estamos DUPLICANDO código. Esse é um dos grandes problemas de macros:
+replicação desnecessária. E isso ocorre por causa do excesso de lazyness
+do código.
+
+Para resolvermos, podemos calcular primeiro, e associar o valor
+calculado a um símbolo:
+
+(define-syntax (my-or-4 x)
+  (syntax-case x ()
+    [(my-or-4) 
+      #'#f]
+    [(my-or-4 e0) 
+      #'e0]
+    [(my-or-4 e0 e1 ...)
+      #(let ([v e0])
+        '(if e0
+             e0
+             (my-or-4 e1 ...))
+))
+
+Ainda assim, temos dois potenciais problemas:
+* O cálculo do primeiro e0 poderia causar uma mudança de estado - e esta
+  não seria passada para o corpo do if. A mudança de estado já estaria
+  feita antes, e o resultado poderia ser diferente. Uma outra
+  consequência da passagem de estado. O caso do begin acima não era o
+  desejado. Porém, se ele fosse, não seria coberto.
+
+* O e0 poderia estar em um environment diferente, e o seu valor estaria
+  de forma diferente. Por exemplo:
+    
+    (let ([e0 #t]) (my-or-4 #f e0))
+    
+    A expansão seria:
+    (let ([v #f])
+        if(#f) #f
+            (my-or-4 #f))
+    
+    Nesse caso, estamos CONFUNDINDO o environment externo com o
+    environment interno. O valor de e0 usado acaba sendo o de dentro,
+    e não o passado de fora.
+    
+    Bons sistemas de macro não confundem isso, pois usam tabelas
+    separadas para valores de argumentos e definições internas de
+    símbolos. Essas são chamadas as MACROS HIGIÊNICAS.
+
+=================================================================
+
+MACROS
+========
+
+Na aula passada, vimos uma "confusão" dos macros por causa do
+environment. A diferenciação entre ambos pode ser desejável, para que
+possamos fazer definições de macros RECURSIVAS ou com AUTORREFERÊNCIA.
+
+Os macros que evitam esse problema é um MACRO HIGIÊNICO, mas teria esse 
+novo problema. A implementação que daria este problema seria:
+
+; Definição de um objeto com autorreferência
+; usando a criação via macros.
+(define os-1
+    (object/self-1
+        
+        ; Este self dará um ERRO. O processador de macros do Racket
+        ; é higiênico. Logo, dentro do macro ele olhará se esse self
+        ; foi definido NESTE AMBIENTE. Ele não foi: logo, aparecerá o
+        ; erro do self não ser definido.
+        [first  (x) (msg self 'second (+ x 1))]
+        
+        [second (x) (+ x 1)]
+))
+
+; Como fazemos isso com macros agora?
+(define-syntax object/self-1
+  (syntax-rules ()
+    [(object [mtd-name (var) val] ...)
+        
+      ; Primeiro, associamos self com um símbolo qualquer. 
+      ; No caso, é um lambda que imprime que está vazio.
+      (let ([self (lambda (msg-name)
+                    (lambda (x) (error 'object "nothing here")))])
+          
+          ; Reassocia self com o lambda seletor dos métodos
+          (begin 
+            (set! self
+              (lambda (msg)
+                (case msg
+                  ; O macro cria, um lambda usando o nome do
+                  ; método, a variável do lambda e o corpo.
+                  ; Como pode haver vários métodos, estamos 
+                  ; fazendo de forma recursiva
+                  [(mtd-name) (lambda (var) val)]
+                  ...)))
+          self)
+      ) ;end let
+]))
+
+; O resultado do código expandido seria:
+(let ([self 'dummy])
+  (begin 
+    (set! self
+      (λ (msg)
+        (case msg
+          [(first  (λ (x) (msg self)) )]
+          [(second (λ (x) (+ x 1))    )]
+)))))
+
+Para contornarmos esse problema, poderíamos passar o 'self' como
+argumento para a macro. Dessa maneira, o símbolo ao ser usado dentro
+do contexto do uso da macro, quando ela for setada.
+
+; Por que esse self não dá problemas quando passado como argumento?
+(define os-2
+    (object/self-2 self ; O nome do próprio argumento deve ser passado
+                        ; como primeiro parâmetro.
+        [first  (x) (msg self 'second (+ x 1))]
+        [second (x) (+ x 1)]
+))
+
+(define-syntax object/self-2
+  (syntax-rules ()
+    [(object self [mtd-name (var) val] ...)
+        
+      ; Primeiro, associamos self com um símbolo qualquer. 
+      ; No caso, é um lambda que imprime que está vazio.
+      (let ([self (lambda (msg-name)
+                    (lambda (x) (error 'object "nothing here")))])
+          
+          ; Reassocia self com o lambda seletor dos métodos. Agora,
+          ; este é o self externo, e estamos afetando a tabela dos 
+          ; argumentos.
+          (begin 
+            (set! self
+              (lambda (msg)
+                (case msg
+                  [(mtd-name) (lambda (var) val)]
+                  ...)))
+          self)
+      ) ;end let
+]))
+
+Mas nem sempre seria desejável passar 'self' como argumento. Como evitar
+isso? Poderíamos usar um recurso adicional, suportado pelo Racket, que
+permite associar um símbolo DENTRO DA SINTAXE com um DE FORA DA SINTAXE.
+Dessa maneira, uma mudança de estado dentro da macro altera o espaço das 
+variáveis passadas como argumento para a macro. Assim, conseguiríamos
+sobrescrever o self (o que não acontecia na 1ª forma, pois o self estava
+em outra tabela de símbolos).
+
+(define os-3
+    (object/self-3
+        [first  (x) (msg self 'second (+ x 1))]
+        [second (x) (+ x 1)]
+))
+
+(define-syntax object/self-3
+  (syntax-case ()
+    [(object [mtd-name (var) val] ...)
+      (with-syntax ([self (datum->syntax x 'self)])
+        #'(let ([self (lambda (msg-name)
+                        (lambda (x) (error 'object "nothing here")))])
+            (begin 
+              (set! self
+                (lambda (msg-name)
+                  (case msg-name
+                    [(mtd-name) (lambda (var) val)]
+                    ...
+              )))
+              self
+            )
+          ) ; let
+      ) ; with-syntax
+    ] ; definição de objeto
+))

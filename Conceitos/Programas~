@@ -1,0 +1,1895 @@
+====== PRIMEIRA LINGUAGEM ======
+
+#lang plai-typed
+
+#|
+ | Incluindo troca de sinal: - unário, uminus
+ | Mais açúcar?
+ |#
+
+(define-type ArithC
+  [numC (n : number)]
+  [plusC (l : ArithC) (r : ArithC)]
+  [multC (l : ArithC) (r : ArithC)])
+
+
+
+
+; Incluindo o sinal negativo
+(define-type ArithS
+  [numS    (n : number)]
+  [plusS   (l : ArithS) (r : ArithS)]
+  [bminusS (l : ArithS) (r : ArithS)]
+  [uminusS (e : ArithS)]
+  [multS   (l : ArithS) (r : ArithS)])
+
+
+; Nova "desugar", ou quase
+
+(define (desugar [as : ArithS]) : ArithC  
+  (type-case ArithS as
+    [numS    (n)   (numC n)]
+    [plusS   (l r) (plusC (desugar l) (desugar r))] 
+    [multS   (l r) (multC (desugar l) (desugar r))]
+    [bminusS (l r) (plusC (desugar l) (multC (numC -1) (desugar r)))]
+    ; tentativas para o - unário
+
+    ; pode-se fazer (- 0 e)
+    ;[uminusS (e)   (desugar (bminusS (numS 0) e))]
+    ; esta solução é perigosa, pois estamos fazendo a recursão em no mesmo 'e'
+    ; isto é, recursão "generativa", ou não estutural:
+    ; o argumento da recursão é uma função, e não uma subparte, do argumento original
+    
+    ; Isto resoveria,mas coloca outro problema (qual?)
+    ;[uminusS (e)   (bminusS (numS 0) (desugar e))]
+    
+    ; a solução (ainda bem que existe) também se fixa apenas nas primitivas
+    [uminusS (e)   (multC (numC -1) (desugar e))]
+    ))
+
+
+; O interpretador é o mesmo, pois no final ainda temos ArithC
+(define (interp [a : ArithC]) : number
+  (type-case ArithC a
+    [numC (n) n]
+    [plusC (l r) (+ (interp l) (interp r))]
+    [multC (l r) (* (interp l) (interp r))]))
+
+
+; o parser muda mais um pouco
+(define (parse [s : s-expression]) : ArithS
+  (cond
+    [(s-exp-number? s) (numS (s-exp->number s))]
+    [(s-exp-list? s)
+     (let ([sl (s-exp->list s)])
+       (case (s-exp->symbol (first sl))
+         [(+) (plusS (parse (second sl)) (parse (third sl)))]
+         [(*) (multS (parse (second sl)) (parse (third sl)))]
+         [(-) (bminusS (parse (second sl)) (parse (third sl)))]
+         ; para o parser precisamos um sinal negativo...
+         [(~) (uminusS (parse (second sl)))]
+         [else (error 'parse "invalid list input")]))]
+    [else (error 'parse "invalid input")]))
+
+(test (interp (desugar (uminusS (numS 3) ))) -3)
+
+
+(define (interpS [a : ArithS]) (interp (desugar a)))
+
+(interpS (parse '(* 2 (+ 5 (~ 3)))))
+
+================================================================
+
+====== CONDICIONAIS ======
+
+#lang plai-typed
+
+#|
+ | if-then-else
+ |
+ |#
+
+(define-type ArithC
+  [numC (n : number)]
+  [plusC (l : ArithC) (r : ArithC)]
+  [multC (l : ArithC) (r : ArithC)]
+  [ifC   (condição : ArithC) (sim : ArithC) (não : ArithC)]
+  )
+
+; inclui ifS
+(define-type ArithS
+  [numS    (n : number)]
+  [plusS   (l : ArithS) (r : ArithS)]
+  [bminusS (l : ArithS) (r : ArithS)]
+  [uminusS (e : ArithS)]
+  [multS   (l : ArithS) (r : ArithS)]
+  [ifS     (c : ArithS) (s : ArithS) (n : ArithS)]
+  )
+
+; idem
+(define (desugar [as : ArithS]) : ArithC  
+  (type-case ArithS as
+    [numS    (n)   (numC n)]
+    [plusS   (l r) (plusC (desugar l) (desugar r))] 
+    [multS   (l r) (multC (desugar l) (desugar r))]
+    [bminusS (l r) (plusC (desugar l) (multC (numC -1) (desugar r)))]
+    [uminusS (e)   (multC (numC -1) (desugar e))]
+    [ifS     (c s n) (ifC (desugar c) (desugar s) (desugar n))]
+    ))
+
+
+; O interpretador precisa reconhecer as novidades
+(define (interp [a : ArithC]) : number
+  (type-case ArithC a
+    [numC (n) n]
+    [plusC (l r) (+ (interp l) (interp r))]
+    [multC (l r) (* (interp l) (interp r))]
+    [ifC (c s n) (if (zero? (interp c)) (interp n) (interp s))]
+    ))
+
+
+; o parser muda mais um pouco
+(define (parse [s : s-expression]) : ArithS
+  (cond
+    [(s-exp-number? s) (numS (s-exp->number s))]
+    [(s-exp-list? s)
+     (let ([sl (s-exp->list s)])
+       (case (s-exp->symbol (first sl))
+         [(+) (plusS (parse (second sl)) (parse (third sl)))]
+         [(*) (multS (parse (second sl)) (parse (third sl)))]
+         [(-) (bminusS (parse (second sl)) (parse (third sl)))]
+         [(~) (uminusS (parse (second sl)))]
+         [(if) (ifS (parse (second sl)) (parse (third sl)) (parse (fourth sl)))]
+         [else (error 'parse "invalid list input")]))]
+    [else (error 'parse "invalid input")]))
+
+(test (interp (desugar (uminusS (numS 3) ))) -3)
+
+
+(define (interpS [a : ArithS]) (interp (desugar a)))
+
+(interpS (parse '(+ 5 (~ 3))))
+
+
+(parse '(if (- 3 2) 42 (+ 5 8))) 
+
+(interpS (parse '(if (- 3 2) 42 (+ 5 8))))
+(interpS (parse '(if (- 3 3) 42 (+ 5 8))))
+
+================================================================
+
+====== FUNÇÕES ======
+
+#lang plai-typed
+
+#|
+ | Funções simples
+ | Um único argumento, que será representado por um symbol
+ |
+ |#
+
+; Novo tipo, com funções.
+; Precisamos de duas novas entradas: 
+;     - identificador, para argumentos
+;     - aplicação da função
+(define-type ExprC
+  [numC (n : number)]
+  [idC  (s : symbol)]  ; identificador
+  [appC (fun : symbol) (arg : ExprC)] ; aplicação, com o nome da função e o valor do argumento
+  [plusC (l : ExprC) (r : ExprC)]
+  [multC (l : ExprC) (r : ExprC)]
+  [andC  (l : ExprC) (r : ExprC)]
+  [orC   (l : ExprC) (r : ExprC)]
+  [eqC   (l : ExprC) (r : ExprC)]
+  [gtC   (l : ExprC) (r : ExprC)] ; greater than
+  [ifC   (condição : ExprC) (sim : ExprC) (não : ExprC)]
+  )
+
+; definição de função com 1 argumento
+(define-type FunDefC
+  [fdC (name : symbol) (arg : symbol) (body : ExprC)]
+  )
+
+
+; inclui funções
+(define-type ExprS
+  [numS    (n : number)]
+  [idS     (s : symbol)] 
+  [appS    (fun : symbol) (arg : ExprS)] 
+  [plusS   (l : ExprS) (r : ExprS)]
+  [bminusS (l : ExprS) (r : ExprS)]
+  [uminusS (e : ExprS)]
+  [multS   (l : ExprS) (r : ExprS)]
+  [andS    (l : ExprS) (r : ExprS)]
+  [orS     (l : ExprS) (r : ExprS)]
+  [eqS     (l : ExprS) (r : ExprS)]
+  [gtS     (l : ExprS) (r : ExprS)]
+  [ifS     (c : ExprS) (s : ExprS) (n : ExprS)]
+  )
+
+; agora é preciso arrumar desugar interpretador e parser.
+
+(define (desugar [as : ExprS]) : ExprC  
+  (type-case ExprS as
+    [numS    (n) (numC n)]
+    [idS     (s) (idC s)] ; este é fácil
+    [appS    (fun arg) (appC fun (desugar arg))] ; fun é um symbol, não precisa de desugar 
+    [plusS   (l r) (plusC (desugar l) (desugar r))] 
+    [multS   (l r) (multC (desugar l) (desugar r))]
+	[andS  	 (l r) (andC  (desugar l) (desugar r))]
+	[orS   	 (l r) (orC   (desugar l) (desugar r))]
+	[eqS   	 (l r) (eqC   (desugar l) (desugar r))]
+	[gtS   	 (l r) (gtC   (desugar l) (desugar r))]
+    [bminusS (l r) (plusC (desugar l) (multC (numC -1) (desugar r)))]
+    [uminusS (e)   (multC (numC -1) (desugar e))]
+    [ifS     (c s n) (ifC (desugar c) (desugar s) (desugar n))]
+    ))
+
+#|
+ | O interpretador precisa tratar de substituir o parâmetro pelo valor!
+ | Além disso, precisa receber as definições de funções (uma lista)
+ | Será necessário procurar a função na lista:
+ |
+ |       get-fundef : symbol * (listof FunDefC) -> FunDefC
+ |
+ | e fazer substituição dos symbols
+ |
+ |       subst : ExprC * symbol * ExprC -> ExprC
+ |
+ |#
+
+
+; começamos pela última
+; subst :  ExprC * symbol * ExprC -> ExprC
+; ou (subst VALOR ID EXPRESSÃO)
+; Vou manter a ordem do livro, mas vou mudar o nome dos argumentos:
+; subst substitui ISSO por VALOR em EM
+(define (subst [valor : ExprC] [isso : symbol] [em : ExprC]) : ExprC
+  (type-case ExprC em
+    [numC (n) em]   ; nada a substituir, repassa
+    [idC (s) (cond  ; poderia ser 'if', mas existem coisas no futuro...
+               [(symbol=? s isso) valor] ; símbolo, troque
+               [else em])] ; deixa quieto
+    [appC  (f a) (appC f (subst valor isso a))] ; chamada de função - arruma o argumento
+    [plusC (l r) (plusC (subst valor isso l) (subst valor isso r))]
+    [multC (l r) (multC (subst valor isso l) (subst valor isso r))]
+    [andC  (l r) (andC  (subst valor isso l) (subst valor isso r))]
+    [orC   (l r) (orC   (subst valor isso l) (subst valor isso r))]
+    [eqC   (l r) (eqC   (subst valor isso l) (subst valor isso r))]
+    [gtC   (l r) (gtC   (subst valor isso l) (subst valor isso r))]
+    [ifC (c s n) (ifC   (subst valor isso c) (subst valor isso s) (subst valor isso n))]
+  ))
+
+; Agora o interpretador!
+(define (b->n n) (if n 1 0))
+(define (n->b n) : boolean (if (zero? n) #f #t))
+
+(define (interp [a : ExprC] [fds : (listof FunDefC)]) : number
+  (type-case ExprC a
+    [numC (n) n]
+    ; Aplicação de função é que precisa de subst
+    [appC (f a) 
+          (local ([define fd (get-fundef f fds)]) ; pega a definição em fd
+            (interp (subst a                 ; interpreta o resultado de subst
+                           (fdC-arg fd)
+                           (fdC-body fd)
+                           )
+                    fds))]
+    ; Não devem sobrar idenficadores livres na expressão
+    [idC (_) (error 'interp "não deveria encontrar isso!")]
+    [plusC (l r) (+ (interp l fds) (interp r fds))]
+    [multC (l r) (* (interp l fds) (interp r fds))]
+    [andC (l r)  (b->n (and (n->b (interp l fds)) (n->b (interp r fds))))]
+    [orC  (l r)  (b->n (or  (n->b (interp l fds)) (n->b (interp r fds))))]
+    [eqC  (l r)  (b->n (=   (interp l fds) (interp r fds)))]
+    [gtC  (l r)  (b->n (>   (interp l fds) (interp r fds)))]
+    [ifC (c s n) (if (zero? (interp c fds)) (interp n fds) (interp s fds))]
+    ))
+
+; get-fundef
+(define (get-fundef [n : symbol] [fds : (listof FunDefC)]) : FunDefC
+  (cond
+    [(empty? fds) (error 'get-fundef "referência para função não definida")]
+    [(cons? fds) (cond
+                   [(equal? n (fdC-name (first fds))) (first fds)] ; achou!
+                   [else (get-fundef n (rest fds))] ; procura no resto
+                   )]))
+
+
+; o parser precisa tratar tanto de chamadas
+(define (parse [s : s-expression]) : ExprS
+  (cond
+    [(s-exp-number? s) (numS (s-exp->number s))]
+    [(s-exp-list? s)
+     (let ([sl (s-exp->list s)])
+       (case (s-exp->symbol (first sl))
+         [(+) (plusS (parse (second sl)) (parse (third sl)))]
+         [(*) (multS (parse (second sl)) (parse (third sl)))]
+         [(-) (bminusS (parse (second sl)) (parse (third sl)))]
+         [(~) (uminusS (parse (second sl)))]
+         [(call) (appS (s-exp->symbol (second sl)) (parse (third sl)))]
+         [(if) (ifS (parse (second sl)) (parse (third sl)) (parse (fourth sl)))]
+         [else (error 'parse "invalid list input")]))]
+    [else (error 'parse "invalid input")]))
+
+#|
+ | Nesta linguagem, as funções são pré-definidas
+ | Vejamos dobro, quadrado e fatorial
+ |#
+(define biblioteca (list 
+                    [fdC 'dobro 'x (plusC (idC 'x) (idC 'x))]
+                    [fdC 'quadrado 'y (multC (idC 'y) (idC 'y))]
+                    [fdC 'fatorial 'n (ifC (gtC (idC'n) (numC 1)) 
+                                           (multC (appC 'fatorial (plusC (idC 'n) (numC -1))) (idC 'n))
+                                           (numC 1))]
+                    [fdC 'narciso  'narciso (multC (idC 'narciso) (numC 1000))]
+                    ))
+
+(interp (desugar (parse '(+ -1400 (call fatorial 7)))) biblioteca)
+(test (interp (desugar (parse '(call narciso (call fatorial 7)))) biblioteca) 5040000)
+
+================================================================
+
+====== ENVIRONMENT ======
+
+#lang plai-typed
+
+#|
+ | Environments, com escopo estático ou léxico
+ |#
+
+(define-type ExprC
+  [numC (n : number)]
+  [idC  (s : symbol)]
+  [appC (fun : symbol) (arg : ExprC)]
+  [plusC (l : ExprC) (r : ExprC)]
+  [multC (l : ExprC) (r : ExprC)]
+  [ifC   (condição : ExprC) (sim : ExprC) (não : ExprC)]
+  )
+
+(define-type FunDefC
+  [fdC (name : symbol) (arg : symbol) (body : ExprC)]
+  )
+
+(define-type ExprS
+  [numS    (n : number)]
+  [idS     (s : symbol)] 
+  [appS    (fun : symbol) (arg : ExprS)] 
+  [plusS   (l : ExprS) (r : ExprS)]
+  [bminusS (l : ExprS) (r : ExprS)]
+  [uminusS (e : ExprS)]
+  [multS   (l : ExprS) (r : ExprS)]
+  [ifS     (c : ExprS) (s : ExprS) (n : ExprS)]
+  )
+
+
+(define (desugar [as : ExprS]) : ExprC  
+  (type-case ExprS as
+    [numS    (n) (numC n)]
+    [idS     (s) (idC s)]
+    [appS    (fun arg) (appC fun (desugar arg))]
+    [plusS   (l r) (plusC (desugar l) (desugar r))] 
+    [multS   (l r) (multC (desugar l) (desugar r))]
+    [bminusS (l r) (plusC (desugar l) (multC (numC -1) (desugar r)))]
+    [uminusS (e)   (multC (numC -1) (desugar e))]
+    [ifS     (c s n) (ifC (desugar c) (desugar s) (desugar n))]
+    ))
+
+
+#|
+ | O interpretador precisa de uma lista adicional de definições para os símbolos
+ |#
+
+(define-type Binding
+      [bind (name : symbol) (val : number)])
+
+; A lista de associações é o environment
+(define-type-alias Env (listof Binding))
+(define mt-env empty)        ; ente pronunciar "mt" em inglês e compare com "empty"
+(define extend-env cons)     ; sorte, cons faz exatamente o que queremos para estender o env
+
+; interp: todas as chamadas recursivas devem levar em conta o environment
+(define (interp [a : ExprC] [env : Env] [fds : (listof FunDefC)]) : number
+  (type-case ExprC a
+    [numC (n) n]
+    [idC (n) (lookup n env)]
+
+    [appC (f a) 
+          (local ([define fd (get-fundef f fds)]) 
+            (interp (fdC-body fd)
+                    (extend-env 
+                        (bind (fdC-arg fd) (interp a env fds))
+                        mt-env)              ; novo environment feito do zero!
+                    fds))]
+    [plusC (l r) (+ (interp l env fds) (interp r env fds))]
+    [multC (l r) (* (interp l env fds) (interp r env fds))]
+    [ifC (c s n) (if (zero? (interp c env fds)) (interp n env fds) (interp s env fds))]
+    ))
+
+; get-fundef
+(define (get-fundef [n : symbol] [fds : (listof FunDefC)]) : FunDefC
+  (cond
+    [(empty? fds) (error 'get-fundef "referência para função não definida")]
+    [(cons? fds) (cond
+                   [(equal? n (fdC-name (first fds))) (first fds)] ; achou!
+                   [else (get-fundef n (rest fds))] ; procura no resto
+                   )]))
+
+; lookup
+(define (lookup [for : symbol] [env : Env]) : number
+       (cond
+            [(empty? env) (error 'lookup "name not found")] ; livre (não definida)
+            [else (cond
+                  [(symbol=? for (bind-name (first env)))   ; achou!
+                                 (bind-val (first env))]
+                  [else (lookup for (rest env))])]))        ; vê no resto
+
+
+; o parser precisa tratar de chamadas
+(define (parse [s : s-expression]) : ExprS
+  (cond
+    [(s-exp-number? s) (numS (s-exp->number s))]
+    [(s-exp-list? s)
+     (let ([sl (s-exp->list s)])
+       (case (s-exp->symbol (first sl))
+         [(+) (plusS (parse (second sl)) (parse (third sl)))]
+         [(*) (multS (parse (second sl)) (parse (third sl)))]
+         [(-) (bminusS (parse (second sl)) (parse (third sl)))]
+         [(~) (uminusS (parse (second sl)))]
+         [(call) (appS (s-exp->symbol (second sl)) (parse (third sl)))]
+         [(if) (ifS (parse (second sl)) (parse (third sl)) (parse (fourth sl)))]
+         [else (error 'parse "invalid list input")]))]
+    [else (error 'parse "invalid input")]))
+
+#|
+ | Nesta linguagem, as funções são pré-definidas
+ | Vejamos dobro, quadrado e fatorial
+ |#
+(define biblioteca (list 
+                    [fdC 'dobro 'x (plusC (idC 'x) (idC 'x))]
+                    [fdC 'quadrado 'y (multC (idC 'y) (idC 'y))]
+                    [fdC 'fatorial 'n (ifC  (idC 'n) 
+						 (multC (appC 'fatorial (plusC (idC 'n) (numC -1))) 
+								(idC 'n))
+						 (numC 1))]
+                    [fdC 'narciso  'narciso (multC (idC 'narciso) (numC 1000))]
+                    [fdC 'quadruple 'x (appC 'dobro (appC 'dobro (idC 'x)))]
+                    ))
+
+(interp (desugar (parse '(+ -1400 (call fatorial 7)))) mt-env biblioteca)
+(test (interp (desugar (parse '(call narciso (call fatorial 7)))) mt-env biblioteca) 5040000)
+
+(test (interp (plusC (numC 10) (appC 'const5 (numC 10))) mt-env (list (fdC 'const5 '_ (numC 5)))) 15)
+(test (interp (plusC (numC 10) (appC 'double (plusC (numC 1) (numC 2)))) mt-env (list (fdC 'double 'x (plusC (idC 'x) (idC 'x))))) 16)
+(test (interp (desugar (parse '(+ 10 (call quadruple (+ 1 2))))) mt-env biblioteca) 22)
+(test (interp (plusC (numC 10) (appC 'quadruple (plusC (numC 1) (numC 2)))) mt-env biblioteca) 22)
+
+(define (interpS [s : s-expression] [bib : (listof FunDefC)] ) (interp (desugar (parse s)) mt-env bib))
+(interpS '(+ 10 (call quadruple (+ 1 2))) biblioteca)
+
+================================================================
+
+====== FUNÇÃO COMO VALOR ======
+
+#lang plai-typed
+
+#|
+ | Funções como valores
+ |#
+
+(define-type ExprC
+  [numC (n : number)]
+  [idC  (s : symbol)]
+  [plusC (l : ExprC) (r : ExprC)]
+  [multC (l : ExprC) (r : ExprC)]
+  [fdC (name : symbol) (arg : symbol) (body : ExprC)] ; declaração faz parte da expressão
+  [appC (fun : ExprC) (arg : ExprC)] ; a aplicação recebe uma função
+  [ifC   (condição : ExprC) (sim : ExprC) (não : ExprC)]
+  )
+
+; inclui funções
+(define-type ExprS
+  [numS    (n : number)]
+  [idS     (s : symbol)] 
+  [fdS (name : symbol) (arg : symbol) (body : ExprS)] ; declaração faz parte da expressão
+  [appS    (fun : ExprS) (arg : ExprS)] 
+  [plusS   (l : ExprS) (r : ExprS)]
+  [bminusS (l : ExprS) (r : ExprS)]
+  [uminusS (e : ExprS)]
+  [multS   (l : ExprS) (r : ExprS)]
+  [ifS     (c : ExprS) (s : ExprS) (n : ExprS)]
+  )
+
+
+; agora é preciso tomar cuidado com as modificações
+(define (desugar [as : ExprS]) : ExprC  
+  (type-case ExprS as
+    [numS    (n) (numC n)]
+    [idS     (s) (idC s)]
+    [fdS     (n a b)  (fdC n a (desugar b))] ; precisamos converter o corpo
+    [appS    (fun arg) (appC (desugar fun) (desugar arg))] 
+    [plusS   (l r) (plusC (desugar l) (desugar r))] 
+    [multS   (l r) (multC (desugar l) (desugar r))]
+    [bminusS (l r) (plusC (desugar l) (multC (numC -1) (desugar r)))]
+    [uminusS (e)   (multC (numC -1) (desugar e))]
+    [ifS     (c s n) (ifC (desugar c) (desugar s) (desugar n))]
+    ))
+
+
+#|
+ | O interpretador precisa de um tipo especial para retornar
+ |#
+
+(define-type Value
+  [numV (n : number)]
+  [funV (name : symbol) (arg : symbol) (body : ExprC)])
+
+; símbolos devem se associar ao número (ou a Value?)
+(define-type Binding
+      [bind (name : symbol) (val : Value)])
+
+; A lista de associações é o environment
+(define-type-alias Env (listof Binding))
+(define mt-env empty)        ; ente pronunciar "mt" em inglês e compare com "empty"
+(define extend-env cons)     ; sorte, cons faz exatamente o que queremos para estender o env
+
+; novos operadores
+(define (num+ [l : Value] [r : Value]) : Value
+    (cond
+        [(and (numV? l) (numV? r))
+             (numV (+ (numV-n l) (numV-n r)))]
+        [else
+             (error 'num+ "Um dos argumentos não é número")]))
+
+(define (num* [l : Value] [r : Value]) : Value
+    (cond
+        [(and (numV? l) (numV? r))
+             (numV (* (numV-n l) (numV-n r)))]
+        [else
+             (error 'num* "Um dos argumentos não é número")]))
+
+; Não precisamos mais da lista de funções, pelo menos por enquanto....
+(define (interp [a : ExprC] [env : Env]) : Value
+  (type-case ExprC a
+    [numC (n) (numV n)] ; garantir o retorno do tipo esperado
+    [idC (n) (lookup n env)]
+    [fdC (n a b) (funV n a b)] ; a função se auto-representa
+
+    [appC (f a) ; some a procura!
+          (local ([define fd (interp f env)]) 
+            (interp (funV-body fd)
+                    (extend-env 
+                        (bind (funV-arg fd) (interp a env))
+                        mt-env)
+                    ))]
+    [plusC (l r) (num+ (interp l env) (interp r env))]
+    [multC (l r) (num* (interp l env) (interp r env))]
+    [ifC (c s n) (if (zero? (numV-n (interp c env))) (interp n env) (interp s env))]
+    ))
+
+; lookup também muda o tipo de retorno
+(define (lookup [for : symbol] [env : Env]) : Value
+       (cond
+            [(empty? env) (error 'lookup (string-append (symbol->string for) " não foi encontrado"))] ; livre (não definida)
+            [else (cond
+                  [(symbol=? for (bind-name (first env)))   ; achou!
+                                 (bind-val (first env))]
+                  [else (lookup for (rest env))])]))        ; vê no resto
+
+; o parser permite definir funções...
+(define (parse [s : s-expression]) : ExprS
+  (cond
+    [(s-exp-number? s) (numS (s-exp->number s))]
+    [(s-exp-symbol? s) (idS (s-exp->symbol s))] ; pode ser um símbolo livre nas definições de função
+    [(s-exp-list? s)
+     (let ([sl (s-exp->list s)])
+       (case (s-exp->symbol (first sl))
+         [(+) (plusS (parse (second sl)) (parse (third sl)))]
+         [(*) (multS (parse (second sl)) (parse (third sl)))]
+         [(-) (bminusS (parse (second sl)) (parse (third sl)))]
+         [(~) (uminusS (parse (second sl)))]
+         [(func) (fdS (s-exp->symbol (second sl)) (s-exp->symbol (third sl)) (parse (fourth sl)))] ; definição
+         [(call) (appS (parse (second sl)) (parse (third sl)))]
+         [(if) (ifS (parse (second sl)) (parse (third sl)) (parse (fourth sl)))]
+         [else (error 'parse "invalid list input")]))]
+    [else (error 'parse "invalid input")]))
+
+; Facilitador
+(define (interpS [s : s-expression]) (interp (desugar (parse s)) mt-env))
+
+; Testes
+(test (interp (plusC (numC 10) (appC (fdC 'const5 '_ (numC 5)) (numC 10)))
+              mt-env)
+      (numV 15))
+(interpS '(+ 10 (call (func dobra x (+ x x)) 16)))
+
+================================================================
+
+====== CLOSURES ======
+
+#lang plai-typed
+
+#|
+ | Funções não tem mais nome, serão chamadas de lamC (em homenagem ao λ)
+ |#
+
+(define-type ExprC
+  [numC (n : number)]
+  [idC  (s : symbol)]
+  [plusC (l : ExprC) (r : ExprC)]
+  [multC (l : ExprC) (r : ExprC)]
+  [lamC (arg : symbol) (body : ExprC)] ; nomes não são mais necessários
+  [appC (fun : ExprC) (arg : ExprC)]
+  [ifC   (condição : ExprC) (sim : ExprC) (não : ExprC)]
+  )
+
+; inclui funções
+(define-type ExprS
+  [numS    (n : number)]
+  [idS     (s : symbol)] 
+  [lamS    (arg : symbol) (body : ExprS)] ; muda de acordo
+  [appS    (fun : ExprS) (arg : ExprS)] 
+  [plusS   (l : ExprS) (r : ExprS)]
+  [bminusS (l : ExprS) (r : ExprS)]
+  [uminusS (e : ExprS)]
+  [multS   (l : ExprS) (r : ExprS)]
+  [ifS     (c : ExprS) (s : ExprS) (n : ExprS)]
+  )
+
+
+; agora é preciso tomar cuidado com as modificações
+(define (desugar [as : ExprS]) : ExprC  
+  (type-case ExprS as
+    [numS    (n) (numC n)]
+    [idS     (s) (idC s)]
+    [lamS     (a b)  (lamC a (desugar b))] ; idem
+    [appS    (fun arg) (appC (desugar fun) (desugar arg))] 
+    [plusS   (l r) (plusC (desugar l) (desugar r))] 
+    [multS   (l r) (multC (desugar l) (desugar r))]
+    [bminusS (l r) (plusC (desugar l) (multC (numC -1) (desugar r)))]
+    [uminusS (e)   (multC (numC -1) (desugar e))]
+    [ifS     (c s n) (ifC (desugar c) (desugar s) (desugar n))]
+    ))
+
+
+#|
+ | Closure não tem mais o nome, mas precisa do environment
+ |#
+
+(define-type Value
+  [numV  (n : number)]
+  [closV (arg : symbol) (body : ExprC) (env : Env)])
+
+; símbolos devem se associar ao número (ou a Value?)
+(define-type Binding
+      [bind (name : symbol) (val : Value)])
+
+; A lista de associações é o environment
+(define-type-alias Env (listof Binding))
+(define mt-env empty)        ; ente pronunciar "mt" em inglês e compare com "empty"
+(define extend-env cons)     ; sorte, cons faz exatamente o que queremos para estender o env
+
+; novos operadores
+(define (num+ [l : Value] [r : Value]) : Value
+    (cond
+        [(and (numV? l) (numV? r))
+             (numV (+ (numV-n l) (numV-n r)))]
+        [else
+             (error 'num+ "Um dos argumentos não é número")]))
+
+(define (num* [l : Value] [r : Value]) : Value
+    (cond
+        [(and (numV? l) (numV? r))
+             (numV (* (numV-n l) (numV-n r)))]
+        [else
+             (error 'num* "Um dos argumentos não é número")]))
+
+; trata agora lamC e appC
+(define (interp [a : ExprC] [env : Env]) : Value
+  (type-case ExprC a
+    [numC (n) (numV n)] 
+    [idC (n) (lookup n env)]
+    [lamC (a b) (closV a b env)] ; definição de função captura o environment
+
+    [appC (f a)
+          (local ([define f-value (interp f env)]) ; f-value descreve melhor a ideia
+            (interp (closV-body f-value)
+                    (extend-env 
+                        (bind (closV-arg f-value) (interp a env))
+                        (closV-env f-value) ; não mais mt-env
+                    )))]
+    [plusC (l r) (num+ (interp l env) (interp r env))]
+    [multC (l r) (num* (interp l env) (interp r env))]
+    [ifC (c s n) (if (zero? (numV-n (interp c env))) (interp n env) (interp s env))]
+    ))
+
+; lookup também muda o tipo de retorno
+(define (lookup [for : symbol] [env : Env]) : Value
+       (cond
+            [(empty? env) (error 'lookup (string-append (symbol->string for) " não foi encontrado"))] ; livre (não definida)
+            [else (cond
+                  [(symbol=? for (bind-name (first env)))   ; achou!
+                                 (bind-val (first env))]
+                  [else (lookup for (rest env))])]))        ; vê no resto
+
+; o parser permite definir funções...
+(define (parse [s : s-expression]) : ExprS
+  (cond
+    [(s-exp-number? s) (numS (s-exp->number s))]
+    [(s-exp-symbol? s) (idS (s-exp->symbol s))] ; pode ser um símbolo livre nas definições de função
+    [(s-exp-list? s)
+     (let ([sl (s-exp->list s)])
+       (case (s-exp->symbol (first sl))
+         [(+) (plusS (parse (second sl)) (parse (third sl)))]
+         [(*) (multS (parse (second sl)) (parse (third sl)))]
+         [(-) (bminusS (parse (second sl)) (parse (third sl)))]
+         [(~) (uminusS (parse (second sl)))]
+         [(func) (lamS (s-exp->symbol (second sl)) (parse (third sl)))] ; definição
+         [(call) (appS (parse (second sl)) (parse (third sl)))]
+         [(if) (ifS (parse (second sl)) (parse (third sl)) (parse (fourth sl)))]
+         [else (error 'parse "invalid list input")]))]
+    [else (error 'parse "invalid input")]))
+
+; Facilitador
+(define (interpS [s : s-expression]) (interp (desugar (parse s)) mt-env))
+
+; Testes
+(test (interp (plusC (numC 10) (appC (lamC '_ (numC 5)) (numC 10)))
+              mt-env)
+      (numV 15))
+(interpS '(+ 10 (call (func x (+ x x)) 16)))
+
+================================================================
+
+====== BOXES ======
+
+#lang plai-typed
+
+#|
+ | Adicionando boxes e sequência de 2 expressões
+ |#
+
+(define-type ExprC
+  [numC (n : number)]
+  [idC  (s : symbol)]
+  [plusC (l : ExprC) (r : ExprC)]
+  [multC (l : ExprC) (r : ExprC)]
+  [lamC (arg : symbol) (body : ExprC)]
+  [appC (fun : ExprC) (arg : ExprC)]
+  [ifC   (condição : ExprC) (sim : ExprC) (não : ExprC)]
+  [boxC (arg : ExprC)] ; a box propriamente dita
+  [unboxC (arg : ExprC)] ; desempacota
+  [setboxC (b : ExprC) (v : ExprC)] ; empacota
+  [seqC (b1 : ExprC) (b2 : ExprC)]  ; executa b1 depois b2
+  )
+
+; inclui os mesmos tipos
+; falta colocar sequenciamento de mais expressões e criar um let
+(define-type ExprS
+  [numS    (n : number)]
+  [idS     (s : symbol)] 
+  [lamS    (arg : symbol) (body : ExprS)] ; muda de acordo
+  [appS    (fun : ExprS) (arg : ExprS)] 
+  [plusS   (l : ExprS) (r : ExprS)]
+  [bminusS (l : ExprS) (r : ExprS)]
+  [uminusS (e : ExprS)]
+  [multS   (l : ExprS) (r : ExprS)]
+  [ifS     (c : ExprS) (s : ExprS) (n : ExprS)]
+  [boxS    (a : ExprS)]
+  [unboxS  (a : ExprS)]
+  [setboxS (b : ExprS) (v : ExprS)]
+  [seqS    (b1 : ExprS) (b2 : ExprS)]
+  )
+
+
+; agora é preciso tomar cuidado com as modificações
+(define (desugar [as : ExprS]) : ExprC  
+  (type-case ExprS as
+    [numS    (n) (numC n)]
+    [idS     (s) (idC s)]
+    [lamS     (a b)  (lamC a (desugar b))] ; idem
+    [appS    (fun arg) (appC (desugar fun) (desugar arg))] 
+    [plusS   (l r) (plusC (desugar l) (desugar r))] 
+    [multS   (l r) (multC (desugar l) (desugar r))]
+    [bminusS (l r) (plusC (desugar l) (multC (numC -1) (desugar r)))]
+    [uminusS (e)   (multC (numC -1) (desugar e))]
+    [ifS     (c s n) (ifC (desugar c) (desugar s) (desugar n))]
+    [boxS    (a)  (boxC   (desugar a))]
+    [unboxS  (a)  (unboxC (desugar a))]
+    [setboxS (b v)   (setboxC (desugar b) (desugar v))]
+    [seqS    (b1 b2) (seqC (desugar b1) (desugar b2))]
+    ))
+
+
+; Precisamos de Storage e Locations
+(define-type-alias Location number)
+
+; precisamos adicionar um valor para caixa
+(define-type Value
+  [numV  (n : number)]
+  [closV (arg : symbol) (body : ExprC) (env : Env)]
+  [boxV  (l : Location)]) ; agora aponta para o local
+
+
+; associar símbolos a localizações
+(define-type Binding
+        [bind (name : symbol) (val : Location)])
+
+; Env é igual, só mudamos Binding
+(define-type-alias Env (listof Binding))
+(define mt-env empty)
+(define extend-env cons)
+
+; Armazenamento, bem similar
+;   bind <-> cell
+;   mt-env <-> mt-store
+;   extend-env <-> override-store
+(define-type Storage
+      [cell (location : Location) (val : Value)])
+(define-type-alias Store (listof Storage))
+
+(define mt-store empty)
+(define override-store cons)
+
+; lookup também muda o tipo de retorno
+(define (lookup [for : symbol] [env : Env]) : Location
+       (cond
+            [(empty? env) (error 'lookup (string-append (symbol->string for) " não foi encontrado"))] ; livre (não definida)
+            [else (cond
+                  [(symbol=? for (bind-name (first env)))   ; achou!
+                                 (bind-val (first env))]
+                  [else (lookup for (rest env))])]))        ; vê no resto
+
+
+; fetch é o lookup do store
+(define (fetch [l : Location] [sto : Store]) : Value
+       (cond
+            [(empty? sto) (error 'fetch "posição não encontrada")]
+            [else (cond
+                  [(= l   (cell-location (first sto)))   ; achou!
+                                 (cell-val (first sto))]
+                  [else (fetch l (rest sto))])]))        ; vê no resto
+
+
+;; retorna a próxima localização disponível
+(define new-loc
+   (let ( [ n (box 0)])
+        (lambda () 
+           (begin
+              (set-box! n (+ 1 (unbox n)))
+              (unbox n)))))
+
+; novos operadores
+(define (num+ [l : Value] [r : Value]) : Value
+    (cond
+        [(and (numV? l) (numV? r))
+             (numV (+ (numV-n l) (numV-n r)))]
+        [else
+             (error 'num+ "Um dos argumentos não é número")]))
+
+(define (num* [l : Value] [r : Value]) : Value
+    (cond
+        [(and (numV? l) (numV? r))
+             (numV (* (numV-n l) (numV-n r)))]
+        [else
+             (error 'num* "Um dos argumentos não é número")]))
+
+(define-type Result
+      [v*s (v : Value) (s : Store)])
+
+; Recebe e devolve o Store..
+(define (interp [a : ExprC] [env : Env] [sto : Store]) : Result
+  (type-case ExprC a
+    [numC (n) (v*s (numV n) sto)] 
+    [idC (n)  (v*s (fetch (lookup n env) sto) sto)]  ; busca em cascata, env e em seguida no sto
+    [lamC (a b) (v*s (closV a b env) sto)]
+    [seqC (b1 b2) (type-case Result (interp b1 env sto)
+                    [v*s (v-b1 s-b1) ; resultado e store retornado por b1
+                          (interp b2 env s-b1)])]
+    ; aplicação de função
+    [appC (f a)
+      (type-case Result (interp f env sto) ; acha a função
+         [v*s (v-f s-f)
+              (type-case Result (interp a env s-f) ; argumento com sto modificado pela função
+                 [v*s (v-a s-a)
+                      (let ([onde (new-loc)]) ; aloca posição para o valor do argumento
+                           (interp (closV-body v-f) ; corpo
+                                   (extend-env (bind (closV-arg v-f) onde) ; com novo argumento
+                                       (closV-env v-f))
+                                   (override-store (cell onde v-a) s-a))) ; com novo valor
+                  ])])]
+    [plusC (l r) 
+           (type-case Result (interp l env sto)
+               [v*s (v-l s-l)
+                    (type-case Result (interp r env s-l)
+                      [v*s (v-r s-r)
+                           (v*s (num+ v-l v-r) s-r)])])]
+    [multC (l r) 
+           (type-case Result (interp l env sto)
+               [v*s (v-l s-l)
+                    (type-case Result (interp r env s-l)
+                      [v*s (v-r s-r)
+                           (v*s (num* v-l v-r) s-r)])])]
+    ; ifC já serializa
+    [ifC (c s n) (if (zero? (numV-n (v*s-v (interp c env sto)))) (interp n env sto) (interp s env sto))]
+    
+    ; cria uma caixa, precisa do valor e de um novo local
+    [boxC (a) 
+          (type-case Result (interp a env sto)
+            [v*s (v-a s-a)
+                 (let ([onde (new-loc)])
+                   (v*s (boxV onde) 
+                        (override-store (cell onde v-a) s-a)))])]
+                          
+    [unboxC (a) (type-case Result (interp a env sto)
+                  [v*s (v-a s-a)
+                       (v*s 
+                        (fetch (boxV-l v-a) s-a) ; valor
+                        s-a                      ; store
+                        )])]
+
+    [setboxC (b v) (type-case Result (interp b env sto)
+                     [v*s (v-b s-b)
+                          (type-case Result (interp v env s-b)
+                            [v*s (v-v s-v)
+                                 (v*s v-v
+                                      (override-store 
+                                       (cell (boxV-l v-b)
+                                             v-v)
+                                       s-v))])])]
+
+    ))
+
+; o parser permite definir funções...
+(define (parse [s : s-expression]) : ExprS
+  (cond
+    [(s-exp-number? s) (numS (s-exp->number s))]
+    [(s-exp-symbol? s) (idS (s-exp->symbol s))] ; pode ser um símbolo livre nas definições de função
+    [(s-exp-list? s)
+     (let ([sl (s-exp->list s)])
+       (case (s-exp->symbol (first sl))
+         [(+) (plusS (parse (second sl)) (parse (third sl)))]
+         [(*) (multS (parse (second sl)) (parse (third sl)))]
+         [(-) (bminusS (parse (second sl)) (parse (third sl)))]
+         [(~) (uminusS (parse (second sl)))]
+         [(func) (lamS (s-exp->symbol (second sl)) (parse (third sl)))] ; definição
+         [(call) (appS (parse (second sl)) (parse (third sl)))]
+         [(if) (ifS (parse (second sl)) (parse (third sl)) (parse (fourth sl)))]
+         [(-#) (boxS (parse (second sl)))]
+         [(>#) (unboxS (parse (second sl)))]
+         [(!#) (setboxS (parse (second sl)) (parse (third sl)))]
+         [(seq) (seqS (parse (second sl)) (parse (third sl)))]
+         [else (error 'parse "invalid list input")]))]
+    [else (error 'parse "invalid input")]))
+
+; Facilitador
+(define (interpS [s : s-expression]) (interp (desugar (parse s)) mt-env mt-store))
+
+; Testes
+(test (v*s-v (interp (plusC (numC 10) (appC (lamC '_ (numC 5)) (numC 10)))
+              mt-env mt-store))
+      (numV 15))
+
+(interpS '(+ 10 (call (func x (+ x x)) 16)))
+
+(interpS '(seq (!# (-# 2) 32) (># (-# 2) (+ (># (-# 2)) 10))))
+
+(interpS '(call (func f (call f (-# 32))) (func x (seq (!# x (+ (># x) 10)) (># x)))))
+
+================================================================
+
+====== VARIABLES ======
+
+#lang plai-typed
+
+#|
+ | Variáveis
+ |#
+
+(define-type ExprC
+  [numC (n : number)]
+  [varC  (s : symbol)] ; não é mais identificador
+  [plusC (l : ExprC) (r : ExprC)]
+  [multC (l : ExprC) (r : ExprC)]
+  [lamC (arg : symbol) (body : ExprC)]
+  [appC (fun : ExprC) (arg : ExprC)]
+  [ifC   (condição : ExprC) (sim : ExprC) (não : ExprC)]
+  [setC (var : symbol) (arg : ExprC)] ; atribuição
+  [seqC (b1 : ExprC) (b2 : ExprC)]  ; executa b1 depois b2
+  )
+
+; inclui os mesmos tipos
+(define-type ExprS
+  [numS    (n : number)]
+  [varS    (s : symbol)] 
+  [lamS    (arg : symbol) (body : ExprS)]
+  [appS    (fun : ExprS) (arg : ExprS)] 
+  [plusS   (l : ExprS) (r : ExprS)]
+  [bminusS (l : ExprS) (r : ExprS)]
+  [uminusS (e : ExprS)]
+  [multS   (l : ExprS) (r : ExprS)]
+  [ifS     (c : ExprS) (s : ExprS) (n : ExprS)]
+  [setS    (var : symbol) (arg : ExprS)]
+  [seqS    (b1 : ExprS) (b2 : ExprS)]
+  )
+
+
+; agora é preciso tomar cuidado com as modificações
+(define (desugar [as : ExprS]) : ExprC  
+  (type-case ExprS as
+    [numS    (n) (numC n)]
+    [varS    (s) (varC s)]
+    [lamS    (a b)  (lamC a (desugar b))] ; idem
+    [appS    (fun arg) (appC (desugar fun) (desugar arg))] 
+    [plusS   (l r) (plusC (desugar l) (desugar r))] 
+    [multS   (l r) (multC (desugar l) (desugar r))]
+    [bminusS (l r) (plusC (desugar l) (multC (numC -1) (desugar r)))]
+    [uminusS (e)   (multC (numC -1) (desugar e))]
+    [ifS     (c s n) (ifC (desugar c) (desugar s) (desugar n))]
+    [setS    (s v)   (setC s (desugar v))]
+    [seqS    (b1 b2) (seqC (desugar b1) (desugar b2))]
+    ))
+
+
+; Precisamos de Storage e Locations
+(define-type-alias Location number)
+
+; Não precisamos mais da caixa
+(define-type Value
+  [numV  (n : number)]
+  [closV (arg : symbol) (body : ExprC) (env : Env)])
+  
+
+; associar símbolos a localizações
+(define-type Binding
+        [bind (name : symbol) (val : Location)])
+
+; Env é igual, só mudamos Binding
+(define-type-alias Env (listof Binding))
+(define mt-env empty)
+(define extend-env cons)
+
+; Armazenamento, bem similar
+;   bind <-> cell
+;   mt-env <-> mt-store
+;   extend-env <-> override-store
+(define-type Storage
+      [cell (location : Location) (val : Value)])
+(define-type-alias Store (listof Storage))
+
+(define mt-store empty)
+(define override-store cons)
+
+; lookup também muda o tipo de retorno
+(define (lookup [for : symbol] [env : Env]) : Location
+       (cond
+            [(empty? env) (error 'lookup (string-append (symbol->string for) " não foi encontrado"))] ; livre (não definida)
+            [else (cond
+                  [(symbol=? for (bind-name (first env)))   ; achou!
+                                 (bind-val (first env))]
+                  [else (lookup for (rest env))])]))        ; vê no resto
+
+
+; fetch é o lookup do store
+(define (fetch [l : Location] [sto : Store]) : Value
+       (cond
+            [(empty? sto) (error 'fetch "posição não encontrada")]
+            [else (cond
+                  [(= l   (cell-location (first sto)))   ; achou!
+                                 (cell-val (first sto))]
+                  [else (fetch l (rest sto))])]))        ; vê no resto
+
+
+;; retorna a próxima localização disponível
+(define new-loc
+   (let ( [ n (box 0)])
+        (lambda () 
+           (begin
+              (set-box! n (+ 1 (unbox n)))
+              (unbox n)))))
+
+; novos operadores
+(define (num+ [l : Value] [r : Value]) : Value
+    (cond
+        [(and (numV? l) (numV? r))
+             (numV (+ (numV-n l) (numV-n r)))]
+        [else
+             (error 'num+ "Um dos argumentos não é número")]))
+
+(define (num* [l : Value] [r : Value]) : Value
+    (cond
+        [(and (numV? l) (numV? r))
+             (numV (* (numV-n l) (numV-n r)))]
+        [else
+             (error 'num* "Um dos argumentos não é número")]))
+
+(define-type Result
+      [v*s (v : Value) (s : Store)])
+
+; Recebe e devolve o Store..
+(define (interp [a : ExprC] [env : Env] [sto : Store]) : Result
+  (type-case ExprC a
+    [numC (n) (v*s (numV n) sto)] 
+    [varC (n)  (v*s (fetch (lookup n env) sto) sto)]  ; busca em cascata, env e em seguida no sto
+    [lamC (a b) (v*s (closV a b env) sto)]
+    [seqC (b1 b2) (type-case Result (interp b1 env sto)
+                    [v*s (v-b1 s-b1) ; resultado e store retornado por b1
+                          (interp b2 env s-b1)])]
+    ; aplicação de função
+    [appC (f a)
+      (type-case Result (interp f env sto) ; acha a função
+         [v*s (v-f s-f)
+              (type-case Result (interp a env s-f) ; argumento com sto modificado pela função
+                 [v*s (v-a s-a)
+                      (let ([onde (new-loc)]) ; aloca posição para o valor do argumento
+                           (interp (closV-body v-f) ; corpo
+                                   (extend-env (bind (closV-arg v-f) onde) ; com novo argumento
+                                       (closV-env v-f))
+                                   (override-store (cell onde v-a) s-a))) ; com novo valor
+                  ])])]
+    [plusC (l r) 
+           (type-case Result (interp l env sto)
+               [v*s (v-l s-l)
+                    (type-case Result (interp r env s-l)
+                      [v*s (v-r s-r)
+                           (v*s (num+ v-l v-r) s-r)])])]
+    [multC (l r) 
+           (type-case Result (interp l env sto)
+               [v*s (v-l s-l)
+                    (type-case Result (interp r env s-l)
+                      [v*s (v-r s-r)
+                           (v*s (num* v-l v-r) s-r)])])]
+    ; ifC já serializa
+    [ifC (c s n) (if (zero? (numV-n (v*s-v (interp c env sto)))) (interp n env sto) (interp s env sto))]
+    
+
+    [setC (var val) (type-case Result (interp val env sto)
+                     [v*s (v-val s-val)
+                          (let ([onde (lookup var env)]) ; acha a variável
+                            (v*s v-val
+                                 (override-store ; atualiza
+                                  (cell onde v-val) s-val)))])]
+    ))
+
+; o parser permite definir funções...
+(define (parse [s : s-expression]) : ExprS
+  (cond
+    [(s-exp-number? s) (numS (s-exp->number s))]
+    [(s-exp-symbol? s) (varS (s-exp->symbol s))] ; pode ser um símbolo livre nas definições de função
+    [(s-exp-list? s)
+     (let ([sl (s-exp->list s)])
+       (case (s-exp->symbol (first sl))
+         [(+) (plusS (parse (second sl)) (parse (third sl)))]
+         [(*) (multS (parse (second sl)) (parse (third sl)))]
+         [(-) (bminusS (parse (second sl)) (parse (third sl)))]
+         [(~) (uminusS (parse (second sl)))]
+         [(func) (lamS (s-exp->symbol (second sl)) (parse (third sl)))] ; definição
+         [(call) (appS (parse (second sl)) (parse (third sl)))]
+         [(if) (ifS (parse (second sl)) (parse (third sl)) (parse (fourth sl)))]
+         [(:=) (setS (s-exp->symbol (second sl)) (parse (third sl)))]
+         [(seq) (seqS (parse (second sl)) (parse (third sl)))]
+         [else (error 'parse "invalid list input")]))]
+    [else (error 'parse "invalid input")]))
+
+; Facilitador
+(define (interpS [s : s-expression]) (interp (desugar (parse s)) mt-env mt-store))
+
+; Testes
+(test (v*s-v (interp (plusC (numC 10) (appC (lamC '_ (numC 5)) (numC 10)))
+              mt-env mt-store))
+      (numV 15))
+
+(interpS '(+ 10 (call (func x (+ x x)) 16)))
+
+
+
+(interpS '(call (func x (seq (:= x (+ x 10)) x))  32)) 
+
+================================================================
+
+====== RECURSÃO ======
+
+#lang plai-typed
+
+#|
+ | Variáveis
+ |#
+
+(define-type ExprC
+  [numC (n : number)]
+  [varC  (s : symbol)] ; não é mais identificador
+  [plusC (l : ExprC) (r : ExprC)]
+  [multC (l : ExprC) (r : ExprC)]
+  [lamC (arg : symbol) (body : ExprC)]
+  [appC (fun : ExprC) (arg : ExprC)]
+  [ifC   (condição : ExprC) (sim : ExprC) (não : ExprC)]
+  [setC (var : symbol) (arg : ExprC)] ; atribuição
+  [seqC (b1 : ExprC) (b2 : ExprC)]  ; executa b1 depois b2
+  )
+
+; inclui os mesmos tipos
+(define-type ExprS
+  [numS    (n : number)]
+  [varS    (s : symbol)] 
+  [lamS    (arg : symbol) (body : ExprS)]
+  [appS    (fun : ExprS) (arg : ExprS)] 
+  [plusS   (l : ExprS) (r : ExprS)]
+  [bminusS (l : ExprS) (r : ExprS)]
+  [uminusS (e : ExprS)]
+  [multS   (l : ExprS) (r : ExprS)]
+  [ifS     (c : ExprS) (s : ExprS) (n : ExprS)]
+  [setS    (var : symbol) (arg : ExprS)]
+  [seqS    (b1 : ExprS) (b2 : ExprS)]
+  [letS    (id : symbol) (val : ExprS) (body : ExprS)]
+  )
+
+
+; agora é preciso tomar cuidado com as modificações
+(define (desugar [as : ExprS]) : ExprC  
+  (type-case ExprS as
+    [numS    (n) (numC n)]
+    [varS    (s) (varC s)]
+    [lamS    (a b)  (lamC a (desugar b))] ; idem
+    [appS    (fun arg) (appC (desugar fun) (desugar arg))] 
+    [plusS   (l r) (plusC (desugar l) (desugar r))] 
+    [multS   (l r) (multC (desugar l) (desugar r))]
+    [bminusS (l r) (plusC (desugar l) (multC (numC -1) (desugar r)))]
+    [uminusS (e)   (multC (numC -1) (desugar e))]
+    [ifS     (c s n) (ifC (desugar c) (desugar s) (desugar n))]
+    [setS    (s v)   (setC s (desugar v))]
+    [seqS    (b1 b2) (seqC (desugar b1) (desugar b2))]
+    [letS    (id val expr) (appC  (lamC id (desugar expr)) (desugar val))]
+    ))
+
+
+; Precisamos de Storage e Locations
+(define-type-alias Location number)
+
+; Não precisamos mais da caixa
+(define-type Value
+  [numV  (n : number)]
+  [closV (arg : symbol) (body : ExprC) (env : Env)])
+  
+
+; associar símbolos a localizações
+(define-type Binding
+        [bind (name : symbol) (val : Location)])
+
+; Env é igual, só mudamos Binding
+(define-type-alias Env (listof Binding))
+(define mt-env empty)
+(define extend-env cons)
+
+; Armazenamento, bem similar
+;   bind <-> cell
+;   mt-env <-> mt-store
+;   extend-env <-> override-store
+(define-type Storage
+      [cell (location : Location) (val : Value)])
+(define-type-alias Store (listof Storage))
+
+(define mt-store empty)
+(define override-store cons)
+
+; lookup também muda o tipo de retorno
+(define (lookup [for : symbol] [env : Env]) : Location
+       (cond
+            [(empty? env) (error 'lookup (string-append (symbol->string for) " não foi encontrado"))] ; livre (não definida)
+            [else (cond
+                  [(symbol=? for (bind-name (first env)))   ; achou!
+                                 (bind-val (first env))]
+                  [else (lookup for (rest env))])]))        ; vê no resto
+
+
+; fetch é o lookup do store
+(define (fetch [l : Location] [sto : Store]) : Value
+       (cond
+            [(empty? sto) (error 'fetch "posição não encontrada")]
+            [else (cond
+                  [(= l   (cell-location (first sto)))   ; achou!
+                                 (cell-val (first sto))]
+                  [else (fetch l (rest sto))])]))        ; vê no resto
+
+
+;; retorna a próxima localização disponível
+(define new-loc
+   (let ( [ n (box 0)])
+        (lambda () 
+           (begin
+              (set-box! n (+ 1 (unbox n)))
+              (unbox n)))))
+
+; novos operadores
+(define (num+ [l : Value] [r : Value]) : Value
+    (cond
+        [(and (numV? l) (numV? r))
+             (numV (+ (numV-n l) (numV-n r)))]
+        [else
+             (error 'num+ "Um dos argumentos não é número")]))
+
+(define (num* [l : Value] [r : Value]) : Value
+    (cond
+        [(and (numV? l) (numV? r))
+             (numV (* (numV-n l) (numV-n r)))]
+        [else
+             (error 'num* "Um dos argumentos não é número")]))
+
+(define-type Result
+      [v*s (v : Value) (s : Store)])
+
+; Recebe e devolve o Store..
+(define (interp [a : ExprC] [env : Env] [sto : Store]) : Result
+  (type-case ExprC a
+    [numC (n) (v*s (numV n) sto)] 
+    [varC (n)  (v*s (fetch (lookup n env) sto) sto)]  ; busca em cascata, env e em seguida no sto
+    [lamC (a b) (v*s (closV a b env) sto)]
+    [seqC (b1 b2) (type-case Result (interp b1 env sto)
+                    [v*s (v-b1 s-b1) ; resultado e store retornado por b1
+                          (interp b2 env s-b1)])]
+    ; aplicação de função
+    [appC (f a)
+      (type-case Result (interp f env sto) ; acha a função
+         [v*s (v-f s-f)
+              (type-case Result (interp a env s-f) ; argumento com sto modificado pela função
+                 [v*s (v-a s-a)
+                      (let ([onde (new-loc)]) ; aloca posição para o valor do argumento
+                           (interp (closV-body v-f) ; corpo
+                                   (extend-env (bind (closV-arg v-f) onde) ; com novo argumento
+                                       (closV-env v-f))
+                                   (override-store (cell onde v-a) s-a))) ; com novo valor
+                  ])])]
+    [plusC (l r) 
+           (type-case Result (interp l env sto)
+               [v*s (v-l s-l)
+                    (type-case Result (interp r env s-l)
+                      [v*s (v-r s-r)
+                           (v*s (num+ v-l v-r) s-r)])])]
+    [multC (l r) 
+           (type-case Result (interp l env sto)
+               [v*s (v-l s-l)
+                    (type-case Result (interp r env s-l)
+                      [v*s (v-r s-r)
+                           (v*s (num* v-l v-r) s-r)])])]
+    ; ifC já serializa
+    [ifC (c s n) (if (zero? (numV-n (v*s-v (interp c env sto)))) (interp n env sto) (interp s env sto))]
+    
+
+    [setC (var val) (type-case Result (interp val env sto)
+                     [v*s (v-val s-val)
+                          (let ([onde (lookup var env)]) ; acha a variável
+                            (v*s v-val
+                                 (override-store ; atualiza
+                                  (cell onde v-val) s-val)))])]
+    ))
+
+; o parser permite definir funções...
+(define (parse [s : s-expression]) : ExprS
+  (cond
+    [(s-exp-number? s) (numS (s-exp->number s))]
+    [(s-exp-symbol? s) (varS (s-exp->symbol s))] ; pode ser um símbolo livre nas definições de função
+    [(s-exp-list? s)
+     (let ([sl (s-exp->list s)])
+       (case (s-exp->symbol (first sl))
+         [(+) (plusS (parse (second sl)) (parse (third sl)))]
+         [(*) (multS (parse (second sl)) (parse (third sl)))]
+         [(-) (bminusS (parse (second sl)) (parse (third sl)))]
+         [(~) (uminusS (parse (second sl)))]
+         [(func) (lamS (s-exp->symbol (second sl)) (parse (third sl)))] ; definição
+         [(call) (appS (parse (second sl)) (parse (third sl)))]
+         [(if) (ifS (parse (second sl)) (parse (third sl)) (parse (fourth sl)))]
+         [(:=) (setS (s-exp->symbol (second sl)) (parse (third sl)))]
+         [(seq) (seqS (parse (second sl)) (parse (third sl)))]
+         [(def) (letS (s-exp->symbol (second sl)) (parse (third sl)) (parse (fourth sl)))]
+         [else (error 'parse "invalid list input")]))]
+    [else (error 'parse "invalid input")]))
+
+; Facilitador
+(define (interpS [s : s-expression]) (interp (desugar (parse s)) mt-env mt-store))
+
+; Testes
+(test (v*s-v (interp (plusC (numC 10) (appC (lamC '_ (numC 5)) (numC 10)))
+              mt-env mt-store))
+      (numV 15))
+
+(interpS '(+ 10 (call (func x (+ x x)) 16)))
+
+(interpS '(call (func x (seq (:= x (+ x 10)) x))  32)) 
+
+(interpS '(def um 42 (+ 12 um)))
+
+(interpS '(def fat 1729 (seq (:= fat (func n (if n (* n (call fat (- n 1))) 1))) (call fat 10))))
+
+================================================================
+
+====== Y ======
+
+#lang racket
+
+( 
+ (
+ (λ (m) (m m))
+ (λ (f) (λ (n) (if (zero? n) 1 (* n ((f f) (- n 1)))))))
+ 5)
+
+
+;(
+; (λ (p)
+;   (
+;    (λ (m) (m m))
+;    (λ (f) (p (f f)))) ; (f f) será chamado antes da hora gerando recursão infinita
+;   )
+; (λ (g) (λ (n) (if (zero? n) 1 (* n (g (- n 1)))))))
+
+(
+ (; isto tudo é o fatorial
+  (λ (p)
+    ( ; combinador Y
+     (λ (m) (m m)) ; aplica m em ele mesmo 
+     (λ (f) (p (λ (a) ((f f) a)))) ; m -> gerador de chamada, a é só para segurar o (f f)
+     ))
+  (λ (g) (λ (n) (if (zero? n) 1 (* n (g (- n 1)))))) ; p (=fatorial) (g é (f f) "segurado")
+  )
+ 5)
+
+================================================================
+
+====== nosso Y ======
+
+(interpS '(call 
+             (call 
+              (func p 
+                    (call 
+                     (func m (call m m)) 
+                     (func f (call p (func a (call (call f f) a))))
+                     ))
+              (func g (func n (if n (* n (call g (- n 1))) 1)))) 5))
+
+================================================================
+
+====== OBJETOS ======
+
+#lang plai-typed
+
+#|
+ | Objetos
+ |#
+
+(define-type ExprC
+  [numC  (n : number)]
+  [idC   (s : symbol)]
+  [plusC (l : ExprC) (r : ExprC)]
+  [multC (l : ExprC) (r : ExprC)]
+  [lamC  (arg : symbol) (body : ExprC)]
+  [appC  (fun : ExprC) (arg : ExprC)]
+  [ifC   (condição : ExprC) (sim : ExprC) (não : ExprC)]
+  [objC  (ns : (listof symbol)) (es : (listof ExprC))] ; objeto
+  [msgC  (o : ExprC) (n : symbol)]                     ; seletor de campo
+  )
+
+; inclui os mesmos tipos
+(define-type ExprS
+  [numS    (n : number)]
+  [idS     (s : symbol)] 
+  [lamS    (arg : symbol) (body : ExprS)] ; muda de acordo
+  [appS    (fun : ExprS) (arg : ExprS)] 
+  [plusS   (l : ExprS) (r : ExprS)]
+  [bminusS (l : ExprS) (r : ExprS)]
+  [uminusS (e : ExprS)]
+  [multS   (l : ExprS) (r : ExprS)]
+  [ifS     (c : ExprS) (s : ExprS) (n : ExprS)]
+  [letS    (id : symbol) (val : ExprS) (expr : ExprS)]
+  [objS    (ns : (listof symbol)) (es : (listof ExprS))] ; objeto
+  [msgS    (o : ExprS) (n : symbol) (a : ExprS)] ; pense em o.n(a), ou o->n(a)
+  )
+
+
+; agora é preciso tomar cuidado com as modificações
+(define (desugar [as : ExprS]) : ExprC  
+  (type-case ExprS as
+    [numS    (n) (numC n)]
+    [idS     (s) (idC s)]
+    [lamS    (a b) (lamC a (desugar b))] ; idem
+    [appS    (fun arg) (appC (desugar fun) (desugar arg))] 
+    [plusS   (l r) (plusC (desugar l) (desugar r))] 
+    [multS   (l r) (multC (desugar l) (desugar r))]
+    [bminusS (l r) (plusC (desugar l) (multC (numC -1) (desugar r)))]
+    [uminusS (e)   (multC (numC -1) (desugar e))]
+    [ifS     (c s n) (ifC (desugar c) (desugar s) (desugar n))]
+    [objS	  (ns es) (objC ns (map (lambda (e) (desugar e)) es))] ; desugar cada elemento
+    [msgS    (o n a) (appC (msgC (desugar o) n) (desugar a))]
+    [letS    (id val expr) (appC  (lamC id (desugar expr)) (desugar val))] ; já aplica o método
+    ))
+
+
+#|
+ | Closure não tem mais o nome, mas precisa do environment
+ |#
+
+; Um objeto é um valor
+(define-type Value
+  [numV  (n   : number)]
+  [closV (arg : symbol) (body : ExprC) (env : Env)]
+  [objV  (ns  : (listof symbol)) (vs : (listof Value))])
+  
+
+; símbolos devem se associar ao número (ou a Value?)
+(define-type Binding
+      [bind (name : symbol) (val : Value)])
+
+; A lista de associações é o environment
+(define-type-alias Env (listof Binding))
+(define mt-env empty)
+(define extend-env cons)
+
+; novos operadores
+(define (num+ [l : Value] [r : Value]) : Value
+    (cond
+        [(and (numV? l) (numV? r))
+             (numV (+ (numV-n l) (numV-n r)))]
+        [else
+             (error 'num+ "Um dos argumentos não é número")]))
+
+(define (num* [l : Value] [r : Value]) : Value
+    (cond
+        [(and (numV? l) (numV? r))
+             (numV (* (numV-n l) (numV-n r)))]
+        [else
+             (error 'num* "Um dos argumentos não é número")]))
+
+; trata agora lamC e appC
+(define (interp [a : ExprC] [env : Env]) : Value
+  (type-case ExprC a
+    [numC (n)   (numV n)] 
+    [idC  (n)   (lookup n env)]
+    [lamC (a b) (closV a b env)] ; definição de função captura o environment
+
+    [appC (f a)
+          (local ([define f-value (interp f env)]) ; f-value descreve melhor a ideia
+            (interp (closV-body f-value)
+                    (extend-env 
+                        (bind (closV-arg f-value) (interp a env))
+                        (closV-env f-value) ; não mais mt-env
+                    )))]
+    [plusC (l r)  (num+ (interp l env) (interp r env))]
+    [multC (l r)  (num* (interp l env) (interp r env))]
+    [ifC (c s n)  (if (zero? (numV-n (interp c env))) (interp n env) (interp s env))]
+    [objC (ns es) (objV  ns (map (lambda (e) (interp e env)) es))] ; avalia todos os valores
+	 [msgC (o n)   (lookup-msg  n (interp o env))] ; seletor
+    )) 
+
+; lookup também muda o tipo de retorno
+(define (lookup [for : symbol] [env : Env]) : Value
+       (cond
+            [(empty? env) (error 'lookup (string-append (symbol->string for) " não foi encontrado"))] ; livre (não definida)
+            [else (cond
+                  [(symbol=? for (bind-name (first env)))   ; achou!
+                                 (bind-val (first env))]
+                  [else (lookup for (rest env))])]))        ; vê no resto
+
+(define (lookup-msg [n : symbol] [o : Value]) : Value
+	(type-case Value o
+          [objV (nomes valores)
+                (cond
+                  [(empty? nomes) (error 'lookup-msg (string-append (symbol->string n) " não foi encontrado"))]
+                  [(symbol=? n (first nomes)) (first valores)] ; achou
+                  [else (lookup-msg n (objV (rest nomes) (rest valores)))])] ; cria um sub objeto para procurar
+          [else (error 'lookup-msg "Valor passador não é um objeto!")]))
+
+; o parser permite definir funções...
+(define (parse [s : s-expression]) : ExprS
+  (cond
+    [(s-exp-number? s) (numS (s-exp->number s))]
+    [(s-exp-symbol? s) (idS (s-exp->symbol s))] ; pode ser um símbolo livre nas definições de função
+    [(s-exp-list? s)
+     (let ([sl (s-exp->list s)])
+       (case (s-exp->symbol (first sl))
+         [(+) (plusS (parse (second sl)) (parse (third sl)))]
+         [(*) (multS (parse (second sl)) (parse (third sl)))]
+         [(-) (bminusS (parse (second sl)) (parse (third sl)))]
+         [(~) (uminusS (parse (second sl)))]
+         [(func) (lamS (s-exp->symbol (second sl)) (parse (third sl)))] ; definição
+         [(call) (appS (parse (second sl)) (parse (third sl)))]
+         [(if)   (ifS (parse (second sl)) (parse (third sl)) (parse (fourth sl)))]
+         [(:=)   (letS (s-exp->symbol (second sl)) (parse (third sl)) (parse (fourth sl)))] 
+         [(obj)  (cond 
+                   [(and (s-exp-list? (second sl)) (s-exp-list? (third sl))) 
+                    (objS (map (λ (s) (s-exp->symbol s)) (s-exp->list (second sl))) 
+                          (map (λ (e) (parse e))         (s-exp->list (third  sl))))]
+                   [else (error 'parse "Objeto mal definido")])]
+         [(->)   (msgS (parse (second sl)) (s-exp->symbol (third sl)) (parse (fourth sl)))]
+         [else (error 'parse "invalid list input")]))]
+    [else (error 'parse "invalid input")]))
+
+; Facilitador
+(define (interpS [s : s-expression]) (interp (desugar (parse s)) mt-env))
+
+; Testes
+(test (interp (plusC (numC 10) (appC (lamC '_ (numC 5)) (numC 10)))
+              mt-env)
+      (numV 15))
+(interpS '(+ 10 (call (func x (+ x x)) 16)))
+
+(interp (desugar (letS 'o (objS (list 'add1 'sub1)
+			   (list (lamS 'x (plusS (idS 'x) (numS 1)))
+					 (lamS 'x (plusS (idS 'x) (numS -1)))))
+	  (msgS (idS 'o) 'add1 (numS 3)))) mt-env)
+
+(interpS '(:= bib (obj (add1              sub1) 
+                       ((func x (+ x 1)) (func x (- x 1)))
+                       )
+                  (-> bib add1 3)))
+
+================================================================
+
+====== HERANÇA ======
+
+#lang plai
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Objeto original - árvores e folhas
+(define (mt)
+  (let ([self 'dummy])
+    (begin
+      (set! self
+            (lambda (m)
+              (case m
+                [(add) (lambda () 0)])))
+      self)))
+
+
+(define (node v l r)
+  (let ([self 'dummy])
+    (begin
+      (set! self
+            (lambda (m)
+              (case m
+                [(add) (lambda () (+ v
+                                     (msg l 'add)
+                                     (msg r 'add)))])))
+      self)))
+
+
+(define ( msg o m . a )
+   (apply ( o m ) a ) )
+
+
+(define a-tree
+  (node 10
+        (node 5 (mt) (mt))
+        (node 15 (node 6 (mt) (mt)) (mt))))
+
+(test (msg a-tree 'add) (+ 10 5 15 6))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Extensão
+
+
+(define (node/size parent-maker v l r)
+  (let ([parent-object (parent-maker v l r)]
+        [self 'dummy])
+    (begin
+      (set! self
+            (lambda (m)
+              (case m
+                [(size) (lambda () (+ 1
+                                      (msg l 'size)
+                                      (msg r 'size)))]
+                [else (parent-object m)])))
+      self)))
+
+(define (mt/size parent-maker)
+  (let ([parent-object (parent-maker)]
+        [self 'dummy])
+    (begin
+      (set! self
+            (lambda (m)
+              (case m
+                [(size) (lambda () 0)]
+                [else (parent-object m)])))
+      self)))
+
+
+(define a-tree/size
+  (node/size node
+             10
+             (node/size node 5 (mt/size mt) (mt/size mt))
+             (node/size node 15
+                        (node/size node 6 (mt/size mt) (mt/size mt))
+                        (mt/size mt))))
+
+
+
+(test (msg a-tree/size 'add) (+ 10 5 15 6))
+(test (msg a-tree/size 'size) 4)
+
+
+
+;;; Sem mutação
+
+(define (mt-no!)
+  (lambda (m)
+    (case m
+      [(add) (lambda (self) 0)])))
+
+
+(define (node-no! v l r)
+  (lambda (m)
+    (case m
+      [(add) (lambda (self) (+ v
+                           (msg/self l 'add)
+                           (msg/self r 'add)))])))
+
+
+
+(define (msg/self o m . a )
+   (apply (o m) o a ))
+
+
+(define (node/size-no! parent-maker v l r)
+  (let ([parent-object (parent-maker v l r)])
+    (lambda (m)
+      (case m
+        [(size) (lambda (self) (+ 1
+                                  (msg/self l 'size)
+                                  (msg/self r 'size)))]
+        [else (parent-object m)]))))
+
+(define (mt/size-no! parent-maker)
+  (let ([parent-object (parent-maker)])
+    (lambda (m)
+      (case m
+        [(size) (lambda (self) 0)]
+        [else (parent-object m)])))
+  )
+
+
+
+(define o-tree/size
+  (node/size-no! node-no!
+             10
+             (node/size-no! node-no!  5 (mt/size-no! mt-no!) (mt/size-no! mt-no!))
+             (node/size-no! node-no! 15
+                        (node/size-no! node-no! 6 (mt/size-no! mt-no!) (mt/size-no! mt-no!))
+                        (mt/size-no! mt-no!))))
+
+
+
+(test (msg/self o-tree/size 'add) (+ 10 5 15 6))
+(test (msg/self o-tree/size 'size) 4)
+
+================================================================
+
+====== LISTA DE ASSOCIAÇÕES = ENVIRONMENT ======
+
+#lang plai-typed
+
+#|
+ | Funções não tem mais nome, serão chamadas de lamC (em homenagem ao λ)
+ |#
+
+(define-type ExprC
+  [numC (n : number)]
+  [idC  (s : symbol)]
+  [plusC (l : ExprC) (r : ExprC)]
+  [multC (l : ExprC) (r : ExprC)]
+  [lamC (arg : symbol) (body : ExprC)] ; nomes não são mais necessários
+  [appC (fun : ExprC) (arg : ExprC)]
+  [ifC   (condição : ExprC) (sim : ExprC) (não : ExprC)]
+  )
+
+; inclui funções
+(define-type ExprS
+  [numS    (n : number)]
+  [idS     (s : symbol)] 
+  [lamS    (arg : symbol) (body : ExprS)] ; muda de acordo
+  [appS    (fun : ExprS) (arg : ExprS)] 
+  [plusS   (l : ExprS) (r : ExprS)]
+  [bminusS (l : ExprS) (r : ExprS)]
+  [uminusS (e : ExprS)]
+  [multS   (l : ExprS) (r : ExprS)]
+  [ifS     (c : ExprS) (s : ExprS) (n : ExprS)]
+  )
+
+
+; agora é preciso tomar cuidado com as modificações
+(define (desugar [as : ExprS]) : ExprC  
+  (type-case ExprS as
+    [numS    (n) (numC n)]
+    [idS     (s) (idC s)]
+    [lamS     (a b)  (lamC a (desugar b))] ; idem
+    [appS    (fun arg) (appC (desugar fun) (desugar arg))] 
+    [plusS   (l r) (plusC (desugar l) (desugar r))] 
+    [multS   (l r) (multC (desugar l) (desugar r))]
+    [bminusS (l r) (plusC (desugar l) (multC (numC -1) (desugar r)))]
+    [uminusS (e)   (multC (numC -1) (desugar e))]
+    [ifS     (c s n) (ifC (desugar c) (desugar s) (desugar n))]
+    ))
+
+
+#|
+ | Closure não tem mais o nome, mas precisa do environment
+ |#
+
+(define-type Value
+  [numV  (n : number)]
+  [closV (f : (Value -> Value))])
+
+; símbolos devem se associar ao número (ou a Value?)
+(define-type Binding
+      [bind (name : symbol) (val : Value)])
+
+; A lista de associações é o environment
+(define-type-alias Env (listof Binding))
+(define mt-env empty)        ; ente pronunciar "mt" em inglês e compare com "empty"
+(define extend-env cons)     ; sorte, cons faz exatamente o que queremos para estender o env
+
+; novos operadores
+(define (num+ [l : Value] [r : Value]) : Value
+    (cond
+        [(and (numV? l) (numV? r))
+             (numV (+ (numV-n l) (numV-n r)))]
+        [else
+             (error 'num+ "Um dos argumentos não é número")]))
+
+(define (num* [l : Value] [r : Value]) : Value
+    (cond
+        [(and (numV? l) (numV? r))
+             (numV (* (numV-n l) (numV-n r)))]
+        [else
+             (error 'num* "Um dos argumentos não é número")]))
+
+; trata agora lamC e appC
+(define (interp [expr : ExprC] [env : Env]) : Value
+  (type-case ExprC expr
+    [numC (n) (numV n)]
+    [idC  (n) (lookup n env)]
+    [appC (f a) (local ([define f-value (interp f env)]
+                        [define a-value (interp a env)])
+                  ((closV-f f-value) a-value))]
+    [plusC (l r) (num+ (interp l env) (interp r env))]
+    [multC (l r) (num* (interp l env) (interp r env))]
+    [ifC (c s n) (if (zero? (numV-n (interp c env))) (interp n env) (interp s env))]
+    [lamC  (a b) (closV (lambda (arg-val)
+                         (interp b
+                                 (extend-env (bind a arg-val)
+                                             env))))]))
+
+; lookup também muda o tipo de retorno
+(define (lookup [for : symbol] [env : Env]) : Value
+       (cond
+            [(empty? env) (error 'lookup (string-append (symbol->string for) " não foi encontrado"))] ; livre (não definida)
+            [else (cond
+                  [(symbol=? for (bind-name (first env)))   ; achou!
+                                 (bind-val (first env))]
+                  [else (lookup for (rest env))])]))        ; vê no resto
+
+; o parser permite definir funções...
+(define (parse [s : s-expression]) : ExprS
+  (cond
+    [(s-exp-number? s) (numS (s-exp->number s))]
+    [(s-exp-symbol? s) (idS (s-exp->symbol s))] ; pode ser um símbolo livre nas definições de função
+    [(s-exp-list? s)
+     (let ([sl (s-exp->list s)])
+       (case (s-exp->symbol (first sl))
+         [(+) (plusS (parse (second sl)) (parse (third sl)))]
+         [(*) (multS (parse (second sl)) (parse (third sl)))]
+         [(-) (bminusS (parse (second sl)) (parse (third sl)))]
+         [(~) (uminusS (parse (second sl)))]
+         [(func) (lamS (s-exp->symbol (second sl)) (parse (third sl)))] ; definição
+         [(call) (appS (parse (second sl)) (parse (third sl)))]
+         [(if) (ifS (parse (second sl)) (parse (third sl)) (parse (fourth sl)))]
+         [else (error 'parse "invalid list input")]))]
+    [else (error 'parse "invalid input")]))
+
+; Facilitador
+(define (interpS [s : s-expression]) (interp (desugar (parse s)) mt-env))
+
+; Testes
+(test (interp (plusC (numC 10) (appC (lamC '_ (numC 5)) (numC 10)))
+              mt-env)
+      (numV 15))
+(interpS '(+ 10 (call (func x (+ x x)) 16)))
+
+================================================================
+
+====== LISTA DE ASSOCIAÇÕES =/= ENVIRONMENT ======

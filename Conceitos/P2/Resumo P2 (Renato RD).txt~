@@ -647,13 +647,6 @@ da computação que é feita em seu corpo. Este argumento é a continuação.
 O método é transformar funções de um argumento (não todas, apenas as que
 envolvem interação remota) em outra função com dois argumentos. O segundo
 argumento é uma função que executa o resto do processamento: a continuação.
-Um exemplo interessante é um jogo de xadrez por correio convencional: o jogador
-manda uma carta com sua jogada e o desenho atual do tabuleiro.
-Esta tranformação é geral, pode ser aplicada em qualquer programa e não
-altera a semântica. Por isso é chamado de estilo. Por ser uma transformação
-da linguagem na própria linguagem, pode ser vista como uma espécie de açúcar
-(ou desugar). Como consequência, o interpretador da lingaugem pode também
-interpretar as continuações.
 
 Este método de computação é o utilizado dentro do esquema
 cliente-servidor (mesmo com suas várias formas de manter o estado). O

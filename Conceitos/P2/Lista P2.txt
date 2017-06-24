@@ -1,0 +1,24 @@
+Lista P2
+
+01-
+
+02-
+
+03- Macro higiênico é um macro que diferencia environments de
+    tal forma que definições recursivas de macros ou com autorreferências
+    sejam possíveis.
+04-
+
+05-
+
+06-
+
+07-
+
+08-
+
+09-
+
+10-
+
+11-

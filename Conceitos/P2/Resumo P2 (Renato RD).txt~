@@ -647,6 +647,13 @@ da computação que é feita em seu corpo. Este argumento é a continuação.
 O método é transformar funções de um argumento (não todas, apenas as que
 envolvem interação remota) em outra função com dois argumentos. O segundo
 argumento é uma função que executa o resto do processamento: a continuação.
+Um exemplo interessante é um jogo de xadrez por correio convencional: o jogador
+manda uma carta com sua jogada e o desenho atual do tabuleiro.
+Esta tranformação é geral, pode ser aplicada em qualquer programa e não
+altera a semântica. Por isso é chamado de estilo. Por ser uma transformação
+da linguagem na própria linguagem, pode ser vista como uma espécie de açúcar
+(ou desugar). Como consequência, o interpretador da lingaugem pode também
+interpretar as continuações.
 
 Este método de computação é o utilizado dentro do esquema
 cliente-servidor (mesmo com suas várias formas de manter o estado). O
@@ -702,3 +709,187 @@ Estamos passando o resultado de uma ação para a próxima. Essa é a ideia
 de PILHA DE EXECUÇÃO, como feita em Assembly. Cada ação devolve apenas
 uma modificação de estado, e o estado é compartilhada pelas várias ações
 necessárias para serem feitas.
+
+=================================================================
+
+MACROS PARA CPS
+=================
+
+Vamos criar um processador de macros para o estilo de processamento de
+continuação. Com ele, transformaremos um tipo de expressão em outra.
+
+Faremos uma conversão de sintaxe. Escreveremos com nosso estilo, e a
+traduziremos com os comandos tradicionais do Racket para o estilo de 
+continuação.
+    
+              |  Sintaxe CPS  |    Racket    |
+              |===============|==============|
+              | with          | let          |
+              | rec           | letrec       |
+              | lam           | lambda       |
+              | cnd           | if           |
+              | set           | set!         |
+              | seq           | begin        |
+
+(define-syntax (cps e)
+  (syntax-case e (with rec lam cnd seq set quote display read-number)
+    
+    ; símbolo
+    [(_ atomic)
+        #'(lambda (k) (k atomic))]
+    
+    ; Rec é como o let recursivo (letrec), que muda o storage
+    ; conforme novas associações são feitas
+    [(_ (rec (v f) b))
+        #'(cps (with (v (lam (arg) (error 'dummy "nothing")))
+                  (seq
+                    (set v f)
+                    b)))]
+    
+    ; lambda
+    [(_ (lam (a) b))
+      (identifier? #'a)
+      
+      ; Toda sintaxe convertida deve ser um lambda que recebe como
+      ; parâmetro uma continuação. Essa continuação, definida no 
+      ; tempo de definição da função, chama-se k. O corpo da função,
+      ; seja qual for, deve ser argumento para esta continuação.
+      #'(lambda (k)
+          
+          ; Todo argumento devolvido por uma função também deve 
+          ; estar no CPS. Precisamos converter o λ de verdade para
+          ; esse estilo. Para fazer isso:
+          ; 1. Expandimos a lista de argumento para receber como 
+          ;    argumento final uma continuação: dyn-k
+          ; 2. O corpo também precisa ser passado para o estilo de
+          ;    continuação. Isso pode ser feito aplicando a 
+          ;    continuação dyn-k para ele.
+          ;
+          (k (lambda (a dyn-k) ((cps b) dyn-k) ))
+        )
+    ]
+    
+    ; Ex:
+    ; (λ (a) b)
+    ; (λ (k) 
+    ;    (k (λ (a dyn-k) (eps b dyn-k)))
+    ; )
+    ; 
+    ; Ex:
+    ; (cps (+ (rn "um") (rn "dois")) )
+    ; ( 
+    ;     (λ (k) 
+    ;        (+ k (rn "dois"))
+    ;     )
+    ;     (rn "um") 
+    ; )
+    
+    ; chamada com 1 argumento
+    [(_ (f a))
+     #'(lambda (k)
+         ((cps f) (lambda (fv)
+                    ((cps a) (lambda (av)
+                               (fv av k))))))]
+    
+    ; chamada com 2 argumentos
+    [(_ (f a b))
+        ; Pegamos uma aplicação de função, com dois argumentos.
+        ; Ela tem uma continuação
+        #'(lambda (k)
+           ; Interpretamos 'a' e passamos como continuação para 
+           ; ele o segundo argumento
+           ((cps a) (lambda (av)
+                      ; Interpretamos 'b' e passamos como continuação para
+                      ; ele a funçaõ aplicada a ambos os argumentos
+                      ((cps b) (lambda (bv)
+                                 (k (f av bv)))))))]
+    ; with é como o let
+    [(_ (with (v e) b))
+     #'(cps ((lam (v) b) e))]
+
+    ; cnd é o if
+    [(_ (cnd tst thn els))
+     #'(lambda (k)
+         ((cps tst) (lambda (tstv)
+                      (if tstv
+                          ((cps thn) k)
+                          ((cps els) k)))))]
+
+    ; set é o mesmo que set!
+    [(_ (set v e))
+     #'(lambda (k)
+         ((cps e) (lambda (ev)
+                    (k (set! v ev)))))]
+
+    ; begin para 2 expressões
+    [(_ (seq e1 e2))
+     #'(lambda (k)
+         ((cps e1) (lambda (_)
+                     ((cps e2) k))))]
+
+    ; display - definido internamente
+    [(_ (display output))
+     #'(lambda (k)
+         ((cps output) (lambda (ov)
+                         (k (display ov)))))]
+
+    ; read-number 
+    [(_ (read-number prompt))
+     #'(lambda (k)
+         ((cps prompt) (lambda (pv)
+                         (read-number/suspend pv k))))]
+))
+
+========= PARTE DO RESUMO E NÃO DA APOSTILA =========
+
+; Continuação "identidade", para não fazermos nada na última continuação
+(define identity '(lambda (c) c))
+
+; Açúcar sintático para rodar expressões feitas na linguagem
+; de escrita de continuações. Ele pega uma continuação e passa
+; como continuação final para ela a identidade, que fará a última
+; ação parar a recursão.
+(define (run [k : s-exp]) (k identity) )
+
+Exemplo de expansão
+---------------------
+
+(cps (display (+ (rn "f") (rn "s"))) )
+
+(λ (k) ( (cps (+ (...) (λ (ov (k (display ov))))))
+         (λ(k) ( (λ (k2) ((cps (rn ...) 
+                            (λ (av) (cps ((rn "s"))
+(λ (bv) (k2 (f av bv))))))))))
+
+========= FIM DA PARTE DO RESUMO QUE NÃO ESTÁ NA APOSTILA =========
+
+=================================================================
+
+Continuation Passing Style
+============================
+
+Um exemplo simples de CPS possível seria fazer a soma passo a passo:
+(+ a b)
+
+(λ (k) ((cps a) (λ (av) ((cps b) (λ (bv) (k (+ av bv)))))))
+        ^^^^^^^    ^^^^  ^^^^^^^    ^^^^    ^^^^^^^^^
+          (1)       (2)    (3)       (4)       (5)
+
+1) Primeiro, calculamos o argumento 'a' da soma. O resultado será um
+   lambda que aceita uma continuação;
+2) O valor calculado em 'a' será passado para a continuação - e salvo
+   no lambda com a associação de do da computação com av;
+3) A continuação começa calculando o argumento 'b' da soma. O resultado
+   será um lambda que aceita uma continuação;
+4) O valor calculado em 'b' será passado para a continuação - e salvo
+   na lambda com a associação do resultado da computação com bv;
+5) Usando 'av' e 'bv', realizamos a última computação (somar av com
+   bv, o primeiro salvo no environment desse lambda). O resultado deve
+   ser aplicado na continuação global da expressão: k.
+
+Se quiséssemos apenas EXECUTAR, então poderíamos executar esta
+continuação passando 'k' como a função identidade.
+
+=================================================================
+
+

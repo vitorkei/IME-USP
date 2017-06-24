@@ -1,6 +1,21 @@
 Lista P2
 
-01-
+01- (+ 42 (* 1.618034 1729))
+    (
+      (lambda (a) (a ((lambda (resto) (resto 1.618034))
+                      (lambda (x) (* x 1729))
+                     )
+                  )
+      )
+      (lambda (y) (+ y 42))
+    )
+    
+    Alternativamente:
+    (
+      (lambda (a resto) (resto (* a 1.618034)))
+      1729
+      (lambda (x) (+ x 42))
+    )
 
 02-
 

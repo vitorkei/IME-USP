@@ -1095,6 +1095,8 @@ ponto do código em que estamos (para continuar na próxima chamada)
 e retornamos para a continuação de quem chamou a função. Na próxima
 chamada, começaremos pelo Generator.
 
+(define-syntax (cps e)
+  (syntax-case e (generator with rec lam cnd seq set quote)
     ; O _ representa o nome o gerador de macros (cps)
     ; 
     ; Essa estrutura estará dentro do cps
@@ -1122,7 +1124,7 @@ chamada, começaremos pelo Generator.
                 [resumer
                     ; A função resumer é a responsável por executar
                     ; o corpo do generator. Como ele está em CPS, 
-                    ; quando terminarmos de executá-lo deveremos 
+                    ; quando terminarmos de executá-lo, deveremos 
                     ; "sair" da função com uma exceção.
                     ;
                     ; Esta definição de resumer será sobrescrita 
@@ -1131,8 +1133,8 @@ chamada, começaremos pelo Generator.
                     ; continuação sendo o erro, já está feita.
                     ;
                     (lambda (v) (
-                        (cps b) (lambda (k)
-                        (error 'generator "fell though"))
+                        (cps b) (lambda (v)
+                        (error 'generator "passou dos limites"))
                     ))
                 ]
                 [yield
@@ -1169,6 +1171,10 @@ chamada, começaremos pelo Generator.
             )
         ))
     ]
+    
+    ... ; os outros comandos definidos mais acima (with, rec, lam, ...).
+        ; Estão algumas linhas/páginas acima
+))
 
 Resumindo o passo-a-passo da construção do generator:
 1. Nosso generator é um lambda em CPS. Deverá ter um argumento (v) e 
@@ -1190,4 +1196,8 @@ Resumindo o passo-a-passo da construção do generator:
    sobrescreve 'resumer' para ser esta continuação.
 
 4. Daí para frente, a execução continua, nesse processo de substituição
-de 'resumer' por 'yield' e execução das continuações.
+   de 'resumer' por 'yield' e execução das continuações.
+
+(Na apostila, ainda tem as sessões "Continuações e a pilha de execução",
+"Recursão de cauda", "Recursão como uma característica da linguagem",
+"Continuações em Racket" e "Threads", o que tomam ~6.5 páginas)

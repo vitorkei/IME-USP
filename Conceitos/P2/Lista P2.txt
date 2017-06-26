@@ -17,11 +17,15 @@ Lista P2
       (lambda (x) (+ x 42))
     )
 
-02-
+02- Considerando que uma pilha de execução é um encadeamento de frames
+     e cada continuação encabeça um encadeamento, então é possível dizer que
+     salvar uma continuação em uma variável e devolver outra continuação
+     corresponde a uma troca de pilhas de execução.
 
 03- Macro higiênico é um macro que diferencia environments de
     tal forma que definições recursivas de macros ou com autorreferências
     sejam possíveis.
+
 04-
 
 05-

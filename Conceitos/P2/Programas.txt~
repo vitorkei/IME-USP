@@ -1,0 +1,1143 @@
+===== MACROS =====
+
+#lang plai
+;(define-syntax my-let-1
+;  (syntax-rules () 
+;    [(my-let-1 (var val) body)
+;     ((lambda (var) body) val)]))
+;(my-let-1 (pi 3.12) (+ pi 5))
+;
+;(define-syntax my-let-2
+;  (syntax-rules ()
+;    [(my-let-2 ([var val] ...) body)
+;     ((lambda (var ...) body) val ...)]))
+;
+;(my-let-2 ([um 1] [dois 2] [três 3]) (+ um (* dois três)))
+;
+;(define-syntax (my-let-3 x)
+;  (syntax-case x () 
+;    [(my-let-3 (var val) body)
+;     #'((lambda (var) body) val)]))
+;
+;(my-let-3 (pi 3.12) (+ pi 5))
+;
+;(define-syntax (my-let-4 x)
+;  (syntax-case x () 
+;    [(my-let-3 (var val) body)
+;     (identifier? #'var)
+;     #'((lambda (var) body) val)]))
+;
+;(my-let-4 (pi 3.12) (+ pi 5))
+
+
+;(define-syntax (my-or-1 x)
+;  (syntax-case x ()
+;    [(my-or-1 e0 e1 ...)
+;     #'(if e0
+;           e0
+;           (my-or-1 e1 ...))]))
+
+;(my-or-1 #f #t)
+
+;
+;(define-syntax (my-or-2 x)
+;  (syntax-case x ()
+;    [(my-or-2) #'#f]
+;    [(my-or-2 e0 e1 ...)
+;     #'(if e0
+;           e0
+;           (my-or-2 e1 ...))]))
+;
+;(my-or-2 #f #t)
+;
+;(define-syntax (my-or-3 x)
+;  (syntax-case x ()
+;    [(my-or-3) #'#f]
+;    [(my-or-3 e0) #'e0]
+;    [(my-or-3 e0 e1 ...)
+;     #'(if e0
+;           e0
+;           (my-or-3 e1 ...))]))
+;
+;(my-or-3  #t)
+;
+;(let ([init #f])
+;  (my-or-3 (begin (set! init (not init))
+;                  init)
+;           #f))
+
+;(define-syntax (my-or-4 x)
+;  (syntax-case x ()
+;    [(my-or-4)
+;     #'#f]
+;    [(my-or-4 e)
+;     #'e]
+;    [(my-or-4 e0 e1 ...)
+;     #'(let ([v e0])
+;         (if v
+;             v
+;             (my-or-4 e1 ...)))]))
+;
+;(let ([init #f])
+;  (my-or-4 (begin (set! init (not init))
+;                  init)
+;           #f))
+;
+;
+
+(define (msg o m . a)
+  (apply (o m) a))
+
+;(define os-1
+;  (object/self-1
+;   [first (x) (msg self 'second (+ x 1))]
+;   [second (x) (+ x 1)]))
+;
+;
+;(define-syntax object/self-1
+;  (syntax-rules ()
+;    [(object [mtd-name (var) val] ...)
+;     (let ([self (lambda (msg-name)
+;                   (lambda (v) (error 'object "nothing here")))])
+;       (begin
+;         (set! self
+;               (lambda (msg)
+;                 (case msg
+;                   [(mtd-name) (lambda (var) val)]
+;                   ...)))
+;         self))]))
+
+;(define os-2
+;  (object/self-2 self
+;                 [first (x) (msg self 'second (+ x 1))]
+;                 [second (x) (+ x 1)]))
+;
+;(define-syntax object/self-2
+;  (syntax-rules ()
+;    [(object self [mtd-name (var) val] ...)
+;     (let ([self (lambda (msg-name)
+;                   (lambda (v) (error 'object "nothing here")))])
+;       (begin
+;         (set! self
+;               (lambda (msg)
+;                 (case msg
+;                   [(mtd-name) (lambda (var) val)]
+;                   ...)))
+;         self))]))
+
+
+(define-syntax (object/self-3 x)
+  (syntax-case x ()
+    [(object [mtd-name (var) val] ...)
+     (with-syntax ([self (datum->syntax x 'self)])
+       #'(let ([self (lambda (msg-name)
+                       (lambda (v) (error 'object "nothing here")))])
+           (begin
+             (set! self
+                   (lambda (msg-name)
+                     (case msg-name
+                       [(mtd-name) (lambda (var) val)]
+                       ...)))
+             self)))]))
+
+
+(define os-3
+  (object/self-3
+   [first (x) (msg self 'second (+ x 1))]
+   [second (x) (+ x 1)]))
+
+=================================================================
+
+===== CONTROLES =====
+
+#lang plai-typed
+
+(define (read-number [prompt : string]) : number
+  (begin
+    (display prompt)
+    (let ([v (read)])
+      (if (s-exp-number? v)
+          (s-exp->number v)
+          (read-number prompt)))))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; retorna o próximo label disponível
+(define new-label
+  (let ( [ n (box 0)])
+    (lambda () 
+      (begin
+        (set-box! n (+ 1 (unbox n)))
+        (unbox n)))))
+
+(define-type-alias label number)
+(define table (make-hash empty))
+
+(define (read-number/suspend [prompt : string] rest)
+  (let ([g (new-label)])
+    (begin
+      (hash-set! table g rest)
+      (display prompt)
+      (display " To enter it, use the action field label ")
+      (display g))))
+
+(define (resume [g : label] [n : number])
+  ((some-v (hash-ref table g)) n))
+
+
+; cookies
+(define cookie '-100)
+(read-number/suspend "\nFirst number (cookie)"
+                     (lambda (v1)
+                       (begin
+                         (set! cookie v1)
+                         (read-number/suspend "\nSecond number (cookie)"
+                                              (lambda (v2)
+                                                (display
+                                                 (+ cookie v2)))))))
+
+(define-syntax (cps e)
+  (syntax-case e (with rec lam cnd seq set quote display read-number)
+    ; with é como o ret
+    [(_ (with (v e) b))
+     #'(cps ((lam (v) b) e))]
+    
+    ; rec é como letrec
+    [(_ (rec (v f) b))
+     #'(cps (with (v (lam (arg) (error 'dummy "nothing")))
+                  (seq
+                   (set v f)
+                   b)))]
+    
+    ; lambda
+    [(_ (lam (a) b))
+     (identifier? #'a)
+     #'(lambda (k)
+         (k (lambda (a dyn-k)
+              ((cps b) dyn-k))))] ; por que dyn-k e não k?
+    
+    ; cnd é o if
+    [(_ (cnd tst thn els))
+     #'(lambda (k)
+         ((cps tst) (lambda (tstv)
+                      (if tstv
+                          ((cps thn) k)
+                          ((cps els) k)))))]
+    
+    ; set é o mesmo que set!
+    [(_ (set v e))
+     #'(lambda (k)
+         ((cps e) (lambda (ev)
+                    (k (set! v ev)))))]
+    
+    ; begin para 2 expressões
+    [(_ (seq e1 e2))
+     #'(lambda (k)
+         ((cps e1) (lambda (_)
+                     ((cps e2) k))))]
+    
+    ; símbolo
+    [(_ atomic)
+     #'(lambda (k)
+         (k atomic))]
+    
+    ; display - definido internamente
+    [(_ (display output))
+     #'(lambda (k)
+         ((cps output) (lambda (ov)
+                         (k (display ov)))))]
+    
+    ; read-number 
+    [(_ (read-number prompt))
+     #'(lambda (k)
+         ((cps prompt) (lambda (pv)
+                         (read-number/suspend pv k))))]
+    ; chamada com 1 argumento
+    [(_ (f a))
+     #'(lambda (k)
+         ((cps f) (lambda (fv)
+                    ((cps a) (lambda (av)
+                               (fv av k))))))]
+    
+    ; com dois
+    [(_ (f a b))
+     #'(lambda (k)
+         ((cps a) (lambda (av)
+                    ((cps b) (lambda (bv)
+                               (k (f av bv)))))))]
+    
+    ))
+
+(define (run c) (c identity)) ; para poder testar
+(run (cps (display (+ (read-number "First") (read-number "Second")))))
+
+=================================================================
+
+===== GERADORES =====
+
+#lang plai-typed
+
+(define-syntax (cps e)
+  (syntax-case e (generator with rec lam cnd seq set quote)
+    ; generator
+    [(_ (generator (yield) (v) b)) ; yielder, valor, corpo
+     (and (identifier? #'v) (identifier? #'yield))
+     #'(lambda (k)
+         (k (letrec (
+                     [where-to-go (lambda (v) (error 'where-to-go "nothing"))]
+                     [resumer (lambda (v)
+                                ((cps b) (lambda (v)
+                                           (error 'generator "fell through"))))]
+                     [yield (lambda (v gen-k)
+                              (begin
+                                (set! resumer gen-k)
+                                (where-to-go v)))])
+              (lambda (v dyn-k)
+                (begin
+                  (set! where-to-go dyn-k)
+                  (resumer v)))
+              )))]
+    
+    
+    ; begin para 2 expressões
+    [(_ (seq e1 e2))
+     #'(lambda (k)
+         ((cps e1) (lambda (_)
+                     ((cps e2) k))))]    
+    
+    ; set é o mesmo que set!
+    [(_ (set v e))
+     #'(lambda (k)
+         ((cps e) (lambda (ev)
+                    (k (set! v ev)))))]
+    
+    ; with é como o ret
+    [(_ (with (v e) b))
+     #'(cps ((lam (v)  b) e))]
+    
+    ; rec é como letrec
+    [(_ (rec (v f) b))
+     #'(cps (with (v (lam (arg) (error 'dummy "nothing")))
+                  (seq
+                   (set v f)
+                   b)))]
+    ; quote
+    [(_ 'e)
+     #'(lambda (k) (k 'e))]
+    
+    
+    ; lambda
+    [(_ (lam (a1 a2) b))
+     (and (identifier? #'a1) (identifier? #'a2))
+     #'(lambda (k)
+         (k (lambda (a1 a2  dyn-k)
+              ((cps b) dyn-k))))]
+    
+    ; lambda
+    [(_ (lam (a) b))
+     (identifier? #'a)
+     #'(lambda (k)
+         (k (lambda (a dyn-k)
+              ((cps b) dyn-k))))] 
+    
+    ; lambda
+    [(_ (lam () b))
+     #'(lambda (k)
+         (k (lambda  (dyn-k)
+              ((cps b) dyn-k))))] 
+    
+    ; cnd é o if
+    [(_ (cnd tst thn els))
+     #'(lambda (k)
+         ((cps tst) (lambda (tstv)
+                      (if tstv
+                          ((cps thn) k)
+                          ((cps els) k)))))]
+    
+    ; com dois
+    [(_ (f a b))
+     #'(lambda (k)
+         ((cps a) (lambda (av)
+                    ((cps b) (lambda (bv)
+                               (k (f av bv )))))))]
+    
+    
+    ; chamada com 1 argumento
+    [(_ (f a))
+     #'(lambda (k)
+         ((cps f) (lambda (fv)
+                    ((cps a) (lambda (av)
+                               (fv av k))))))]
+    ; símbolo
+    [(_ atomic)
+     #'(lambda (k)
+         (k atomic))]
+    
+    ))
+
+(define (run c) (c identity)) ; para poder testar
+;(run (cps (display (+ (read-number "First") (read-number "Second")))))
+
+(cps (generator (y) (a) (+ a 5)))
+;
+
+(run (cps (with (ns (generator (yield) (from)
+                          (rec (f (lam (n) (seq
+                                            (yield n)
+                                            (f (+ n 1))))
+                                  )
+                            (f from))))
+           (seq (ns 0) (ns 42)))))
+
+=================================================================
+
+===== GERADORES 2 =====
+
+#lang plai-typed
+
+(define-syntax (cps e)
+  (syntax-case e (generator with rec lam let/cc cnd seq set quote)
+    
+    ; generator
+    [(_ (generator (yield) (v) b)) ; yielder, valor, corpo
+     (and (identifier? #'v) (identifier? #'yield))
+     #'(lambda (k)
+         (k (letrec (
+                     [where-to-go (lambda (v) (error 'where-to-go "nothing"))]
+                     [resumer (lambda (v)
+                                ((cps b) (lambda (v)
+                                           (error 'generator "fell through"))))]
+                     [yield (lambda (v gen-k)
+                              (begin
+                                (set! resumer gen-k)
+                                (where-to-go v)))])
+              (lambda (v dyn-k)
+                (begin
+                  (set! where-to-go dyn-k)
+                  (resumer v)))
+              )))]
+    
+    
+    ; begin para 2 expressões
+    [(_ (seq e1 e2))
+     #'(lambda (k)
+         ((cps e1) (lambda (_)
+                     ((cps e2) k))))]    
+    
+    ; set é o mesmo que set!
+    [(_ (set v e))
+     #'(lambda (k)
+         ((cps e) (lambda (ev)
+                    (k (set! v ev)))))]
+    
+    ; with é como o ret
+    [(_ (with (v e) b))
+     #'(cps ((lam (v)  b) e))]
+    
+    ; rec é como letrec
+    [(_ (rec (v f) b))
+     #'(cps (with (v (lam (arg) (error 'dummy "nothing")))
+                  (seq
+                   (set v f)
+                   b)))]
+    ; quote
+    [(_ 'e)
+     #'(lambda (k) (k 'e))]
+    
+    
+    ; lambda
+    [(_ (lam (a1 a2) b))
+     (and (identifier? #'a1) (identifier? #'a2))
+     #'(lambda (k)
+         (k (lambda (a1 a2  dyn-k)
+              ((cps b) dyn-k))))]
+    
+    ; lambda
+    [(_ (lam (a) b))
+     (identifier? #'a)
+     #'(lambda (k)
+         (k (lambda (a dyn-k)
+              ((cps b) dyn-k))))] 
+    
+    ; lambda
+    [(_ (lam () b))
+     #'(lambda (k)
+         (k (lambda  (dyn-k)
+              ((cps b) dyn-k))))] 
+ 
+    ; let/cc
+    [(_ (let/cc kont b))
+     (identifier? #'kont)
+     #'(lambda (k)
+         (let ([kont (lambda (v dyn-k)
+                       (k v))])
+           ((cps b) k)))]
+        
+    ; cnd é o if
+    [(_ (cnd tst thn els))
+     #'(lambda (k)
+         ((cps tst) (lambda (tstv)
+                      (if tstv
+                          ((cps thn) k)
+                          ((cps els) k)))))]
+    
+    ; com dois
+    [(_ (f a b))
+     #'(lambda (k)
+         ((cps a) (lambda (av)
+                    ((cps b) (lambda (bv)
+                               (k (f av bv )))))))]
+    
+    
+    ; chamada com 1 argumento
+    [(_ (f a))
+     #'(lambda (k)
+         ((cps f) (lambda (fv)
+                    ((cps a) (lambda (av)
+                               (fv av k))))))]
+    ; símbolo
+    [(_ atomic)
+     #'(lambda (k)
+         (k atomic))]
+    
+
+    ))
+
+(define (run c) (c identity)) ; para poder testar
+;(run (cps (display (+ (read-number "First") (read-number "Second")))))
+
+(cps (generator (y) (a) (+ a 5)))
+;
+
+(run (cps (with (ns (generator (yield) (from)
+                               (rec (f (lam (n) (seq
+                                                 (yield n)
+                                                 (f (+ n 1))))
+                                       )
+                                 (f from))))
+                (seq (ns 0) (ns 42)))))
+
+(test (run (cps (let/cc esc 3))) 3)
+;(test (run (cps (let/cc esc (esc 3)))) 3)
+;(test (run (cps (+ 1 (let/cc esc (esc 3))))) 4)
+;(test (run (cps (let/cc esc (+ 2 (esc 3))))) 3)
+;(test (run (cps (+ 1 (let/cc esc (+ 2 (esc 3)))))) 4)
+
+
+
+=================================================================
+
+===== GERADORES 3 =====
+
+#lang plai-typed
+(define-syntax let/cc
+  (syntax-rules ()
+    [(let/cc k b)
+     (call/cc (lambda (k) b))]))
+
+
+(define-syntax (generator e)
+   (syntax-case e ()
+    [(generator (yield) (v) b)
+      #'(let ([where-to-go (lambda (v) (error 'where-to-go "nothing"))])
+           (letrec ([resumer (lambda (v)
+                              (begin b
+                                 (error 'generator "fell through")))]
+                    [yield (lambda (v)
+                             (let/cc gen-k
+                               (begin
+                                 (set! resumer gen-k)
+                                 (where-to-go v))))])
+          (lambda (v)
+             (let/cc dyn-k
+               (begin
+                  (set! where-to-go dyn-k)
+                  (resumer v))))))]))
+
+
+(define g1 (generator (yield) (v)
+               (letrec ([loop (lambda (n)
+                                (begin
+                                  (yield n)
+                                  (loop (+ n 1))))])
+                (loop v))))
+
+(define g2 (generator (yield) (v)
+               (letrec ([loop (lambda (n)
+                                  (loop (+ (yield n) n)))])
+                (loop v))))
+
+(g1 12)
+(g1 3)
+(g1 42)
+(g1 1729)
+
+(display "\nNovos testes\n")
+
+(g2 1000)
+(g2 700)
+(g2 20)
+(g2 9)
+
+=================================================================
+
+===== CONTINUAÇÕES =====
+
+#lang plai-typed
+
+#|
+ | Funções não tem mais nome, serão chamadas de lamC (em homenagem ao λ)
+ |#
+
+(define-type ExprC
+  [numC (n : number)]
+  [idC  (s : symbol)]
+  [plusC (l : ExprC) (r : ExprC)]
+  [multC (l : ExprC) (r : ExprC)]
+  [lamC (arg : symbol) (body : ExprC)] ; nomes não são mais necessários
+  [appC (fun : ExprC) (arg : ExprC)]
+  [ifC   (condição : ExprC) (sim : ExprC) (não : ExprC)]
+  )
+
+; inclui funções
+(define-type ExprS
+  [numS    (n : number)]
+  [idS     (s : symbol)] 
+  [lamS    (arg : symbol) (body : ExprS)] ; muda de acordo
+  [appS    (fun : ExprS) (arg : ExprS)] 
+  [plusS   (l : ExprS) (r : ExprS)]
+  [bminusS (l : ExprS) (r : ExprS)]
+  [uminusS (e : ExprS)]
+  [multS   (l : ExprS) (r : ExprS)]
+  [ifS     (c : ExprS) (s : ExprS) (n : ExprS)]
+  )
+
+
+; agora é preciso tomar cuidado com as modificações
+(define (desugar [as : ExprS]) : ExprC  
+  (type-case ExprS as
+    [numS    (n) (numC n)]
+    [idS     (s) (idC s)]
+    [lamS     (a b)  (lamC a (desugar b))] ; idem
+    [appS    (fun arg) (appC (desugar fun) (desugar arg))] 
+    [plusS   (l r) (plusC (desugar l) (desugar r))] 
+    [multS   (l r) (multC (desugar l) (desugar r))]
+    [bminusS (l r) (plusC (desugar l) (multC (numC -1) (desugar r)))]
+    [uminusS (e)   (multC (numC -1) (desugar e))]
+    [ifS     (c s n) (ifC (desugar c) (desugar s) (desugar n))]
+    ))
+
+
+
+; Value muda, pois closV tem um lambda como segundo argumento, a continuação
+(define-type Value
+  [numV  (n : number)]
+  [closV (f : (Value (Value -> Value) -> Value))])
+
+; símbolos devem se associar ao número (ou a Value?)
+(define-type Binding
+  [bind (name : symbol) (val : Value)])
+
+
+; Trocamos por isso:
+(define-type-alias Env (symbol -> Value)) ; o environment é uma função
+(define (mt-env [name : symbol]) (error 'lookup "name not found")) ; função constante
+(define (extend-env [b : Binding] [e : Env])
+  (lambda ([name : symbol]) : Value
+    (if (symbol=? name (bind-name b)) ; achou?
+        (bind-val b)   ; sim, é o próprio
+        (lookup name e) ; olha no anterior
+        )))
+
+(define (lookup [n : symbol] [e : Env]) : Value (e n))
+
+
+(define (num+ [l : Value] [r : Value]) : Value
+  (cond
+    [(and (numV? l) (numV? r))
+     (numV (+ (numV-n l) (numV-n r)))]
+    [else
+     (error 'num+ "Um dos argumentos não é número")]))
+
+(define (num* [l : Value] [r : Value]) : Value
+  (cond
+    [(and (numV? l) (numV? r))
+     (numV (* (numV-n l) (numV-n r)))]
+    [else
+     (error 'num* "Um dos argumentos não é número")]))
+
+;; interp tradicional
+;(define (interp [expr : ExprC] [env : Env]) : Value
+;  (type-case ExprC expr
+;    [numC (n) (numV n)]
+;    [idC  (n) (lookup n env)]
+;    [appC (f a) (local ([define f-value (interp f env)]
+;                        [define a-value (interp a env)])
+;                  ((closV-f f-value) a-value))]
+;    [plusC (l r) (num+ (interp l env) (interp r env))]
+;    [multC (l r) (num* (interp l env) (interp r env))]
+;    [ifC (c s n) (if (zero? (numV-n (interp c env))) (interp n env) (interp s env))]
+;    [lamC  (a b) (closV (lambda (arg-val)
+;                         (interp b
+;                                 (extend-env (bind a arg-val)
+;                                             env))))]))
+
+
+; interp com continuações
+(define (interp/k [expr : ExprC] [env : Env] [k : (Value -> Value)]) : Value 
+  (type-case ExprC expr
+    [numC (n) (k (numV n))]
+    [idC  (n) (k (lookup n env))]
+    [appC (f a) (interp/k f env (lambda (fv)
+                                  (interp/k a env 
+                                            (lambda (av) ((closV-f fv) av k)))))]
+    [plusC (l r) (interp/k l env (lambda (lv) (interp/k r env (lambda (rv) (k (num+ lv rv))))))]
+    [multC (l r) (interp/k l env (lambda (lv) (interp/k r env (lambda (rv) (k (num* lv rv))))))]
+    [ifC (c s n) (interp/k c env (lambda (cv) 
+                                   (if (zero? (numV-n cv)) 
+                                       (interp/k n env (lambda (nv)  (k nv)))
+                                       (interp/k s env (lambda (sv)  (k sv))))))]
+    [lamC  (a b) (k (closV (lambda (arg-val dyn-k)
+                             (interp/k b
+                                       (extend-env (bind a arg-val)
+                                                   env) dyn-k))))]
+    ))
+
+; o parser permite definir funções...
+(define (parse [s : s-expression]) : ExprS
+  (cond
+    [(s-exp-number? s) (numS (s-exp->number s))]
+    [(s-exp-symbol? s) (idS (s-exp->symbol s))] ; pode ser um símbolo livre nas definições de função
+    [(s-exp-list? s)
+     (let ([sl (s-exp->list s)])
+       (case (s-exp->symbol (first sl))
+         [(+) (plusS (parse (second sl)) (parse (third sl)))]
+         [(*) (multS (parse (second sl)) (parse (third sl)))]
+         [(-) (bminusS (parse (second sl)) (parse (third sl)))]
+         [(~) (uminusS (parse (second sl)))]
+         [(func) (lamS (s-exp->symbol (second sl)) (parse (third sl)))] ; definição
+         [(call) (appS (parse (second sl)) (parse (third sl)))]
+         [(if) (ifS (parse (second sl)) (parse (third sl)) (parse (fourth sl)))]
+         [else (error 'parse "invalid list input")]))]
+    [else (error 'parse "invalid input")]))
+
+
+; Disparador
+(define (interp [expr : ExprC]) : Value
+  (interp/k expr mt-env (lambda (id) id)))
+
+; Facilitador
+(define (interpS [s : s-expression]) (interp (desugar (parse s))))
+
+; Testes
+(test (interp (plusC (numC 10) (appC (lamC '_ (numC 5)) (numC 10))))  (numV 15))
+(interpS '(+ 10 (call (func x (+ x x)) 16)))
+
+=================================================================
+
+===== THREADS =====
+
+#lang plai-typed
+(define-syntax let/cc
+  (syntax-rules ()
+    [(let/cc k b)
+     (call/cc (lambda (k) b))]))
+
+
+(define (scheduler-loop-0 threads)
+  (cond
+    [(empty? threads) 'done]
+    [(cons? threads)
+     (begin
+       (let/cc after-thread ((first threads) after-thread))
+       (scheduler-loop-0 (append (rest threads)
+                                 (list (first threads)))))]))
+
+
+(define-syntax thread-0
+  (syntax-rules ()
+    [(thread (yielder) b ...)
+     (letrec ([thread-resumer (lambda (_)
+                                (begin b ...))]
+              [yielder (lambda () (error 'yielder "nothing here"))])
+       (lambda (sched-k)
+         (begin
+           (set! yielder
+                 (lambda ()
+                   (let/cc thread-k
+                     (begin
+                       (set! thread-resumer thread-k)
+                       (sched-k 'dummy)))))
+           (thread-resumer 'tres))))]))
+
+
+(define d display) 
+
+(scheduler-loop-0
+ (list
+  (thread-0 (y) (d "t1-1 ") (y) (d "t1-2 ") (y) (d "t1-3 "))
+  (thread-0 (y) (d "t2-1 ") (y) (d "t2-2 ") (y) (d "t2-3 "))
+  (thread-0 (y) (d "t3-1 ") (y) (d "t3-2 ") (y) (d "t3-3 "))))
+
+
+=================================================================
+
+===== THREADS 2 =====
+
+#lang plai-typed
+(define-syntax let/cc
+  (syntax-rules ()
+    [(let/cc k b)
+     (call/cc (lambda (k) b))]))
+
+(define-type ThreadStatus 
+  [Tsuspended]
+  [Tdone])
+
+
+(define-syntax thread-1
+  (syntax-rules ()
+    [(thread (yielder) b ...)
+     (letrec ([thread-resumer (lambda (_)
+                                (begin b ...
+                                       (finisher)))]
+              [finisher (lambda () (error 'finisher "nothing here"))]
+              [yielder (lambda () (error 'yielder "nothing here"))])
+       (lambda (sched-k)
+         (begin
+           (set! finisher
+                 (lambda ()
+                   (let/cc thread-k
+                     (sched-k (Tdone)))))
+           (set! yielder
+                 (lambda ()
+                   (let/cc thread-k
+                     (begin
+                       (set! thread-resumer thread-k)
+                       (sched-k (Tsuspended))))))
+           (thread-resumer 'tres))))]))
+
+(define (scheduler-loop-1 threads)
+  (cond
+    [(empty? threads) 'done]
+    [(cons? threads)
+     (type-case ThreadStatus 
+       (let/cc after-thread ((first threads) after-thread))
+       [Tsuspended ()  (scheduler-loop-1 (append (rest threads)
+                                                 (list (first threads))))]
+       [Tdone () (scheduler-loop-1 (rest threads))])]))
+
+(define d display) 
+
+(scheduler-loop-1
+ (list
+  (thread-1 (y) (d "t1-1 ") (y) (d "t1-2 ") (y) (d "t1-3 "))
+  (thread-1 (y) (d "t2-1 ") (y) (d "t2-2 ") (y) (d "t2-3 "))
+  (thread-1 (y) (d "t3-1 ") (y) (d "t3-2 ") (y) (d "t3-3 "))))
+
+=================================================================
+
+===== TIPOS =====
+
+#lang plai-typed
+
+#|
+ | Tipos estáticos
+ |#
+
+(define-type TyExprC
+  [numC (n : number)]
+  [idC  (s : symbol)]
+  [plusC (l : TyExprC) (r : TyExprC)]
+  [multC (l : TyExprC) (r : TyExprC)]
+  [lamC (arg : symbol) (argT : Type) (retT : Type) (body : TyExprC)] 
+  [appC (fun : TyExprC) (arg : TyExprC)]
+  )
+
+(define-type Type
+  [numT]
+  [funT (arg : Type) (ret : Type)])
+
+
+; Environment para tipos
+(define-type Type-Bind
+  [Tbind (name : symbol) (type : Type)])
+
+; A lista de associações é o environment
+(define-type-alias TyEnv (listof Type-Bind))
+(define mt-tyenv empty)        ; ente pronunciar "mt" em inglês e compare com "empty"
+(define extend-ty-env cons)     ; sorte, cons faz exatamente o que queremos para estender o env
+
+(define (Tlookup [for : symbol] [tenv : TyEnv]) : Type
+  (cond
+    [(empty? tenv) (error 'Tlookup (string-append (symbol->string for) " não foi encontrado"))] ; livre (não definida)
+    [else (cond
+            [(symbol=? for (Tbind-name (first tenv)))   ; achou!
+             (Tbind-type (first tenv))]
+            [else (Tlookup for (rest tenv))])]))        ; vê no resto
+
+
+
+(define (tc [expr : TyExprC] [tenv : TyEnv]) : Type 
+  (type-case TyExprC expr
+    [numC (n) (numT)]
+    [idC (n) (Tlookup n tenv)]
+    [plusC (l r) (let ([lt (tc l tenv)]
+                       [rt (tc r tenv)])
+                   (if (and (equal? lt (numT))
+                            (equal? rt (numT)))
+                       (numT)
+                       (error 'tc "+ not both numbers")))]
+    [multC (l r) (let ([lt (tc l tenv)]
+                       [rt (tc r tenv)])
+                   (if (and (equal? lt (numT))
+                            (equal? rt (numT)))
+                       (numT)
+                       (error 'tc "* not both numbers")))]
+    [appC (f a) (let ([ft (tc f tenv)]
+                      [at (tc a tenv)])
+                  (cond
+                    [(not (funT? ft))
+                     (error 'tc "not a function")]
+                    [(not (equal? (funT-arg ft) at))
+                     (error 'tc "app arg mismatch")]
+                    [else (funT-ret ft)]))]
+    [lamC (a argT retT b)
+          (if (equal? (tc b (extend-ty-env (Tbind a argT) tenv)) retT)
+              (funT argT retT)
+              (error 'tc "lam type mismatch"))]
+    )
+  )
+
+
+
+
+; inclui funções
+(define-type ExprS
+  [numS    (n : number)]
+  [idS     (s : symbol)] 
+  [lamS    (arg : symbol) (argT : Type) (retT : Type) (body : ExprS)] ; muda de acordo
+  [appS    (fun : ExprS) (arg : ExprS)] 
+  [plusS   (l : ExprS) (r : ExprS)]
+  [bminusS (l : ExprS) (r : ExprS)]
+  [uminusS (e : ExprS)]
+  [multS   (l : ExprS) (r : ExprS)]
+  )
+
+
+(define (desugar [as : ExprS]) : TyExprC  
+  (type-case ExprS as
+    [numS    (n) (numC n)]
+    [idS     (s) (idC s)]
+    [lamS     (a at rt b)  (lamC a at rt (desugar b))] ; idem
+    [appS    (fun arg) (appC (desugar fun) (desugar arg))] 
+    [plusS   (l r) (plusC (desugar l) (desugar r))] 
+    [multS   (l r) (multC (desugar l) (desugar r))]
+    [bminusS (l r) (plusC (desugar l) (multC (numC -1) (desugar r)))]
+    [uminusS (e)   (multC (numC -1) (desugar e))]
+    ))
+
+;
+;; tipo de retorno
+;(define-type Value
+;  [numV  (n : number)]
+;  [closV (arg : symbol) (body : TyExprC) (env : Env)])
+;
+;; símbolos devem se associar ao número (ou a Value?)
+;(define-type Binding
+;  [bind (name : symbol) (val : Value)])
+;
+;; A lista de associações é o environment
+;(define-type-alias Env (listof Binding))
+;(define mt-env empty)        ; ente pronunciar "mt" em inglês e compare com "empty"
+;(define extend-env cons)     ; sorte, cons faz exatamente o que queremos para estender o env
+;
+;; novos operadores
+;(define (num+ [l : Value] [r : Value]) : Value
+;  (cond
+;    [(and (numV? l) (numV? r))
+;     (numV (+ (numV-n l) (numV-n r)))]
+;    [else
+;     (error 'num+ "Um dos argumentos não é número")]))
+;
+;(define (num* [l : Value] [r : Value]) : Value
+;  (cond
+;    [(and (numV? l) (numV? r))
+;     (numV (* (numV-n l) (numV-n r)))]
+;    [else
+;     (error 'num* "Um dos argumentos não é número")]))
+;
+;; trata agora lamC e appC
+;(define (interp [a : TyExprC] [env : Env]) : Value
+;  (type-case TyExprC a
+;    [numC (n) (numV n)] 
+;    [idC (n) (lookup n env)]
+;    [lamC (a b) (closV a b env)] ; definição de função captura o environment
+;    
+;    [appC (f a)
+;          (local ([define f-value (interp f env)]) ; f-value descreve melhor a ideia
+;            (interp (closV-body f-value)
+;                    (extend-env 
+;                     (bind (closV-arg f-value) (interp a env))
+;                     (closV-env f-value) ; não mais mt-env
+;                     )))]
+;    [plusC (l r) (num+ (interp l env) (interp r env))]
+;    [multC (l r) (num* (interp l env) (interp r env))]
+;    [ifC (c s n) (if (zero? (numV-n (interp c env))) (interp n env) (interp s env))]
+;    ))
+;
+;; lookup também muda o tipo de retorno
+;(define (lookup [for : symbol] [env : Env]) : Value
+;  (cond
+;    [(empty? env) (error 'lookup (string-append (symbol->string for) " não foi encontrado"))] ; livre (não definida)
+;    [else (cond
+;            [(symbol=? for (bind-name (first env)))   ; achou!
+;             (bind-val (first env))]
+;            [else (lookup for (rest env))])]))        ; vê no resto
+
+; o parser permite definir funções...
+;(define (parse [s : s-expression]) : ExprS
+;  (cond
+;    [(s-exp-number? s) (numS (s-exp->number s))]
+;    [(s-exp-symbol? s) (idS (s-exp->symbol s))] ; pode ser um símbolo livre nas definições de função
+;    [(s-exp-list? s)
+;     (let ([sl (s-exp->list s)])
+;       (case (s-exp->symbol (first sl))
+;         [(+) (plusS (parse (second sl)) (parse (third sl)))]
+;         [(*) (multS (parse (second sl)) (parse (third sl)))]
+;         [(-) (bminusS (parse (second sl)) (parse (third sl)))]
+;         [(~) (uminusS (parse (second sl)))]
+;         [(func) (lamS (s-exp->symbol (second sl)) (parse (third sl)))] ; definição
+;         [(call) (appS (parse (second sl)) (parse (third sl)))]
+;         [else (error 'parse "invalid input")]))]))
+
+; Facilitador
+;(define (interpS [s : s-expression]) (interp (desugar (parse s)) mt-env))
+
+; Testes
+;(test (interp (plusC (numC 10) (appC (lamC '_ (numC 5)) (numC 10)))
+;              mt-env)
+;      (numV 15))
+;(interpS '(+ 10 (call (func x (+ x x)) 16)))
+
+=================================================================
+
+===== TIPOS if =====
+
+#lang plai-typed
+
+#|
+ | Tipos estáticos
+ |#
+
+(define-type TyExprC
+  [numC (n : number)]
+  [idC  (s : symbol)]
+  [plusC (l : TyExprC) (r : TyExprC)]
+  [multC (l : TyExprC) (r : TyExprC)]
+  [lamC (arg : symbol) (argT : Type) (retT : Type) (body : TyExprC)] 
+  [appC (fun : TyExprC) (arg : TyExprC)]
+  [ifC   (condição : TyExprC) (sim : TyExprC) (não : TyExprC)]
+
+  )
+
+(define-type Type
+  [numT]
+  [funT (arg : Type) (ret : Type)])
+
+
+; Environment para tipos
+(define-type Type-Bind
+  [Tbind (name : symbol) (type : Type)])
+
+; A lista de associações é o environment
+(define-type-alias TyEnv (listof Type-Bind))
+(define mt-tyenv empty)        ; ente pronunciar "mt" em inglês e compare com "empty"
+(define extend-ty-env cons)     ; sorte, cons faz exatamente o que queremos para estender o env
+
+(define (Tlookup [for : symbol] [tenv : TyEnv]) : Type
+  (cond
+    [(empty? tenv) (error 'Tlookup (string-append (symbol->string for) " não foi encontrado"))] ; livre (não definida)
+    [else (cond
+            [(symbol=? for (Tbind-name (first tenv)))   ; achou!
+             (Tbind-type (first tenv))]
+            [else (Tlookup for (rest tenv))])]))        ; vê no resto
+
+
+
+(define (tc [expr : TyExprC] [tenv : TyEnv]) : Type 
+  (type-case TyExprC expr
+    [numC (n) (numT)]
+    [idC (n) (Tlookup n tenv)]
+    [plusC (l r) (let ([lt (tc l tenv)]
+                       [rt (tc r tenv)])
+                   (if (and (equal? lt (numT))
+                            (equal? rt (numT)))
+                       (numT)
+                       (error 'tc "+ not both numbers")))]
+    [multC (l r) (let ([lt (tc l tenv)]
+                       [rt (tc r tenv)])
+                   (if (and (equal? lt (numT))
+                            (equal? rt (numT)))
+                       (numT)
+                       (error 'tc "* not both numbers")))]
+    [appC (f a) (let ([ft (tc f tenv)]
+                      [at (tc a tenv)])
+                  (cond
+                    [(not (funT? ft))
+                     (error 'tc "not a function")]
+                    [(not (equal? (funT-arg ft) at))
+                     (error 'tc "app arg mismatch")]
+                    [else (funT-ret ft)]))]
+    [lamC (a argT retT b)
+          (if (equal? (tc b (extend-ty-env (Tbind a argT) tenv)) retT)
+              (funT argT retT)
+              (error 'tc "lam type mismatch"))]
+    [ifC (c s n) (let ([ct (tc c tenv)]
+					   [st (tc s tenv)]
+					   [nt (tc n tenv)])
+				   (cond
+					[(not (numT? ct))
+					 (error 'tc "Condition must be numeric")]
+					[(not (equal? st nt))
+					 (error 'tc "Both branches must be of the same type")]
+					[else st])
+				   )]
+    )
+  )
+
+
+
+
+; inclui funções
+(define-type ExprS
+  [numS    (n : number)]
+  [idS     (s : symbol)] 
+  [lamS    (arg : symbol) (argT : Type) (retT : Type) (body : ExprS)] ; muda de acordo
+  [appS    (fun : ExprS) (arg : ExprS)] 
+  [plusS   (l : ExprS) (r : ExprS)]
+  [bminusS (l : ExprS) (r : ExprS)]
+  [uminusS (e : ExprS)]
+  [multS   (l : ExprS) (r : ExprS)]
+  [ifS	   (c : ExprS) (s : ExprS) (n : ExprS)]
+  )
+
+
+(define (desugar [as : ExprS]) : TyExprC  
+  (type-case ExprS as
+    [numS    (n) (numC n)]
+    [idS     (s) (idC s)]
+    [lamS     (a at rt b)  (lamC a at rt (desugar b))] ; idem
+    [appS    (fun arg) (appC (desugar fun) (desugar arg))] 
+    [plusS   (l r) (plusC (desugar l) (desugar r))] 
+    [multS   (l r) (multC (desugar l) (desugar r))]
+    [bminusS (l r) (plusC (desugar l) (multC (numC -1) (desugar r)))]
+    [uminusS (e)   (multC (numC -1) (desugar e))]
+    [ifS     (c s n) (ifC (desugar c) (desugar s) (desugar n))]
+    ))
+
+(tc (ifC (numC 0) (lamC 'a (numT) (numT) (numC 6)) (lamC 'a (numT) (numT) (plusC (numC 3) (numC 3)))) empty)
+;(tc (ifC (lamC 'a (numT) (numT) (numC 6)) (numC 3) (numC 43)) empty);
+;(tc (ifC (numC 0) (lamC 'a (numT) (numT) (numC 6)) (numC 3)) empty)
+

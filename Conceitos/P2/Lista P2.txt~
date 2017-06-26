@@ -25,13 +25,18 @@ Lista P2
 03- Macro higiênico é um macro que diferencia environments de
     tal forma que definições recursivas de macros ou com autorreferências
     sejam possíveis.
+
 04-
 
 05-
 
-06-
+06- call/cc recebe como argumento um procedimento que recebe um argumento,
+    que é passado para a continuação, iniciando ou continuando com a chamada
+    em cascata na pilha. let/cc chama call/cc passando um lambda com argumento
+    k e corpo b como argumento de call/cc. Logo, não seria possível fazer o
+    contrário.
 
-07-
+07- O resultado da primeira expressão é 6.
 
 08-
 

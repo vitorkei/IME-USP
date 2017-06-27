@@ -1,0 +1,15 @@
+public class test
+{
+  private int blub (int a)
+  {
+    return a + 1;
+  }
+  
+  public static void main(String[] args)
+  {
+    boolean a = true;
+    int b;
+    
+    b = blub(a);
+  }
+}

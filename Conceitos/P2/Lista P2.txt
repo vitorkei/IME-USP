@@ -42,6 +42,9 @@ Lista P2
 
 09- 
 
-10- 
+10- Verdadeiro - Um bom verificador de erros garante que não ocorrerão erros de
+                 execução, pois faz uma análise sintática do código, verificando
+                 se não há variáveis recebendo valores que não correspondem ao
+                 seu tipo ou funções recebendo argumentos de tipo incorreto.
 
 11- 

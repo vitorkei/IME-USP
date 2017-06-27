@@ -1,0 +1,18 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int blub (int a)
+{
+  printf("%d\n", a);
+  return a + 1;
+}
+
+int main()
+{
+  double c;
+  int b;
+  c = 1.23;
+  printf("%f\n", c);
+  b = blub(c);
+  printf("%d\n", b);
+}

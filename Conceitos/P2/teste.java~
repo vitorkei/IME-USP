@@ -1,0 +1,15 @@
+public class teste
+{
+  int blub (int a)
+  {
+    return a + 1;
+  }
+  public static void main(String[] args)
+  {
+    String c;
+    int b;
+    c = "char";
+    b = blub(c);
+    system.out.println("b = " + b);
+  }
+}

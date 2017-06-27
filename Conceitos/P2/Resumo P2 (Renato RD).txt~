@@ -1209,7 +1209,7 @@ TIPOS
 
 De forma geral, quando temos expressões, não temos como saber se o
 resultado será válido ou não. Em alguns casos, teremos erro certamente.
-Em outros, sempre funcionará. No terceiro caso, não teremos como saber
+Em outros, sempre funcionará. No terceiro caso, não temos como saber
 até o tempo de execução.
 
 Por esse motivo, existem os tipos. Eles permitem que verifiquemos a 
@@ -1365,7 +1365,7 @@ Existem três elementos essenciais para implementar um sistema de tipos:
       
       O "rec" é o lambda que faz a construção de recursão - seja via
       combinador-y ou por manutenção do estado. Ele precisa de dois
-      argumentos: o primeiro, uma lista que contenha o SÌMBOLO A 
+      argumentos: o primeiro, uma lista que contenha o SÍMBOLO A 
       SER USADO PARA A CHAMADA RECURSIVA (i) com A FUNÇÃO USADA PARA
       GERAR A RECURSÃO (v); o segundo, o CORPO DA FUNÇÃO (b).
       
@@ -1398,4 +1398,4 @@ Existem três elementos essenciais para implementar um sistema de tipos:
     | (rec (i v) b) | Γ[i ← τi] ⊢ b : τ  Γ[i ← τi] ⊢ v : τi    |
     |               | -------------------------------------    |
     |               |     Γ ⊢ (rec (i : τi v) b) : τ           |
-'==============='=========================================='
+    '==============='=========================================='

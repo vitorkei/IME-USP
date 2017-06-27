@@ -36,15 +36,26 @@ Lista P2
     k e corpo b como argumento de call/cc. Logo, não seria possível fazer o
     contrário.
 
-07- O resultado da primeira expressão é 6.
+07- (+ 3 (call/cc (lambda (x) (* 13 (x 3)))))
+    (+ 3 ...) é a continuação de (lambda (x) (* 13 (x 3))). Ou seja, x é um
+    procedimento que soma 3. Como call/cc chama apenas a continuação e x
+    recebeu 3, então a saída é (+ 3 3), cujo resultado é 6.
+    Equivale a (+ 3 (let/cc x (* 13 (x 3))))
+    ---
+    (begin (define blue #f) (+ 1 (call/cc (lambda (red) (set! blue red) 1))) (blue 40))
+    Inicialmente, o valor de blue é definido como #f (false).
+    Na linha seguinte, é chamada a continuação de (lambda (red) (set! blue red) 1),
+    que é + 1. O valor de blue é definido como o de red, que é (+ 1 ...)
+    Em seguida, é passado o número 40 para blue, fazendo a soma (+ 1 40), cujo
+    resultado é 41. O 1 na linha de chamada de continuação é porque é exigido que
+    seja retornado um número, mas ele não é usado.
+    Equivale a
+    (begin (define blue #f) (+ 1 (let/cc red (set! blue red) 1)) (blue 40))
 
 08- 
 
 09- 
 
-10- Verdadeiro - Um bom verificador de erros garante que não ocorrerão erros de
-                 execução, pois faz uma análise sintática do código, verificando
-                 se não há variáveis recebendo valores que não correspondem ao
-                 seu tipo ou funções recebendo argumentos de tipo incorreto.
+10- Falso - Pois não impede que operações como divisão por zero sejam executadas.
 
 11- 

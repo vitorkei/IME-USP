@@ -1,4 +1,3 @@
-package org.opensourcephysics.sip.ch14.traffic;
 import java.awt.Graphics;
 import org.opensourcephysics.display.*;
 import org.opensourcephysics.frames.*;
@@ -20,13 +19,14 @@ public class Freeway implements Drawable
   // número de iterações antes de scrollar o diagrama de espaço-tempo
   public int scrollTime = 100;
   
-  public void initialize (LatticeFrame spaceTime)
+  public void initialize(LatticeFrame spaceTime)
   {
     this.spaceTime = spaceTime;
     x = new int[numberOfCars];
     xtemp = new int[numberOfCars]; // usado para permitir atualização em paralelo
     v = new int[numberOfCars];
     spaceTime.resizeLattice(roadLength, 100);
+    road = new CellLattice(roadLength, 1);
     road.setIndexedColor(0, java.awt.Color.RED);
     road.setIndexedColor(1, java.awt.Color.GREEN);
     spaceTime.setIndexedColor(0, java.awt.Color.RED);

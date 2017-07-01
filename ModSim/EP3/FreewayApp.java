@@ -1,4 +1,3 @@
-package org.opensourcephysics.sip.ch14.traffic;
 import org.opensourcephysics.controls.*;
 import org.opensourcephysics.frames.*;
 
@@ -8,11 +7,8 @@ public class FreewayApp extends AbstractSimulation
   DisplayFrame display = new DisplayFrame("Freeway");
   LatticeFrame spaceTime = new LatticeFrame("space", "time", "Space Time Diagram");
   
-  public FreewayApp()
-  {
-    display.addDrawable(freeway);
-  }
-  
+  public FreewayApp() { display.addDrawable(freeway); }
+
   public void initialize()
   {
     freeway.numberOfCars = control.getInt("Number of cars");

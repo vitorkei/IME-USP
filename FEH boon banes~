@@ -19,13 +19,14 @@ Cordelia  | +HP/-RES    : SLucina   | +HP/-DEF   :
 Axe 5*                  : Green Tome 5*          : Green Dragon 5*
 ---------------------------------------------------------------------
 Sheena    | +HP/-SPD    : SCamilla  | +SPD/-ATK  : Fae  | +DEF/-RES
-Titania   | +ATK/-RES   :                        :
+Titania   | +ATK/-RES   : Boey      | +HP/-ATK   :
 Cherche   | +ATK/-SPD   :                        :
 
 
 Bow 5*                  : Dagger 5*              : Healer 5*
 ---------------------------------------------------------------------
 Takumi    | +DEF/-SPD   :                        : Maria | +SPD/-RES
+Gaius     | +SPD/-DEF   :                        :
 
 
 ====================================
@@ -41,6 +42,8 @@ Hana      | +RES/-RES   : Tharja | +ATK/-SPD     :
 Lance 4*                : Blue Tome 4*           : Blue Dragon 4*
 ---------------------------------------------------------------------
                         : Reinhardt | Neutro     : CorrinF | Neutro
+                        :                        : Nowi    | +RES/-DEF
+                        :                        : Nowi    | +SPD/-HP
 
 
 Axe 4*                  : Green Tome 4*          : Green Dragon 4*
@@ -51,5 +54,5 @@ Axe 4*                  : Green Tome 4*          : Green Dragon 4*
 Bow 4*                  : Dagger 4*              : Healer 4*
 ---------------------------------------------------------------------
 Setsuna   | +SPD/-RES   : Kagero    | +SPD/-RES  :              
-                        : Felicia   | +RES/-DEF
+                        : Felicia   | +RES/-DEF  :
 

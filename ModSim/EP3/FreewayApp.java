@@ -3,6 +3,7 @@ import org.opensourcephysics.frames.*;
 
 public class FreewayApp extends AbstractSimulation
 {
+  double flowRate, density;
   Freeway freeway = new Freeway();
   DisplayFrame display = new DisplayFrame("Freeway");
   LatticeFrame spaceTime = new LatticeFrame("space", "time", "Space Time Diagram");
@@ -19,7 +20,24 @@ public class FreewayApp extends AbstractSimulation
     freeway.initialize(spaceTime);
   }
   
-  public void doStep() { freeway.step(); }
+  public void doStep()
+  {
+    freeway.step();
+    
+    // Calcula e imprime o flow rate e a densidade
+    // Flow rate: velocidade média dos carros dividido pelo comprimento da pista
+    // Densidade: número de carros dividido pelo comprimento da pista
+    flowRate = 0;
+    density = (double) freeway.numberOfCars;
+    for(int i = 0; i < freeway.numberOfCars; i++)
+      flowRate += (double) freeway.v[i];
+    flowRate /= (double) freeway.numberOfCars;
+    flowRate /= (double) freeway.roadLength;
+    
+    density /= (double) freeway.roadLength;
+    
+    System.out.println(flowRate + " " + density);
+  }
   
   public void reset()
   {
@@ -39,6 +57,7 @@ public class FreewayApp extends AbstractSimulation
   
   public static void main(String[] args)
   {
+    Freeway model = new Freeway();
     SimulationControl control = SimulationControl.createApp(new FreewayApp());
     control.addButton("resetAverages", "resetAverages");
   }

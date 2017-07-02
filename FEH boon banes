@@ -37,6 +37,7 @@ Sword 4*                : Red Tome 4*            : Red Dragon 4*
 Olivia    | +HP/-DEF    : Tharja | +ATK/-RES     :
 Chrom     | +RES/-HP    : Tharja | +RES/-DEF     :
 Hana      | +RES/-RES   : Tharja | +ATK/-SPD     :
+                        : Tharja | Neutro        :
 
 
 Lance 4*                : Blue Tome 4*           : Blue Dragon 4*
@@ -53,6 +54,7 @@ Axe 4*                  : Green Tome 4*          : Green Dragon 4*
 
 Bow 4*                  : Dagger 4*              : Healer 4*
 ---------------------------------------------------------------------
-Setsuna   | +SPD/-RES   : Kagero    | +SPD/-RES  :              
+Setsuna   | +SPD/-RES   : Kagero    | +SPD/-RES  :      
+                        : Kagero    | +RES/-ATK  :        
                         : Felicia   | +RES/-DEF  :
 

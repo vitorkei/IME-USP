@@ -1,0 +1,43 @@
+14.5a) Programa fundamentalDiagram.java plota o diagrama fundamental
+       utilizando input.txt como entrada e as bibliotecas StdDraw.java
+       e StdIn.java (do livro Introduction to Programming in Java
+       - http://introcs.cs.princeton.edu/java/stdlib/) como auxiliares.
+       Os programas Freeway.java e FreewayApp.java são transcrições dos
+       códigos de mesmo nome do capítulo 14 do livro OSP, com a adição de
+       calcular e imprimir o flow rate e a densidade de cada simulação.
+       Olhando para o diagrama fundamental construído a partir das entradas
+       do arquivo input.txt, é difícil dizer a partir de qual densidade
+       engarrafamentos começam a surgir, pois é possível ver que há flow rate
+       baixo em quase todos os valores de densidade testados.
+
+14.5b) Todas as outras entradas das simulações cuja via tinha comprimento 500
+       estão escritas no arquivo "Entradas das simulacoes.csv"
+
+14.5c) Foram implementadas, na classe Freeway, métodos que retornam a média,
+       variância e desvio padrão das velocidades dos carros e das distâncias
+       entre dois carros adjacentes.
+
+14.5d) Com 10 carros, probabilidade de reduzir a velocidade de 0.5 e tamanho
+       de pista 100, engarrafamentos ocorrem com mais frequência quando a
+       velocidade máxima é de 1. Com velocidade máxima de 2, lentidões ocorrem
+       com frequência, mas desaparecem rapidamente também. Não chega a formar
+       engarrafamento. Com 5, engarrafamentos são mais raros, mas, quando ocorrem,
+       levam um tempo para desaparecer.
+       
+       Com 20 carros, mesma probabilidade de redução de velocidade e comprimento
+       de pista, há lentidões constantes quando a velocidade máxima é de 1, mas
+       engarrafamentos são raros. Com velocidade máxima de 2, pontos de lentidão
+       são raros e, quando ocorrem, se dissipam rapidamente. Com velocidade máxima
+       de 5, um engarrafamento se formou na pista e nunca se dissipou, o foco apenas
+       "se moveu" conforme o tempo passou.
+       
+       Tanto com 10 quanto com 20 carros, probabilidade de redução de velocidade de
+       0.1 e comprimento da pista de 100, a diferença para quando a probabilidade é
+       de 0.5 é que lentidões e engarrafamentos são ainda mais raros e, quando ocorrem,
+       são menores e/ou se dissipam mais rapidamente para os três valores de velocidade
+       máxima testados (1, 2 e 5).
+
+14.5e) Quando a probabilidade de redução de velocidade é de 0.8, engarrafamentos e
+       pontos de lentidão ocorrem com muito mais frequência do que quando é de 0.2
+       e levam bastante tempo para se dissiparem, quando se dissipam.
+

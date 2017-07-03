@@ -86,6 +86,67 @@ public class Freeway implements Drawable
     }
   }
   
+  // Funções que retornam a média variância e
+  //   desvio padrão da velocidade dos carros.
+  public double velMean()
+  {
+    double mean = 0;
+    for (int i = 0; i < numberOfCars; i++)
+      mean += (double) v[i];
+    mean /= (double) numberOfCars;
+    return mean;
+  }
+  public double velVar()
+  {
+    double var = 0;
+    double mean = velMean();
+    double aux = 0;
+    for (int i = 0; i < numberOfCars; i++)
+    {
+      aux = v[i] - mean;
+      var += aux * aux;
+    }
+    var /= (numberOfCars - 1);
+    return var;
+  }
+  public double velStdDev() { return Math.sqrt(velVar()); }
+  
+  // Distribuição de espaços - distâncias entre um carro
+  //   e o carro logo a frente, média, variância e desvio padrão
+  public int[] gaps()
+  {
+    int aux;
+    int[] gaps = new int[numberOfCars - 1];
+    for (int i = 0; i < gaps.length; i++)
+      gaps[i] = Math.abs(x[i+1] - x[i]);
+    
+    return gaps;
+  }
+  public double gapsMean()
+  {
+    int[] gaps = gaps();
+    double mean = 0;
+    for (int i = 0; i < gaps.length; i++)
+      mean += (double) gaps[i];
+    mean /= (double) gaps.length;
+    return mean;
+  }
+  public double gapsVar()
+  {
+    int[] gaps = gaps();
+    double mean = gapsMean();
+    double var = 0;
+    double aux = 0;
+    for (int i = 0; i < gaps.length; i++)
+    {
+      aux = gaps[i] - mean;
+      var += aux * aux;
+    }
+    var /= (gaps.length - 1);
+    return var;
+  }
+  public double gapsStdDev() { return Math.sqrt(gapsVar()); }
+  
   public void draw(DrawingPanel panel, Graphics g)
   {
     if (x == null) return;

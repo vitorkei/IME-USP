@@ -22,6 +22,7 @@ public class FreewayApp extends AbstractSimulation
   
   public void doStep()
   {
+    //double velMean, velVar, velStdDev, gapsMean, gapsVar, gapsStdDev;
     freeway.step();
     
     // Calcula e imprime o flow rate e a densidade
@@ -35,7 +36,17 @@ public class FreewayApp extends AbstractSimulation
     flowRate /= (double) freeway.roadLength;
     
     density /= (double) freeway.roadLength;
+    /*
+    velMean = freeway.velMean();
+    velVar = freeway.velVar();
+    velStdDev = freeway.velStdDev();
     
+    gapsMean = freeway.gapsMean();
+    gapsVar = freeway.gapsVar();
+    gapsStdDev = freeway.gapsStdDev();
+    
+    System.out.println("==========\n" + velMean + " " + velVar + " " + velStdDev + " " + gapsMean + " " + gapsVar + " " + gapsStdDev);
+    */
     System.out.println(flowRate + " " + density);
   }
   

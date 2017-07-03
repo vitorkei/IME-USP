@@ -1,0 +1,66 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{caption}
+
+\title{MAC0209 - Modelagem e Simulação \\
+Relatório Exercício Programa 3}
+\author{Henrique Cerquinho - 9793700 \\
+João Pedro Miguel de Moura - 7971622 \\
+Tomás Bezerra Marcondes Paim - 7157602 \\
+Vítor Kei Taira Tamada - 8516250}
+\date{03/07/2017}
+
+\begin{document}
+
+\maketitle
+
+\section{Introdução}
+\paragraph{}Este relatório diz respeito às simulações realizadas pelo grupo para analisar um sistema complexo, o autômato celular de modelo de trânsito. Os principais desafios foram conseguir analisar as simulações para que as corretas conclusões e inferências fossem feitas, uma vez que o código-fonte do simulador foi fornecido pelo livro.
+
+\section{Método}
+\paragraph{}Como exigido pelo enunciado do EP3, implementamos os programas Freeway e FreewayApp do \textit{open source physics} e respondemos os ítens (a) até (h) do exercício 14.5 de simulação de trânsito. Diferente dos EPs 1 e 2, o programa utilizado no EP3 foi em Java uma vez que o próprio livro utiliza bibliotecas e códigos auxiliares mais complexos que seriam de difícil adaptação para Python.
+
+\paragraph{}Uma vez que o código precisava ser alterado e um item para o outro no exercício, por vezes radicalmente, vários códigos diferentes foram salvos em pastas diferentes para melhor organização e garantia de que os ítens seriam respondidos corretamente em seus respectivos contextos.
+
+\paragraph{}Além disso, para gerar o diagrama fundamental do item 14.5a, foram utilizadas duas bibliotecas auxiliares, \texttt{StdDraw.java} e \texttt{StdIn.java}, do livro \textit{Introduction to Programming in Java} (http://introcs.cs.princeton.edu/java/stdlib/). Tais bibliotecas foram enviadas junto dos códigos-fonte e relatório. O diagrama é gerado pelo programa \texttt{fundamentalDiagram.java}, que utiliza o arquivo \texttt{input.txt} como entrada.
+
+\paragraph{}Todos os algoritmos foram implementados em Java.
+
+\section{Verificação do Programa}
+\paragraph{}O programa FreewayApp foi construído para ser rodado sem nenhum argumento, mas utiliza uma interface gráfica para alterar os parâmetros da simulação, bem como botão para iniciar/pausar, parar, avançar passo-a-passo e reiniciar os parâmetros para o padrão. A simulação em si aparece em duas janelas: uma mostrando passo-a-passo e outra mostrando cada passo até o momento enquanto couber na janela.
+
+\section{Dados}
+\paragraph{}Os dados arbitrários (ou seja, os que não são pedidos no enunciado do exercício) utilizados para realizar as simulações estão no arquivo Parâmetros.ods enviado junto dos códigos-fonte e do relatório.
+
+\section{Análise}
+\paragraph{}Uma vez que há muitos valores que cada parâmetro de entrada poderia assumir, foi difícil e trabalhoso realizar testes diferentes o suficiente para que as conclusões não fossem excessivamente enviesadas. Além disso, não sabíamos bem que valores poderíamos chamar de "baixo", "médio" e "alto" para cada parâmetro. Além disso, algumas inferências são muito dependentes da opinião de quem está analisando a simulação.
+
+\section{Interpretação}
+\paragraph{}
+ 
+
+\section{Crítica}
+\paragraph{}
+
+\section{Log}
+\textbf{(Sexta 30/06/2017)} Início do trabalho: leitura do enunciado, capítulo 14 e análise do código-fonte fornecido \\
+\textbf{(Sábado 01/07/2017)} Transcrição do código-fonte fornecido. Primeira simulações realizadas. \\
+\textbf{(Domingo  02/07/2017)} Realização das últimas simulações. \\
+\textbf{(Segunda  03/07/2017)} Início e finalizção do relatório. Compilação dos códigos-fonte e dos dados de cada simulação, bem como inferências e conclusões. Entrega do EP3. \\
+
+\section{Análise Crítica}
+\paragraph{}
+
+
+\section{Atribuições}
+\textbf{Vídeo:} Tomás \\
+\textbf{Relatório:} João, Vítor \\
+\textbf{Programação:} João, Vítor
+
+\section{Vídeo dos experimentos}
+
+\textbf{INSIRA LINK PARA O VÍDEO AQUI}
+
+\end{document}

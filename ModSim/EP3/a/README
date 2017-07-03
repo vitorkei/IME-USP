@@ -1,9 +1,0 @@
-Sobre os itens 14.5a e 14.5b)
-  As simulações foram rodadas com todas as combinações de 1, 2, 5, 10, 20, 30 e 40 carros, 50 e 500 de comprimento da pista, 2, 10 e 25 de velocidade máxima e probabilidade de desacelerar de 0.1, 0,5 e 0.9.
-
-  Além disso, para a pista de comprimento 500, também foram rodadas simulações com 200 carros e 175 de velocidade máxima para as probabilidades de desacelerar acima, assim como os números de carros (1, 2, 5, ...) e velocidades máximas (2, 10, 25).
-
-  Cada simulação foi rodada com 100 passos em média.
-
-  O gráfico foi plotado pelo programa fundamentalDiagram.java com o arquivo input.txt
-  O programa fundamentalDiagram.java utiliza as bibliotecas StdDraw.java e StdIn.java do Algorithms Fourth Edition (http://algs4.cs.princeton.edu/home/)

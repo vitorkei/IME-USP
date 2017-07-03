@@ -32,7 +32,7 @@ Vítor Kei Taira Tamada - 8516250}
 \paragraph{}O programa FreewayApp foi construído para ser rodado sem nenhum argumento, mas utiliza uma interface gráfica para alterar os parâmetros da simulação, bem como botão para iniciar/pausar, parar, avançar passo-a-passo e reiniciar os parâmetros para o padrão. A simulação em si aparece em duas janelas: uma mostrando passo-a-passo e outra mostrando cada passo até o momento enquanto couber na janela.
 
 \section{Dados}
-\paragraph{}Os dados arbitrários (ou seja, os que não são pedidos no enunciado do exercício) utilizados para realizar as simulações estão no arquivo Parâmetros.ods enviado junto dos códigos-fonte e do relatório.
+\paragraph{}Os dados arbitrários (ou seja, os que não são pedidos no enunciado do exercício) utilizados para realizar as simulações estão no arquivo Parâmetros.ods (um arquivo idêntico mas em formato .csv está incluído) enviado junto dos códigos-fonte e do relatório.
 
 \section{Análise}
 \paragraph{}Uma vez que há muitos valores que cada parâmetro de entrada poderia assumir, foi difícil e trabalhoso realizar testes diferentes o suficiente para que as conclusões não fossem excessivamente enviesadas. Além disso, não sabíamos bem que valores poderíamos chamar de "baixo", "médio" e "alto" para cada parâmetro. Além disso, algumas inferências são muito dependentes da opinião de quem está analisando a simulação.

@@ -40,9 +40,15 @@ TERCEIRO SEMESTRE
       MAC0323 - Algoritmos e Estruturas de Dados II
 
       MAT0236 - Funcoes Diferenciaveis e Series
+      
+      MAC0209 - Modelagem e Simulacao
 
-QUARTO SEMESTRE
+QUARTO SEMESTRE - COMPLETO
       MAC0422 - Sistemas Operacionais
+      
+      MAC0316 - Conceitos Fundamentais de Linguagens de Programacao
+      
+      MAC0338 - Analise de Algoritmos
 
 OPTATIVA DE CIÊNCIAS
       4302112 - Física II
@@ -52,19 +58,9 @@ OPTATIVA DE CIÊNCIAS
 Obrigatórias que precisam ser feitas
 
 TERCEIRO SEMESTRE
-      MAC0209 - Modelagem e Simulacao
-      --Cursando
-
       MAC0210 - Laboratorio de Metodos Numericos
       
-      MAE0228 - Nocoes de Probabilidade e Processos Estocasticos
-
-QUARTO SEMESTRE
-      MAC0316 - Conceitos Fundamentais de Linguagens de Programacao
-      --Cursando
-      
-      MAC0338 - Analise de Algoritmos
-      --Cursando
+      MAE0228 - Nocoes de Probabilidade e Processos Estocasticos (optativa de estatistica)
 
 QUINTO SEMESTRE
       MAC0350 - Introdução ao desenvolvimento de sistemas de software

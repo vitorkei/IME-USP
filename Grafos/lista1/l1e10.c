@@ -85,7 +85,7 @@ int main()
 {
   int i, j, sLen;
   Vertex v, w;
-  char s[100];
+  char s[1000];
   Graph G = GRAPHinit(26); /* Número de caracteres no alfabeto, desconsiderando ç e acentuados */
   
   printf("\nInsira o número de caracteres que serão lidos do texto inserido: ");

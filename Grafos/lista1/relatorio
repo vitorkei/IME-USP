@@ -1,0 +1,88 @@
+Relatório
+
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+Exercício 10 - Lista 1
+
+A regra utilizada para formar o grafo é pegar apenas os caracteres do alfabeto, sem acentuação e sem ç,
+e considerar cada letra como um vértice (logo, 26 vértices, enumerados 0, ..., 25).
+
+Um arco entre dois vértices u e v é formado se a letra correspondente ao vértice v aparece depois da
+correspondente ao vértice u. A regra desconsidera quaisquer caracteres especiais como espaço e pontuações.
+
+Entretanto, por dificuldades técnicas, o algoritmo não só não consegue ignorar completamente tais caracteres
+especiais como dá erro em alguns casos se aparecerem. Portanto, a entrada precisa ser apenas uma string que
+contenha apenas os caracteres suportados (a-z e A-Z). Caracteres em caixa alta são lidos como caixa baixa.
+
+O programa suporta entrada de até 1000 caracteres e o número de caracteres lidos será determinado pelo usuário.
+Caso a string contenha menos caracteres que o determinado inicialmente, o grafo formado terá erros.
+Caso a string contenha mais caracteres que o determinado inicialmente, apenas um pedaço será considerado.
+
+Apesar da quebra de linha nos exemplos, os caracters foram inseridos em qualquer espaço ou quebra de linha
+
+Exemplo de entrada:
+escrevaumprogramaqueconstruaumgrafoapartirdealgumaregradesuaescolhaporexemplovocepoderiaconstruirografocom
+osnumeroszeroxedoisnumerosuevsaoadjacentessevsegueunaexpressaodepi
+
+Saída:
+0(a): 2(c) 3(d) 4(e) 5(f) 11(l) 12(m) 15(p) 16(q) 17(r) 20(u) 
+1(b): 
+2(c): 4(e) 14(o) 17(r) 
+3(d): 4(e) 
+4(e): 0(a) 2(c) 6(g) 12(m) 15(p) 17(r) 18(s) 21(v) 23(x) 
+5(f): 14(o) 
+6(g): 17(r) 20(u) 
+7(h): 0(a) 
+8(i): 0(a) 17(r) 
+9(j): 
+10(k): 
+11(l): 6(g) 7(h) 14(o) 
+12(m): 0(a) 6(g) 15(p) 
+13(n): 18(s) 
+14(o): 0(a) 2(c) 3(d) 6(g) 11(l) 13(n) 17(r) 21(v) 
+15(p): 0(a) 11(l) 14(o) 17(r) 
+16(q): 20(u) 
+17(r): 0(a) 3(d) 4(e) 8(i) 14(o) 19(t) 20(u) 
+18(s): 2(c) 19(t) 20(u) 
+19(t): 8(i) 17(r) 
+20(u): 0(a) 4(e) 8(i) 12(m) 
+21(v): 0(a) 14(o) 
+22(w): 
+23(x): 4(e) 
+24(y): 
+25(z): 
+
+Exemplo de entrada:
+daitanfutekinihakarakakumeirairairakurakuhansenkokkahinomarujirushinonirinshakorogashiakuryoutaisanai
+shiibiiemukanjousenohashirinuketetouhonseisounannosonoshounenshoujosengokumusouukiyonomanimani
+senbonzakurayorunimagirekiminokoemotodokanaiyokokowautagehaganenoorisonodantoudaidemioroshite
+sanzensekaitokoyonoyaminagekuutamokikoenaiyoseirannosoraharukakanatasonokousenjuudeuhinuite
+
+Saída:
+0(a): 7(h) 8(i) 10(k) 13(n) 17(r) 18(s) 
+1(b): 8(i) 14(o) 
+2(c): 
+3(d): 0(a) 
+4(e): 8(i) 10(k) 12(m) 13(n) 19(t) 
+5(f): 20(u) 
+6(g): 0(a) 14(o) 
+7(h): 0(a) 8(i) 14(o) 
+8(i): 0(a) 1(b) 4(e) 7(h) 12(m) 13(n) 17(r) 18(s) 19(t) 24(y) 
+9(j): 8(i) 14(o) 
+10(k): 0(a) 4(e) 8(i) 14(o) 20(u) 
+11(l): 
+12(m): 0(a) 4(e) 20(u) 
+13(n): 0(a) 1(b) 4(e) 5(f) 6(g) 8(i) 9(j) 10(k) 14(o) 18(s) 20(u) 
+14(o): 6(g) 7(h) 10(k) 12(m) 13(n) 17(r) 18(s) 20(u) 
+15(p): 
+16(q): 
+17(r): 0(a) 8(i) 14(o) 20(u) 24(y) 
+18(s): 0(a) 4(e) 7(h) 14(o) 
+19(t): 0(a) 4(e) 14(o) 
+20(u): 7(h) 9(j) 10(k) 12(m) 13(n) 17(r) 18(s) 19(t) 
+21(v): 
+22(w): 
+23(x): 
+24(y): 14(o) 
+25(z): 
+

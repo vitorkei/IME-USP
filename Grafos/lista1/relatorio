@@ -9,50 +9,21 @@ e considerar cada letra como um vértice (logo, 26 vértices, enumerados 0, ...,
 
 Um arco entre dois vértices u e v é formado se a letra correspondente ao vértice v aparece depois da
 correspondente ao vértice u. A regra desconsidera quaisquer caracteres especiais como espaço e pontuações.
+Ou seja, um arco é formado entre a última letra de uma palavra e a primeira letra da palavra seguinte.
 
 Entretanto, por dificuldades técnicas, o algoritmo não só não consegue ignorar completamente tais caracteres
-especiais como dá erro em alguns casos se aparecerem. Portanto, a entrada precisa ser apenas uma string que
-contenha apenas os caracteres suportados (a-z e A-Z). Caracteres em caixa alta são lidos como caixa baixa.
+especiais como ocorre erro em alguns casos se aparecerem. Portanto, a entrada precisa ser apenas uma string que
+contenha apenas os caracteres suportados (a-zA-Z). Caracteres em caixa alta são lidos como caixa baixa.
 
 O programa suporta entrada de até 1000 caracteres e o número de caracteres lidos será determinado pelo usuário.
 Caso a string contenha menos caracteres que o determinado inicialmente, o grafo formado terá erros.
 Caso a string contenha mais caracteres que o determinado inicialmente, apenas um pedaço será considerado.
 
-Apesar da quebra de linha nos exemplos, os caracters foram inseridos em qualquer espaço ou quebra de linha
+======================
 
-Exemplo de entrada:
-escrevaumprogramaqueconstruaumgrafoapartirdealgumaregradesuaescolhaporexemplovocepoderiaconstruirografocom
-osnumeroszeroxedoisnumerosuevsaoadjacentessevsegueunaexpressaodepi
+Apesar da quebra de linha nos exemplos, os caracters foram inseridos sem qualquer espaço ou quebra de linha
 
-Saída:
-0(a): 2(c) 3(d) 4(e) 5(f) 11(l) 12(m) 15(p) 16(q) 17(r) 20(u) 
-1(b): 
-2(c): 4(e) 14(o) 17(r) 
-3(d): 4(e) 
-4(e): 0(a) 2(c) 6(g) 12(m) 15(p) 17(r) 18(s) 21(v) 23(x) 
-5(f): 14(o) 
-6(g): 17(r) 20(u) 
-7(h): 0(a) 
-8(i): 0(a) 17(r) 
-9(j): 
-10(k): 
-11(l): 6(g) 7(h) 14(o) 
-12(m): 0(a) 6(g) 15(p) 
-13(n): 18(s) 
-14(o): 0(a) 2(c) 3(d) 6(g) 11(l) 13(n) 17(r) 21(v) 
-15(p): 0(a) 11(l) 14(o) 17(r) 
-16(q): 20(u) 
-17(r): 0(a) 3(d) 4(e) 8(i) 14(o) 19(t) 20(u) 
-18(s): 2(c) 19(t) 20(u) 
-19(t): 8(i) 17(r) 
-20(u): 0(a) 4(e) 8(i) 12(m) 
-21(v): 0(a) 14(o) 
-22(w): 
-23(x): 4(e) 
-24(y): 
-25(z): 
-
-Exemplo de entrada:
+Exemplo de entrada (letra de música japonesa):
 daitanfutekinihakarakakumeirairairakurakuhansenkokkahinomarujirushinonirinshakorogashiakuryoutaisanai
 shiibiiemukanjousenohashirinuketetouhonseisounannosonoshounenshoujosengokumusouukiyonomanimani
 senbonzakurayorunimagirekiminokoemotodokanaiyokokowautagehaganenoorisonodantoudaidemioroshite
@@ -86,3 +57,80 @@ Saída:
 24(y): 14(o) 
 25(z): 
 
+======================
+
+Exemplo de entrada (notícia em português):
+onumerodebeneficiariospagospelobolsafamiliaemjulhoregistrouamaiorereducaoemrelacaoaummesanterior
+desdeolancamentodoprogramaemdoismiletresentrejunhoeomespassadoonumerodebeneficiosencolheuem
+quinehitosequarentaetresmilfamiliassegundoapurououolocorteincluisuspensoesparavaliacaoecancelamentos
+
+Saída:
+0(a): 2(c) 3(d) 4(e) 5(f) 6(g) 8(i) 12(m) 13(n) 14(o) 17(r) 18(s) 20(u) 
+1(b): 4(e) 14(o) 
+2(c): 0(a) 8(i) 14(o) 
+3(d): 4(e) 14(o) 20(u) 
+4(e): 1(b) 3(d) 5(f) 6(g) 7(h) 9(j) 11(l) 12(m) 13(n) 14(o) 16(q) 17(r) 18(s) 19(t) 20(u) 
+5(f): 0(a) 8(i) 
+6(g): 8(i) 14(o) 17(r) 
+7(h): 4(e) 8(i) 14(o) 
+8(i): 0(a) 2(c) 11(l) 13(n) 14(o) 18(s) 19(t) 
+9(j): 20(u) 
+10(k): 
+11(l): 0(a) 4(e) 7(h) 8(i) 14(o) 18(s) 
+12(m): 0(a) 3(d) 4(e) 8(i) 9(j) 16(q) 17(r) 
+13(n): 2(c) 4(e) 7(h) 19(t) 20(u) 
+14(o): 0(a) 1(b) 3(d) 4(e) 6(g) 8(i) 11(l) 12(m) 13(n) 15(p) 17(r) 18(s) 20(u) 
+15(p): 0(a) 4(e) 17(r) 
+16(q): 20(u) 
+17(r): 0(a) 3(d) 4(e) 8(i) 14(o) 
+18(s): 0(a) 3(d) 4(e) 12(m) 15(p) 19(t) 
+19(t): 4(e) 14(o) 17(r) 
+20(u): 0(a) 2(c) 4(e) 8(i) 11(l) 12(m) 13(n) 
+21(v): 
+22(w): 
+23(x): 
+24(y): 
+25(z): 
+
+======================
+
+Exemplo de entrada (notícia em inglês):
+barcelonamayoradacolaucalledasurprisepressconferenceonsundayinabidtoofferherassessmentof
+aseriesoincidentsrelatedtothecitystourismsectorshedidsoafteraweekofsilencedespitestrikes
+atthecatalancapitalselpratairportcausingwidespreadelaysandreportsofmountingprotestsagainst
+theeffecttattheburgeoningtouristtradeisperceivedtobehavingonlocals
+
+Saída:
+0(a): 1(b) 2(c) 3(d) 5(f) 11(l) 12(m) 13(n) 15(p) 17(r) 18(s) 19(t) 20(u) 22(w) 24(y) 
+1(b): 0(a) 8(i) 
+2(c): 0(a) 4(e) 8(i) 14(o) 19(t) 
+3(d): 0(a) 4(e) 8(i) 18(s) 19(t) 
+4(e): 2(c) 3(d) 10(k) 11(l) 13(n) 14(o) 15(p) 17(r) 18(s) 
+5(f): 0(a) 4(e) 18(s) 19(t) 
+6(g): 
+7(h): 4(e) 
+8(i): 3(d) 4(e) 10(k) 11(l) 13(n) 18(s) 19(t) 
+9(j): 
+10(k): 4(e) 14(o) 
+11(l): 0(a) 4(e) 14(o) 15(p) 18(s) 
+12(m): 0(a) 4(e) 18(s) 
+13(n): 0(a) 2(c) 3(d) 5(f) 18(s) 19(t) 
+14(o): 0(a) 5(f) 8(i) 11(l) 13(n) 17(r) 19(t) 20(u) 
+15(p): 8(i) 17(r) 
+16(q): 
+17(r): 0(a) 2(c) 4(e) 7(h) 8(i) 15(p) 18(s) 
+18(s): 0(a) 2(c) 4(e) 7(h) 8(i) 12(m) 14(o) 15(p) 17(r) 19(t) 20(u) 
+19(t): 0(a) 4(e) 7(h) 14(o) 17(r) 18(s) 24(y) 
+20(u): 2(c) 13(n) 17(r) 
+21(v): 
+22(w): 4(e) 
+23(x): 
+24(y): 8(i) 14(o) 18(s) 
+25(z): 
+
+======================
+
+Percebe-se que os vértices com mais arcos de saída, ou que sequer tem algum arco de saída,
+são parecidos nos três idiomas que tiveram algum texto analisado (português, inglês e japonês).
+Ao mesmo tempo, as últimas letras do alfabeto (do v em diante) tiveram pouquíssimos arcos de saída,
+quando tinham algum.

@@ -140,25 +140,36 @@ int GRAPHreach (Graph G, Vertex s, Vertex t)
   return 1;
 }
 
-int main ()
+int main (int argc, char *argv[])
 {
   Graph G;
-  Vertex V, E, s, t;
+  Vertex V, E, v, w;
+  time_t t;
+  
+  V = atoi (argv[1]);
+  E = atoi (argv[2]);
+  
+  /*
   printf ("Insira o número de vértices: ");
   scanf ("%d", &V);
   
   printf ("Insira o número esperado de arestas: ");
   scanf ("%d", &E);
+  */
   
+  /* Gera e mostra o grafo */
   G = GRAPHrand (V, E);
+  /* GRAPHshow (G); */
   
-  GRAPHshow (G);
+  /* Escolhe dois vértices aleatóriamente e diz se são conexos */
+  srand (time (&t));
+  v = rand() % (G->V);
+  w = rand() % (G->V);
   
-  printf ("Insira dois vértices no intervalo [0, %d] para saber se são conexos: ", (G->V)-1);
-  scanf ("%d %d", &s, &t);
+  /* printf ("v = %d || w = %d\n", v, w); */
   
-  if (GRAPHreach(G, s, t)) printf ("Conexos\n");
-  else                     printf ("Não conexos\n");
+  if (GRAPHreach (G, v, w)) printf ("1\n");
+  else                      printf ("0\n");
   
   return 0;
 }

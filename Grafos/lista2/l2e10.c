@@ -2,6 +2,8 @@
 #include <stdio.h>
 #define Vertex int
 
+static int visit[1000]; /* Considerando um grafo de, no máximo, 1000 vértices */
+
 /* Estrutura */
 struct graph
 {
@@ -91,6 +93,7 @@ void GRAPHshow (Graph G)
         
     printf ("\n");
   }
+  printf("%d arestas\n", G->E);
 }
 
 /*
@@ -116,10 +119,31 @@ Graph GRAPHrand (Vertex V, int E)
   return (G);
 }
 
+/* Função auxiliar para saber se dois vértices são conexos */
+void reachR (Graph G, Vertex v)
+{
+  Vertex w;
+  visit[v] = 1;
+  for (w = 0; w < G->V; w++)
+    if (G->adj[v][w] == 1 && visit[w] == 0)
+      reachR (G, w);
+}
+
+/* Função que retorna se dois vértices são conexos */
+int GRAPHreach (Graph G, Vertex s, Vertex t)
+{
+  Vertex v;
+  for (v = 0; v < G->V; v++)
+    visit[v] = 0;
+  reachR (G, s);
+  if (visit[t] == 0) return 0;
+  return 1;
+}
+
 int main ()
 {
   Graph G;
-  Vertex V, E;
+  Vertex V, E, s, t;
   printf ("Insira o número de vértices: ");
   scanf ("%d", &V);
   
@@ -129,6 +153,12 @@ int main ()
   G = GRAPHrand (V, E);
   
   GRAPHshow (G);
+  
+  printf ("Insira dois vértices no intervalo [0, %d] para saber se são conexos: ", (G->V)-1);
+  scanf ("%d %d", &s, &t);
+  
+  if (GRAPHreach(G, s, t)) printf ("Conexos\n");
+  else                     printf ("Não conexos\n");
   
   return 0;
 }

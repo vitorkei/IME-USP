@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #define Vertex int
 
 static int visit[1000]; /* Considerando um grafo de, no máximo, 1000 vértices */
@@ -140,6 +141,13 @@ int GRAPHreach (Graph G, Vertex s, Vertex t)
   return 1;
 }
 
+/* Espera sec segundos */
+void wait (int sec)
+{
+  int end = time(0) + sec;
+  while (time(0) < end);
+}
+
 int main (int argc, char *argv[])
 {
   Graph G;
@@ -170,6 +178,8 @@ int main (int argc, char *argv[])
   
   if (GRAPHreach (G, v, w)) printf ("1\n");
   else                      printf ("0\n");
+  
+  wait (1);
   
   return 0;
 }

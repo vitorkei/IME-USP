@@ -1,0 +1,1 @@
+for run in {1..10}; do ./l2e10 10 5; done > output

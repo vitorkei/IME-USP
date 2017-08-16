@@ -100,9 +100,13 @@ void GRAPHshow (Graph G)
 */
 Graph GRAPHrand (Vertex V, int E)
 {
+  time_t t;
   Vertex v, w;
   double p = (double) E / (V * (V-1));
   Graph G = GRAPHinit (V);
+  
+  srand (time (&t));
+  
   for (v = 0; v < V; v++)
     for (w = 0; w < V; w++)
       if (v != w)
@@ -112,8 +116,19 @@ Graph GRAPHrand (Vertex V, int E)
   return (G);
 }
 
-int main()
+int main ()
 {
-  printf("blub\n");
+  Graph G;
+  Vertex V, E;
+  printf ("Insira o número de vértices: ");
+  scanf ("%d", &V);
+  
+  printf ("Insira o número esperado de arestas: ");
+  scanf ("%d", &E);
+  
+  G = GRAPHrand (V, E);
+  
+  GRAPHshow (G);
+  
   return 0;
 }

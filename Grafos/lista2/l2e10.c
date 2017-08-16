@@ -109,8 +109,6 @@ Graph GRAPHrand (Vertex V, int E)
   double p = (double) E / (V * (V-1));
   Graph G = GRAPHinit (V);
   
-  srand (time (&t));
-  
   for (v = 0; v < V; v++)
     for (w = 0; w < V; w++)
       if (v != w)
@@ -150,36 +148,28 @@ void wait (int sec)
 
 int main (int argc, char *argv[])
 {
+  int i, sum = 0;
   Graph G;
   Vertex V, E, v, w;
-  time_t t;
+  
+  srand (time (NULL));
   
   V = atoi (argv[1]);
   E = atoi (argv[2]);
   
-  /*
-  printf ("Insira o número de vértices: ");
-  scanf ("%d", &V);
+  for (i = 0; i < 1000; i++)
+  {
+    /* Gera e mostra o grafo */
+    G = GRAPHrand (V, E);
+    
+    /* Escolhe dois vértices aleatóriamente e diz se são conexos */
+    v = rand() % (G->V);
+    w = rand() % (G->V);
+    
+    if (GRAPHreach (G, v, w)) sum += 1;
+  }
   
-  printf ("Insira o número esperado de arestas: ");
-  scanf ("%d", &E);
-  */
-  
-  /* Gera e mostra o grafo */
-  G = GRAPHrand (V, E);
-  /* GRAPHshow (G); */
-  
-  /* Escolhe dois vértices aleatóriamente e diz se são conexos */
-  srand (time (&t));
-  v = rand() % (G->V);
-  w = rand() % (G->V);
-  
-  /* printf ("v = %d || w = %d\n", v, w); */
-  
-  if (GRAPHreach (G, v, w)) printf ("1\n");
-  else                      printf ("0\n");
-  
-  wait (1);
+  printf ("%d/1000\n", sum);
   
   return 0;
 }

@@ -1,0 +1,21 @@
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+Relatório - Lista 2, Exercício 10
+Algoritmos em Grafos
+
+Dado um grafo G com V vértices e E arestas, o número mínimo de arestas para que o G seja conexo
+é E = V-1, pois, com menos do que isso, pelo menos um vértice ficará isolado. Logo, escolhendo
+dois vértices aleatoriamente, a probabilidade de eles estarem conectados é de aproximadamente:
+
+(V = V, E = V-1) 62.5%
+--Foram testados com V = 10, V = 100 e V = 500
+
+(V = V, E = 2*V) 96.7%
+--Foram testados com V = 50, V = 100 e V = 500
+
+(V = V, E = 3*V) 99.6%
+--Foram testados com V = 50, V = 100 e V = 500
+
+(V = 100, E = 50) 72.1%
+
+(V = 50, E = 25) 12.2%

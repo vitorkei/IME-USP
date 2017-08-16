@@ -1,6 +1,8 @@
 /*
  * Nome: Vítor Kei Taira Tamada
  * NUSP: 8516250
+ *
+ * Compilado com: gcc -o l1e10 l1e10.c
  */
 
 #include <stdio.h>

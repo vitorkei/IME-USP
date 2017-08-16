@@ -10,22 +10,23 @@ CorrinM   | +HP/-ATK    :                        :
 
 Lance 5*                : Blue Tome 5*           : Blue Dragon 5*
 ---------------------------------------------------------------------
-Azura     | +DEF/-ATK   : Reinhardt | +ATK/-DEF  :
+Azura     | +DEF/-ATK   : Reinhardt | +ATK/-DEF  : Ninian | +ATK/-DEF
 Peri      | +ATK/-DEF   : Olwen     | +SPD/-ATK  :
 Cordelia  | +HP/-RES    : SLucina   | +HP/-DEF   :
-                        : RobinM    | +DEF/-RES  :
+SRobin    | +HP/-RES    : RobinM    | +DEF/-RES  :
+Catria    | +ATK/-HP    :                        :
 
 
 Axe 5*                  : Green Tome 5*          : Green Dragon 5*
 ---------------------------------------------------------------------
 Sheena    | +HP/-SPD    : SCamilla  | +SPD/-ATK  : Fae  | +DEF/-RES
 Titania   | +ATK/-RES   : Boey      | +HP/-ATK   :
-Cherche   | +ATK/-SPD   :                        :
+Cherche   | +ATK/-SPD   : Sonya     | +ATK/-HP   :
 
 
 Bow 5*                  : Dagger 5*              : Healer 5*
 ---------------------------------------------------------------------
-Takumi    | +DEF/-SPD   :                        : Maria | +SPD/-RES
+Takumi    | +DEF/-SPD   : SFrederick | +RES/-DEF : Maria | +SPD/-RES
 SGaius    | +SPD/-DEF   :                        :
 
 
@@ -42,7 +43,7 @@ Hana      | +RES/-RES   : Tharja | +ATK/-SPD     :
 
 Lance 4*                : Blue Tome 4*           : Blue Dragon 4*
 ---------------------------------------------------------------------
-                        : Reinhardt | Neutro     : CorrinF | Neutro
+Lukas | +DEF/-ATK       : Reinhardt | Neutro     : CorrinF | Neutro
                         :                        : Nowi    | +RES/-DEF
                         :                        : Nowi    | +SPD/-HP
 
@@ -51,6 +52,7 @@ Axe 4*                  : Green Tome 4*          : Green Dragon 4*
 ---------------------------------------------------------------------
                         : Cecilia | +ATK/-RES    : Fae  | +RES/-DEF
                         : Cecilia | +HP/-SPD     :
+                        : Soren   | Neutro
 
 Bow 4*                  : Dagger 4*              : Healer 4*
 ---------------------------------------------------------------------

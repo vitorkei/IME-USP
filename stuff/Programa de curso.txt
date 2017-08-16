@@ -95,13 +95,22 @@ ELETIVAS
       4310126 - Fisica I
       --6 creditos
 
+      MAC0218 - Técnicas de Programação II
+      --6 creditos
+      
+      MAE0515 - Introdução à Teoria dos Jogos
+      --4 creditos
+
 LIVRES
       MAC0335 - Leitura dramática
       --3 creditos
+      
+      PRG0001 - Esporte na Graduação: da Teoria à Prática
+      --3 creditos
 
 Contagem
--Eletivas: 24/52
--Livres:   3/24
+-Eletivas: 34/52
+-Livres:   6/24
 
 *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 

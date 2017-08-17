@@ -3,19 +3,36 @@ NUSP: 8516250
 Relatório - Lista 2, Exercício 10
 Algoritmos em Grafos
 
-Dado um grafo G com V vértices e E arestas, o número mínimo de arestas para que o G seja conexo
-é E = V-1, pois, com menos do que isso, pelo menos um vértice ficará isolado. Logo, escolhendo
-dois vértices aleatoriamente, a probabilidade de eles estarem conectados é de aproximadamente:
+Os valores de V e E utilizados para testes foram:
+V = 10
+V = 20
+V = 50
+V = 100
 
-(V = V, E = V-1) 62.5%
---Foram testados com V = 10, V = 100 e V = 500
+V-1 <= E <= 2*V
 
-(V = V, E = 2*V) 96.7%
---Foram testados com V = 50, V = 100 e V = 500
+O programa é composto de algumas etapas:
+1) gerar um grafo aleatório com V vértices e número esperado de arestas E;
 
-(V = V, E = 3*V) 99.6%
---Foram testados com V = 50, V = 100 e V = 500
+2) escolher ao acaso um par de vértices distintos do grafo;
 
-(V = 100, E = 50) 72.1%
+3) verificar se os vértices escolhidos estão ao alcance um do outro;
 
-(V = 50, E = 25) 12.2%
+4) repetir os passos 2-3 cem vezes para determinar a probabilidade A de dois vértices
+   escolhidos ao acaso estarem ao alcance um do outro;
+
+5) repetir os passos 1-4 cem vezes para determinar a probabilidade B de um grafo com V
+   vértices e número esperado de E arestas ter A >= 0.9;
+
+6) repetir os passos 1-5 para cada valor de E dado um valor de V.
+
+Os valores de E tal que B >= 0.85 para cada valor de V testado foram:
+
+(V =  10) E = 19
+(V =  20) E = 39
+(V =  50) E = 93
+(V = 100) E = 174
+
+As probabilidades de dois vértices escolhidos ao acaso estarem ao alcance um do outro
+para o par de (V, E) está no arquivo probs.txt que acompanha este relatório.
+

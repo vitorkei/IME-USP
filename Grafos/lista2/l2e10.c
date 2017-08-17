@@ -148,28 +148,49 @@ void wait (int sec)
 
 int main (int argc, char *argv[])
 {
-  int i, sum = 0;
+  int i, j;
+  int vertexCount; /* contador de vértices conexos */
+  int passed;      /* conta quantas vezes o grafo teve vertexCount >= 90/100 */
   Graph G;
   Vertex V, E, v, w;
   
   srand (time (NULL));
   
   V = atoi (argv[1]);
-  E = atoi (argv[2]);
   
-  for (i = 0; i < 1000; i++)
+  printf ("V = %d\n", V);
+  
+  for (E = V - 1; E <= 2*V; E++)
   {
-    /* Gera e mostra o grafo */
-    G = GRAPHrand (V, E);
-    
-    /* Escolhe dois vértices aleatóriamente e diz se são conexos */
-    v = rand() % (G->V);
-    w = rand() % (G->V);
-    
-    if (GRAPHreach (G, v, w)) sum += 1;
-  }
+    passed = 0;
   
-  printf ("%d/1000\n", sum);
+    for (i = 0; i < 100; i++)
+    {
+      /* Gera um grafo aleatório */
+      G = GRAPHrand (V, E);
+      vertexCount = 0;
+      
+      /* Pega 100 pares de vértices escolhidos      */
+      /*   ao acaso e verifica se são conexos.      */
+      /* Este passo determina, experimentalmente,   */
+      /*   a probabilidade de dois vértices estarem */
+      /*   ao alcande um do outro.                  */
+      for (j = 0; j < 100; j++)
+      {
+        /* Garante que v != w */
+        v = rand() % (G->V);
+        for (w = rand() % (G->V); w == v; w = rand() % (G->V));
+        
+        /* Conta quantas vezes os vértices são conexos */
+        if (GRAPHreach (G, v, w)) vertexCount += 1;
+      }
+      
+      if (vertexCount >= 90) passed += 1;
+    }
+    
+    printf ("E = %d: %d%\n", E, passed);
+    /*if (passed >= 85) printf ("E = %d: %d%\n", E, passed);*/
+  }
   
   return 0;
 }

@@ -1,1 +1,4 @@
-for run in {1..100}; do ./l2e10 20 19; done > output
+./l2e10 10
+./l2e10 20
+./l2e10 50
+./l2e10 100

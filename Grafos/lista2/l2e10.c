@@ -139,13 +139,6 @@ int GRAPHreach (Graph G, Vertex s, Vertex t)
   return 1;
 }
 
-/* Espera sec segundos */
-void wait (int sec)
-{
-  int end = time(0) + sec;
-  while (time(0) < end);
-}
-
 int main (int argc, char *argv[])
 {
   int i, j;
@@ -153,11 +146,9 @@ int main (int argc, char *argv[])
   int passed;      /* conta quantas vezes o grafo teve vertexCount >= 90/100 */
   Graph G;
   Vertex V, E, v, w;
-  
-  srand (time (NULL));
-  
   V = atoi (argv[1]);
   
+  srand (time (NULL));
   printf ("V = %d\n", V);
   
   for (E = V - 1; E <= 2*V; E++)

@@ -1,3 +1,10 @@
+/*
+ * Nome: Vítor Kei Taira Tamada
+ * NUSP: 8516250
+ * Relatório - Lista 2, Exercício 10
+ * Algoritmos em Grafos
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>

@@ -26,7 +26,7 @@ O programa é composto de algumas etapas:
 
 6) repetir os passos 1-5 para cada valor de E dado um valor de V.
 
-Os valores de aproximados de E tal que B >= 0.85 para cada valor de V testado foram:
+Os valores aproximados de E tal que B >= 0.85 para cada valor de V testado foram:
 
 (V =  10) E = 19
 (V =  20) E = 39
@@ -34,5 +34,5 @@ Os valores de aproximados de E tal que B >= 0.85 para cada valor de V testado fo
 (V = 100) E = 174
 
 As probabilidades de dois vértices escolhidos ao acaso estarem ao alcance um do outro
-para o par de (V, E) está no arquivo probs.txt que acompanha este relatório.
+para cada par (V, E) está no arquivo probs que acompanha este relatório.
 

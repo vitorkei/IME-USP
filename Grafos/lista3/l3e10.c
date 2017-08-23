@@ -1,3 +1,10 @@
+/*
+ * Nome: Vítor Kei Taira Tamada
+ * NUSP: 8516250
+ * Lista 3 - Exercício 10
+ * Algoritmos em Grafos
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -17,6 +24,17 @@ struct graph{
 };
 typedef struct graph *Graph;
 
+/* Protótipos */
+static link   NEWnode           (vertex, link);
+       UGraph UGRAPHinit        (int);
+       void   UGRAPHinsertEdge  (UGraph, vertex, vertex);
+       void   UGRAPHshow        (UGraph);
+       UGraph UGRAPHrand        (vertex, int);
+       int    UGRAPHcc          (UGraph, int*);
+static void   dfsRcc            (UGraph, int*, vertex, int);
+       int*   ccVertexCounter   (UGraph, int*)
+
+/* Cria um novo nó para a lista de adjacências */
 static link NEWnode (vertex w, link next){
   link a = malloc (sizeof (struct node));
   a->w = w;
@@ -89,13 +107,63 @@ UGraph UGRAPHrand (vertex V, int E)
   return (UG);
 }
 
-int main()
+/*
+ * id == número de componentes conexas
+ * cc[v] == id da componente conexo que ao qual o vértice v pertence
+ */
+int UGRAPHcc (UGraph UG, int *cc)
+{
+  vertex v;
+  int id = 0;
+  for (v = 0; v < UG->V; v++) cc[v] = -1;
+  for (v = 0; v < UG->V; v++)
+    if (cc[v] == -1)
+      dfsRcc (UG, cc, v, id++);
+  
+  return (id);
+}
+
+/*
+ * Atribui o número id a todos os vértices que
+ * pertencem a mesma componente conexa que v
+ */
+static void dfsRcc (UGraph UG, int *cc, vertex v, int id)
+{
+  link a;
+  cc[v] = id;
+  for (a = UG->adj[v]; a != NULL; a = a->next)
+    if (cc[a->w] == -1)
+      dfsRcc (UG, cc, a->w, id);
+}
+
+/*
+ * Conta o número de componentes conexas
+ * com cada número número de vértices
+ */
+int* ccVertexCounter (UGraph UG, int *cc, int ccCount)
+{
+  int *ccVCount; /* ccVCount[i] == número vértices da componente conexa de id == i */
+  vertex v;
+  
+  ccVCount = malloc (ccCount * sizeof (int));
+  
+  /* Utlizar busca em profundidade para encontrar o número de vértices da componente conexa */
+}
+
+int main (int argc, char *argv[])
 {
   UGraph UG;
+  int *cc, V, E, ccCount;
   
   srand (time (NULL));
   
-  UG = UGRAPHrand(10, 2);
+  V = atoi (argv[1]);
+  E = atoi (argv[2]);
+  UG = UGRAPHrand (V, E);
+  cc = malloc (V * sizeof (int));
+  
+  ccCount = UGRAPHcc (UG, cc);
   UGRAPHshow (UG);
+  printf ("ccCount = %d\n", ccCount);
   return 0;
 }

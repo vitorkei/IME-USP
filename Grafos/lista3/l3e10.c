@@ -25,14 +25,14 @@ struct graph{
 typedef struct graph *Graph;
 
 /* Protótipos */
-static link   NEWnode           (vertex, link);
-       UGraph UGRAPHinit        (int);
-       void   UGRAPHinsertEdge  (UGraph, vertex, vertex);
-       void   UGRAPHshow        (UGraph);
-       UGraph UGRAPHrand        (vertex, int);
-       int    UGRAPHcc          (UGraph, int*);
-static void   dfsRcc            (UGraph, int*, vertex, int);
-       int*   ccVertexCounter   (UGraph, int*)
+static link   NEWnode             (vertex, link);
+       UGraph UGRAPHinit          (int);
+       void   UGRAPHinsertEdge    (UGraph, vertex, vertex);
+       void   UGRAPHshow          (UGraph);
+       UGraph UGRAPHrand          (vertex, int);
+       int    UGRAPHcc            (UGraph, int*, int*);
+static void   dfsRcc              (UGraph, int*, vertex, int, int*);
+       void   UGRAPHccVertexCount (int *ccVertexCount, int ccCount);
 
 /* Cria um novo nó para a lista de adjacências */
 static link NEWnode (vertex w, link next){
@@ -78,6 +78,7 @@ void UGRAPHshow (UGraph UG)
 {
   vertex v;
   link p;
+  printf ("Arestas:\n");
   for (v = 0; v < UG->V; v++)
   {
     printf ("%d: ", v);
@@ -85,7 +86,7 @@ void UGRAPHshow (UGraph UG)
       printf ("%d ", p->w);
     printf ("\n");
   }
-  printf("UG->E = %d\n", UG->E);
+  printf("UG->E = %d\n\n", UG->E);
 }
 
 /*
@@ -111,14 +112,14 @@ UGraph UGRAPHrand (vertex V, int E)
  * id == número de componentes conexas
  * cc[v] == id da componente conexo que ao qual o vértice v pertence
  */
-int UGRAPHcc (UGraph UG, int *cc)
+int UGRAPHcc (UGraph UG, int *cc, int *ccVertexCount)
 {
   vertex v;
   int id = 0;
   for (v = 0; v < UG->V; v++) cc[v] = -1;
   for (v = 0; v < UG->V; v++)
     if (cc[v] == -1)
-      dfsRcc (UG, cc, v, id++);
+      dfsRcc (UG, cc, v, id++, ccVertexCount);
   
   return (id);
 }
@@ -127,33 +128,52 @@ int UGRAPHcc (UGraph UG, int *cc)
  * Atribui o número id a todos os vértices que
  * pertencem a mesma componente conexa que v
  */
-static void dfsRcc (UGraph UG, int *cc, vertex v, int id)
+static void dfsRcc (UGraph UG, int *cc, vertex v, int id, int *ccVertexCount)
 {
   link a;
   cc[v] = id;
+  ccVertexCount[id]++;
   for (a = UG->adj[v]; a != NULL; a = a->next)
     if (cc[a->w] == -1)
-      dfsRcc (UG, cc, a->w, id);
+      dfsRcc (UG, cc, a->w, id, ccVertexCount);
+}
+
+void UGRAPHccVertexCount (int *ccVertexCount, int ccCount)
+{
+  int i;
+  printf ("Número de vértices em cada componente:\n");
+  for (i = 0; i < ccCount; i++)
+    printf("%d) %d\n", i, ccVertexCount[i]);
 }
 
 /*
  * Conta o número de componentes conexas
  * com cada número número de vértices
- */
 int* ccVertexCounter (UGraph UG, int *cc, int ccCount)
 {
-  int *ccVCount; /* ccVCount[i] == número vértices da componente conexa de id == i */
+  int *ccVCount; /* ccVCount[i] == número vértices da componente conexa de id == i 
   vertex v;
   
   ccVCount = malloc (ccCount * sizeof (int));
   
-  /* Utlizar busca em profundidade para encontrar o número de vértices da componente conexa */
+  /* Utlizar busca em profundidade para encontrar o número de vértices da componente conexa 
 }
+
+void dfs (UGraph UG, int *cc)
+{
+  
+}
+ */
 
 int main (int argc, char *argv[])
 {
   UGraph UG;
-  int *cc, V, E, ccCount;
+  /*
+   * cc[v] == id da componente conexa ao qual vértice v pertence
+   * ccCount == número de componente conexas
+   * ccVertexCount[k] == número de vértices da componente conexa de id == k
+   */
+  int *cc, V, E, ccCount, *ccVertexCount, i;
   
   srand (time (NULL));
   
@@ -161,9 +181,12 @@ int main (int argc, char *argv[])
   E = atoi (argv[2]);
   UG = UGRAPHrand (V, E);
   cc = malloc (V * sizeof (int));
+  ccVertexCount = malloc (1000 * sizeof (int)); /* Assumindo que haverá no máximo 1000 componentes conexas */
+  ccCount = UGRAPHcc (UG, cc, ccVertexCount);
   
-  ccCount = UGRAPHcc (UG, cc);
   UGRAPHshow (UG);
-  printf ("ccCount = %d\n", ccCount);
+  UGRAPHccVertexCount (ccVertexCount, ccCount);
+  
+  printf ("\nccCount = %d\n", ccCount);
   return 0;
 }

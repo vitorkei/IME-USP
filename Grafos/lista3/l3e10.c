@@ -146,25 +146,6 @@ void UGRAPHccVertexCount (int *ccVertexCount, int ccCount)
     printf("%d) %d\n", i, ccVertexCount[i]);
 }
 
-/*
- * Conta o número de componentes conexas
- * com cada número número de vértices
-int* ccVertexCounter (UGraph UG, int *cc, int ccCount)
-{
-  int *ccVCount; /* ccVCount[i] == número vértices da componente conexa de id == i 
-  vertex v;
-  
-  ccVCount = malloc (ccCount * sizeof (int));
-  
-  /* Utlizar busca em profundidade para encontrar o número de vértices da componente conexa 
-}
-
-void dfs (UGraph UG, int *cc)
-{
-  
-}
- */
-
 int main (int argc, char *argv[])
 {
   UGraph UG;
@@ -172,16 +153,20 @@ int main (int argc, char *argv[])
    * cc[v] == id da componente conexa ao qual vértice v pertence
    * ccCount == número de componente conexas
    * ccVertexCount[k] == número de vértices da componente conexa de id == k
+   * ccVCmean[k] == média do número de vértices da componente conexa de id == k
    */
-  int *cc, V, E, ccCount, *ccVertexCount, i;
+  int *cc, V, E, ccCount, *ccVertexCount, i, *ccVCmean;
   
   srand (time (NULL));
   
   V = atoi (argv[1]);
   E = atoi (argv[2]);
-  UG = UGRAPHrand (V, E);
+  
   cc = malloc (V * sizeof (int));
-  ccVertexCount = malloc (1000 * sizeof (int)); /* Assumindo que haverá no máximo 1000 componentes conexas */
+  ccVertexCount = malloc (100 * sizeof (int)); /* Assumindo que haverá no máximo 100 componentes conexas */
+  ccVCmean = malloc (100 * sizeof (int));
+  
+  UG = UGRAPHrand (V, E);
   ccCount = UGRAPHcc (UG, cc, ccVertexCount);
   
   UGRAPHshow (UG);

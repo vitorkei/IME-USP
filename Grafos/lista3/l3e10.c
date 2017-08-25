@@ -153,7 +153,7 @@ int main (int argc, char *argv[])
    * cc[v] == id da componente conexa ao qual vértice v pertence
    * ccCount == número de componente conexas
    * ccVertexCount[k] == número de vértices da componente conexa de id == k
-   * ccVCmean[k] == média do número de vértices da componente conexa de id == k
+   * ccVCmean[k] == número médio de componentes com k vértices
    */
   int *cc, V, E, ccCount, *ccVertexCount, i, *ccVCmean;
   

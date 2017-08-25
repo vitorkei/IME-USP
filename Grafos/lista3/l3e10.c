@@ -155,23 +155,37 @@ int main (int argc, char *argv[])
    * ccVertexCount[k] == número de vértices da componente conexa de id == k
    * ccVCmean[k] == número médio de componentes com k vértices
    */
-  int *cc, V, E, ccCount, *ccVertexCount, i, *ccVCmean;
+  int *cc, V, E, ccCount, *ccVertexCount, *ccVCmean, i, j;
+  int arrayV[5] = {10, 20, 30, 40, 50};
+  double arrayE[8] = {0.2, 0.5, 1.0, 2.0, 5.0, 10.0, 20.0, 30.0};
   
   srand (time (NULL));
   
   V = atoi (argv[1]);
-  E = atoi (argv[2]);
   
   cc = malloc (V * sizeof (int));
   ccVertexCount = malloc (100 * sizeof (int)); /* Assumindo que haverá no máximo 100 componentes conexas */
   ccVCmean = malloc (100 * sizeof (int));
   
-  UG = UGRAPHrand (V, E);
-  ccCount = UGRAPHcc (UG, cc, ccVertexCount);
+  for (i = 0; i < 100; i++) ccVCmean[i] = 0;
   
-  UGRAPHshow (UG);
-  UGRAPHccVertexCount (ccVertexCount, ccCount);
+  /* arrayE tem 8 elementos */
+  for (i = 0; i < 8; i++)
+  {
+    E = arrayE[e] * V;
+    
+    /* Reinicia os vetores */
+    for (j = 0; j < V; j++) cc[j] = -1;
+    for (j = 0; j < 100; j++) ccVertexCount[j] = 0;
+    
+    UG = UGRAPHrand (V, E);
+    ccCount = UGRAPHcc (UG, cc, ccVertexCount);
+    
+    UGRAPHshow (UG);
+    UGRAPHccVertexCount (ccVertexCount, ccCount);
+    
+    printf ("\nccCount = %d\n", ccCount);
+  }
   
-  printf ("\nccCount = %d\n", ccCount);
   return 0;
 }

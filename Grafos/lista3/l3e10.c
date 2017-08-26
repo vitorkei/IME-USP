@@ -138,6 +138,7 @@ static void dfsRcc (UGraph UG, int *cc, vertex v, int id, int *ccVertexCount)
       dfsRcc (UG, cc, a->w, id, ccVertexCount);
 }
 
+/* Imprime o número de vértices em cada componente, ordenada pelos ids */
 void UGRAPHccVertexCount (int *ccVertexCount, int ccCount)
 {
   int i;
@@ -155,36 +156,56 @@ int main (int argc, char *argv[])
    * ccVertexCount[k] == número de vértices da componente conexa de id == k
    * ccVCmean[k] == número médio de componentes com k vértices
    */
-  int *cc, V, E, ccCount, *ccVertexCount, *ccVCmean, i, j;
+  int *cc, V, E, ccCount, *ccVertexCount, *ccVCmean, i, j, k, l;
   int arrayV[5] = {10, 20, 30, 40, 50};
   double arrayE[8] = {0.2, 0.5, 1.0, 2.0, 5.0, 10.0, 20.0, 30.0};
+  double vertexMean;
   
   srand (time (NULL));
   
-  V = atoi (argv[1]);
-  
   cc = malloc (V * sizeof (int));
-  ccVertexCount = malloc (100 * sizeof (int)); /* Assumindo que haverá no máximo 100 componentes conexas */
-  ccVCmean = malloc (100 * sizeof (int));
+  /* Teste terá 50 vértices no máximo, logo, 50 cc no máximo. Desconsidera cc de 0 vértices */
+  ccVertexCount = malloc (51 * sizeof (int));
+  ccVCmean = malloc (51 * sizeof (int));
   
-  for (i = 0; i < 100; i++) ccVCmean[i] = 0;
-  
-  /* arrayE tem 8 elementos */
-  for (i = 0; i < 8; i++)
+  /* arrayV tem 5 elementos */
+  for (i = 0; i < 5; i++)
   {
-    E = arrayE[e] * V;
-    
-    /* Reinicia os vetores */
-    for (j = 0; j < V; j++) cc[j] = -1;
-    for (j = 0; j < 100; j++) ccVertexCount[j] = 0;
-    
-    UG = UGRAPHrand (V, E);
-    ccCount = UGRAPHcc (UG, cc, ccVertexCount);
-    
-    UGRAPHshow (UG);
-    UGRAPHccVertexCount (ccVertexCount, ccCount);
-    
-    printf ("\nccCount = %d\n", ccCount);
+    V = arrayV[i];
+    /* arrayE tem 8 elementos */
+    for (j = 0; j < 8; j++)
+    {
+      E = arrayE[j] * V;
+      
+      printf("(V = %d || E = %d)\n", V, E);
+      
+      /* Reinicia o vetor que conta as componentes conexas com k vértices */
+      for (k = 0; k < 51; k++) ccVCmean[k] = 0;
+      
+      /* Roda 100 vezes e tira a média do número de componentes com cada número de vértices */
+      for (k = 0; k < 100; k++)
+      {
+        /* Reinicia os vetores */
+        for (l = 0; l < V; l++) cc[l] = -1;
+        for (l = 0; l < 51; l++) ccVertexCount[l] = 0;
+        
+        UG = UGRAPHrand (V, E);
+        ccCount = UGRAPHcc (UG, cc, ccVertexCount);
+        
+        /* e.g.: se uma componente conexa tem 5 vértices, ccVCmean[5]++ */
+        for (l = 0; l < ccCount; l++)
+          ccVCmean[ccVertexCount[l]]++;
+      }
+      
+      /* Imprime o número médio de componentes conexas com cada número de vértices */
+      /* Imprime apenas se tiver aparecido pelo menos uma componente conexa com k vértices */
+      for (k = 1; k < 51; k++)
+        if (ccVCmean[k] > 0)
+        {
+          vertexMean = (double) ccVCmean[k] / 100;
+          printf ("..%d vértices: %.2f\n", k, vertexMean);
+        }
+    }
   }
   
   return 0;

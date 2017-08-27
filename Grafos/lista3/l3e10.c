@@ -205,6 +205,7 @@ int main (int argc, char *argv[])
           vertexMean = (double) ccVCmean[k] / 100;
           printf ("..%d vértices: %.2f\n", k, vertexMean);
         }
+      printf ("\n");
     }
   }
   

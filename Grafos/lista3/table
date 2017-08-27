@@ -1,0 +1,339 @@
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+Lista 3 - Exercício 10
+Algoritmos em Grafos
+
+(V = 10 || E = 2)
+  1 vértices: 4.35
+  2 vértices: 0.99
+  3 vértices: 0.37
+  4 vértices: 0.28
+  5 vértices: 0.14
+  6 vértices: 0.06
+  7 vértices: 0.02
+  8 vértices: 0.03
+
+(V = 10 || E = 5)
+  1 vértices: 1.27
+  2 vértices: 0.23
+  3 vértices: 0.14
+  4 vértices: 0.06
+  5 vértices: 0.06
+  6 vértices: 0.08
+  7 vértices: 0.09
+  8 vértices: 0.19
+  9 vértices: 0.22
+  10 vértices: 0.27
+
+(V = 10 || E = 10)
+  1 vértices: 0.18
+  7 vértices: 0.01
+  8 vértices: 0.01
+  9 vértices: 0.13
+  10 vértices: 0.85
+
+(V = 10 || E = 20)
+  10 vértices: 1.00
+
+(V = 10 || E = 50)
+  10 vértices: 1.00
+
+(V = 10 || E = 100)
+  10 vértices: 1.00
+
+(V = 10 || E = 200)
+  10 vértices: 1.00
+
+(V = 10 || E = 300)
+  10 vértices: 1.00
+
+(V = 20 || E = 4)
+  1 vértices: 8.93
+  2 vértices: 1.72
+  3 vértices: 0.70
+  4 vértices: 0.23
+  5 vértices: 0.27
+  6 vértices: 0.15
+  7 vértices: 0.07
+  8 vértices: 0.06
+  9 vértices: 0.05
+  10 vértices: 0.03
+  12 vértices: 0.03
+  14 vértices: 0.02
+
+(V = 20 || E = 10)
+  1 vértices: 2.82
+  2 vértices: 0.35
+  3 vértices: 0.12
+  4 vértices: 0.07
+  5 vértices: 0.04
+  6 vértices: 0.03
+  7 vértices: 0.02
+  8 vértices: 0.01
+  9 vértices: 0.02
+  10 vértices: 0.05
+  11 vértices: 0.02
+  12 vértices: 0.08
+  13 vértices: 0.03
+  14 vértices: 0.07
+  15 vértices: 0.11
+  16 vértices: 0.18
+  17 vértices: 0.12
+  18 vértices: 0.11
+  19 vértices: 0.14
+  20 vértices: 0.04
+
+(V = 20 || E = 20)
+  1 vértices: 0.33
+  2 vértices: 0.04
+  18 vértices: 0.06
+  19 vértices: 0.29
+  20 vértices: 0.65
+
+(V = 20 || E = 40)
+  1 vértices: 0.01
+  19 vértices: 0.01
+  20 vértices: 0.99
+
+(V = 20 || E = 100)
+  20 vértices: 1.00
+
+(V = 20 || E = 200)
+  20 vértices: 1.00
+
+(V = 20 || E = 400)
+  20 vértices: 1.00
+
+(V = 20 || E = 600)
+  20 vértices: 1.00
+
+(V = 30 || E = 6)
+  1 vértices: 12.80
+  2 vértices: 2.49
+  3 vértices: 0.86
+  4 vértices: 0.44
+  5 vértices: 0.22
+  6 vértices: 0.22
+  7 vértices: 0.19
+  8 vértices: 0.16
+  9 vértices: 0.09
+  10 vértices: 0.03
+  11 vértices: 0.05
+  13 vértices: 0.02
+  14 vértices: 0.01
+  15 vértices: 0.02
+  16 vértices: 0.02
+  17 vértices: 0.01
+
+(V = 30 || E = 15)
+  1 vértices: 3.89
+  2 vértices: 0.55
+  3 vértices: 0.18
+  4 vértices: 0.06
+  5 vértices: 0.02
+  6 vértices: 0.04
+  7 vértices: 0.02
+  8 vértices: 0.02
+  10 vértices: 0.03
+  12 vértices: 0.01
+  13 vértices: 0.01
+  14 vértices: 0.01
+  15 vértices: 0.01
+  17 vértices: 0.02
+  18 vértices: 0.01
+  19 vértices: 0.07
+  20 vértices: 0.04
+  21 vértices: 0.06
+  22 vértices: 0.07
+  23 vértices: 0.05
+  24 vértices: 0.12
+  25 vértices: 0.10
+  26 vértices: 0.09
+  27 vértices: 0.12
+  28 vértices: 0.08
+  29 vértices: 0.05
+  30 vértices: 0.05
+
+(V = 30 || E = 30)
+  1 vértices: 0.40
+  2 vértices: 0.02
+  27 vértices: 0.03
+  28 vértices: 0.02
+  29 vértices: 0.31
+  30 vértices: 0.64
+
+(V = 30 || E = 60)
+  30 vértices: 1.00
+
+(V = 30 || E = 150)
+  30 vértices: 1.00
+
+(V = 30 || E = 300)
+  30 vértices: 1.00
+
+(V = 30 || E = 600)
+  30 vértices: 1.00
+
+(V = 30 || E = 900)
+  30 vértices: 1.00
+
+(V = 40 || E = 8)
+  1 vértices: 17.81
+  2 vértices: 3.24
+  3 vértices: 1.15
+  4 vértices: 0.46
+  5 vértices: 0.38
+  6 vértices: 0.18
+  7 vértices: 0.13
+  8 vértices: 0.13
+  9 vértices: 0.10
+  10 vértices: 0.09
+  11 vértices: 0.04
+  12 vértices: 0.06
+  13 vértices: 0.02
+  14 vértices: 0.03
+  15 vértices: 0.01
+  16 vértices: 0.02
+  17 vértices: 0.02
+  18 vértices: 0.01
+  19 vértices: 0.01
+  21 vértices: 0.01
+  23 vértices: 0.02
+
+(V = 40 || E = 20)
+  1 vértices: 5.42
+  2 vértices: 0.82
+  3 vértices: 0.26
+  4 vértices: 0.06
+  5 vértices: 0.10
+  6 vértices: 0.01
+  7 vértices: 0.02
+  8 vértices: 0.03
+  10 vértices: 0.01
+  13 vértices: 0.01
+  17 vértices: 0.01
+  19 vértices: 0.01
+  20 vértices: 0.02
+  21 vértices: 0.01
+  23 vértices: 0.01
+  24 vértices: 0.01
+  25 vértices: 0.02
+  26 vértices: 0.02
+  27 vértices: 0.06
+  28 vértices: 0.02
+  29 vértices: 0.08
+  30 vértices: 0.08
+  31 vértices: 0.09
+  32 vértices: 0.13
+  33 vértices: 0.05
+  34 vértices: 0.09
+  35 vértices: 0.11
+  36 vértices: 0.07
+  37 vértices: 0.06
+  38 vértices: 0.03
+
+(V = 40 || E = 40)
+  1 vértices: 0.63
+  2 vértices: 0.01
+  36 vértices: 0.01
+  38 vértices: 0.16
+  39 vértices: 0.29
+  40 vértices: 0.54
+
+(V = 40 || E = 80)
+  1 vértices: 0.01
+  39 vértices: 0.01
+  40 vértices: 0.99
+
+(V = 40 || E = 200)
+  40 vértices: 1.00
+
+(V = 40 || E = 400)
+  40 vértices: 1.00
+
+(V = 40 || E = 800)
+  40 vértices: 1.00
+
+(V = 40 || E = 1200)
+  40 vértices: 1.00
+
+(V = 50 || E = 10)
+  1 vértices: 21.39
+  2 vértices: 3.90
+  3 vértices: 1.74
+  4 vértices: 0.87
+  5 vértices: 0.39
+  6 vértices: 0.31
+  7 vértices: 0.10
+  8 vértices: 0.20
+  9 vértices: 0.05
+  10 vértices: 0.07
+  11 vértices: 0.10
+  12 vértices: 0.07
+  13 vértices: 0.08
+  14 vértices: 0.03
+  15 vértices: 0.01
+  16 vértices: 0.01
+  17 vértices: 0.01
+  18 vértices: 0.03
+  21 vértices: 0.01
+  22 vértices: 0.01
+
+(V = 50 || E = 25)
+  1 vértices: 6.83
+  2 vértices: 1.01
+  3 vértices: 0.34
+  4 vértices: 0.21
+  5 vértices: 0.02
+  6 vértices: 0.06
+  7 vértices: 0.01
+  9 vértices: 0.02
+  10 vértices: 0.01
+  11 vértices: 0.01
+  12 vértices: 0.01
+  22 vértices: 0.01
+  25 vértices: 0.01
+  29 vértices: 0.02
+  30 vértices: 0.02
+  31 vértices: 0.02
+  32 vértices: 0.04
+  33 vértices: 0.01
+  34 vértices: 0.05
+  35 vértices: 0.04
+  36 vértices: 0.10
+  37 vértices: 0.08
+  38 vértices: 0.08
+  39 vértices: 0.09
+  40 vértices: 0.04
+  41 vértices: 0.07
+  42 vértices: 0.08
+  43 vértices: 0.04
+  44 vértices: 0.07
+  45 vértices: 0.03
+  46 vértices: 0.05
+  47 vértices: 0.04
+
+(V = 50 || E = 50)
+  1 vértices: 0.96
+  2 vértices: 0.02
+  46 vértices: 0.01
+  47 vértices: 0.06
+  48 vértices: 0.21
+  49 vértices: 0.36
+  50 vértices: 0.36
+
+(V = 50 || E = 100)
+  50 vértices: 1.00
+
+(V = 50 || E = 250)
+  50 vértices: 1.00
+
+(V = 50 || E = 500)
+  50 vértices: 1.00
+
+(V = 50 || E = 1000)
+  50 vértices: 1.00
+
+(V = 50 || E = 1500)
+  50 vértices: 1.00
+

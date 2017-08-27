@@ -1,9 +1,12 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.9.2)  27 AUG 2017 11:23
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.9.2)  27 AUG 2017 11:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**relatorio.tex
-(./relatorio.tex
+**FabioHenriqueKiyoitidosSantosTanakaCriticadoPorLuizFelipeMoumdjianGirottoVito
+rKeiTairaTamada.tex
+
+(./FabioHenriqueKiyoitidosSantosTanakaCriticadoPorLuizFelipeMoumdjianGirottoVit
+orKeiTairaTamada.tex
 LaTeX2e <2011/06/27>
 Babel <3.9h> and hyphenation patterns for 78 languages loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
@@ -924,8 +927,10 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutvoffset=\dimen151
 \Gm@dimlist=\toks22
 )
-(./relatorio.aux)
-\openout1 = `relatorio.aux'.
+(./FabioHenriqueKiyoitidosSantosTanakaCriticadoPorLuizFelipeMoumdjianGirottoVit
+orKeiTairaTamada.aux)
+\openout1 = `FabioHenriqueKiyoitidosSantosTanakaCriticadoPorLuizFelipeMoumdjian
+GirottoVitorKeiTairaTamada.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 16.
 LaTeX Font Info:    ... okay on input line 16.
@@ -1026,32 +1031,33 @@ LaTeX Font Info:    Try loading font information for U+wasy on input line 18.
 (/usr/share/texlive/texmf-dist/tex/latex/wasysym/uwasy.fd
 File: uwasy.fd 2003/10/30 v2.0 Wasy-2 symbol font definitions
 )
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 84.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 62.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 ) [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] (./relatorio.aux) ) 
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+(./FabioHenriqueKiyoitidosSantosTanakaCriticadoPorLuizFelipeMoumdjianGirottoVit
+orKeiTairaTamada.aux) ) 
 Here is how much of TeX's memory you used:
- 12129 strings out of 493304
- 205997 string characters out of 6139872
- 257687 words of memory out of 5000000
- 15360 multiletter control sequences out of 15000+600000
- 23633 words of font info for 70 fonts, out of 8000000 for 9000
+ 12090 strings out of 493304
+ 206228 string characters out of 6139872
+ 250747 words of memory out of 5000000
+ 15341 multiletter control sequences out of 15000+600000
+ 17082 words of font info for 49 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 45i,6n,37p,10474b,239s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/u
-sr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texmf/fonts
-/type1/public/cm-super/sfbx1000.pfb></usr/share/texmf/fonts/type1/public/cm-sup
-er/sfbx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1728.pfb></us
-r/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/
-type1/public/cm-super/sfti1000.pfb></usr/share/texmf/fonts/type1/public/cm-supe
-r/sftt1000.pfb>
-Output written on relatorio.pdf (2 pages, 119576 bytes).
+ 45i,6n,37p,10557b,239s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.e
+nc}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texm
+f/fonts/type1/public/cm-super/sfbx1200.pfb></usr/share/texmf/fonts/type1/public
+/cm-super/sfbx1728.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.p
+fb></usr/share/texmf/fonts/type1/public/cm-super/sftt1000.pfb>
+Output written on FabioHenriqueKiyoitidosSantosTanakaCriticadoPorLuizFelipeMoum
+djianGirottoVitorKeiTairaTamada.pdf (1 page, 76851 bytes).
 PDF statistics:
- 36 PDF objects out of 1000 (max. 8388607)
- 25 compressed objects within 1 object stream
+ 28 PDF objects out of 1000 (max. 8388607)
+ 20 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

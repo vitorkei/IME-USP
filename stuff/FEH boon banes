@@ -15,21 +15,23 @@ Peri      | +ATK/-DEF   : Olwen     | +SPD/-ATK  :
 Cordelia  | +HP/-RES    : SLucina   | +HP/-DEF   :
 SRobin    | +HP/-RES    : RobinM    | +DEF/-RES  :
 Catria    | +ATK/-HP    :                        :
+Ephraim   | +SPD/-ATK   :                        :
 
 
 Axe 5*                  : Green Tome 5*          : Green Dragon 5*
 ---------------------------------------------------------------------
 Sheena    | +HP/-SPD    : SCamilla  | +SPD/-ATK  : Fae  | +DEF/-RES
-Titania   | +ATK/-RES   : Boey      | +HP/-ATK   :
+Titania   | +ATK/-HP    : Boey      | +HP/-ATK   :
 Cherche   | +ATK/-SPD   : Sonya     | +ATK/-HP   :
-Titania   | +ATK/-HP    :                        :
 Raven     | +ATK/-RES   :                        :
-
+BIke      | +HP/-ATK    :                        :
+Minerva   | +SPD/-RES   :                        :
 
 Bow 5*                  : Dagger 5*              : Healer 5*
 ---------------------------------------------------------------------
 Takumi    | +DEF/-SPD   : SFrederick | +RES/-DEF : Maria | +SPD/-RES
-SGaius    | +SPD/-DEF   :                        :
+SGaius    | +SPD/-DEF   : Felicia    | +RES/-DEF :
+                        : Kagero     | +SPD/-RES :
 
 
 ====================================
@@ -37,28 +39,26 @@ SGaius    | +SPD/-DEF   :                        :
 
 Sword 4*                : Red Tome 4*            : Red Dragon 4*
 ---------------------------------------------------------------------
-Olivia    | +HP/-DEF    : Tharja | +ATK/-RES     :
-Chrom     | +RES/-HP    :                        :
-Hana      | +RES/-RES   :                        :
-                        :                        :
+Olivia    | Neutra      :                        :
+Eirika    | +SPD/-RES   :                        :
 
 
 Lance 4*                : Blue Tome 4*           : Blue Dragon 4*
 ---------------------------------------------------------------------
 Lukas | +DEF/-ATK       : Reinhardt | Neutro     : CorrinF | Neutro
-                        :                        : Nowi    | +RES/-DEF
+                        : Mae       | +ATK/-DEF  : Nowi    | +RES/-DEF
                         :                        : Nowi    | +SPD/-HP
+                        :                        : Nowi    | +RES/-ATK
 
 
 Axe 4*                  : Green Tome 4*          : Green Dragon 4*
 ---------------------------------------------------------------------
-                        : Cecilia | +ATK/-RES    : Fae  | +RES/-DEF
+                        : Cecilia | +ATK/-RES    : Fae  | +RES/-ATK
                         : Cecilia | +HP/-SPD     :
-                        : Soren   | Neutro
+                        : Soren   | Neutro       :
+                        : Nino    | +SPD/-ATK    :
 
 Bow 4*                  : Dagger 4*              : Healer 4*
 ---------------------------------------------------------------------
-Setsuna   | +SPD/-RES   : Kagero    | +SPD/-RES  :                  
+Setsuna   | +SPD/-RES   ::                  
                         : Kagero    | +RES/-ATK  :                  
-                        : Felicia   | +RES/-DEF  :                  
-

@@ -17,7 +17,6 @@ int pre[maxV];
 int cnt;
 vertex parent[maxV];
 
-
 /* Estrutura */
 typedef struct node *link;
 struct node{
@@ -147,17 +146,13 @@ void dfsRcc (UGraph UG, vertex v, int *cc, int id)
       dfsRcc (UG, a->w, cc, id);
 }
 
-/********************/
-
+/* Baseia-se no algoritmo de Tarjan para encontrar as pontes */
 void UGRAPHbridges (UGraph UG)
 {
   vertex v;
   
   for (v = 0; v < UG->V; v++)
-  {
-    pre[v] = -1;
-    parent[v] = -1;
-  }
+    pre[v] = parent[v] = -1;
   
   cnt = 0;
   for (v = 0; v < UG->V; v++)
@@ -178,8 +173,8 @@ void bridgesR (UGraph UG, vertex v)
   link p;
   int min;
   vertex w;
-  pre[v] = cnt++;
   
+  pre[v] = cnt++;
   min = pre[v];
   
   for (p = UG->adj[v]; p != NULL; p = p->next)
@@ -192,16 +187,12 @@ void bridgesR (UGraph UG, vertex v)
       
       if (low[w] < min) min = low[w];
     }
-    else
-    {
-      if (pre[w] < min && w != parent[v]) min = pre[w];
-    }
+    else if (pre[w] < min && w != parent[v])
+      min = pre[w];
   }
   
   low[v] = min;
 }
-
-/********************/
 
 int main (int argc, char *argv[])
 {

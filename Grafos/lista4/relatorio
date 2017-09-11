@@ -1,0 +1,18 @@
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+Lista 4 - Exercício 8
+Algoritmos em Grafos
+
+A função UGRAPHbridges() utilizou o algoritmo de Tarjan como base.
+
+Diferentemente do algoritmo de Tarjan, que marca um vetor sc[] que diz a qual
+componente forte cada vértice pertence, o UGRAPHbridges() marca qual o pai de
+cada vértice pelo vetor parent[].
+
+A verificação que a função faz para determinar se uma aresta é uma ponte ou não
+é verificar se o vértice v é raíz da componente forte e se ele tem pai ou não.
+Em caso de o vértice ser raiz e tiver um pai, então a aresta entre esse vértice
+e seu pai é uma ponte. Isso ocorre porque, se o vértice for raíz, então todos
+os outros vértices da componente forte ao qual ele pertence serão seus filhos
+ao construir a árvore DFS e qualquer outro vértice ligado a ele (o único que
+sobre é o pai) faz parte de outra componente forte.

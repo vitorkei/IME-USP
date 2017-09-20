@@ -1,7 +1,7 @@
 /*
  * Nome: Vítor Kei Taira Tamada
  * NUSP: 8516250
- * Lista 4 - Exercício 8
+ * Lista 5 - Exercício 7
  * Algoritmos em Grafos
  */
 
@@ -11,6 +11,37 @@
 #define vertex int
 #define UGraph Graph
 #define maxV 1000
+
+/*********** FILAS ***********/
+/* 
+ * Implementação de fila em um vetor segundo o site
+ * https://www.ime.usp.br/~pf/algoritmos/aulas/fila.html
+ */
+
+int *queue, ini, end;
+
+/* Protótipos */
+void   QUEUEinit  (int);
+int    QUEUEempty ();
+void   QUEUEput   ();
+vertex QUEUEget   ();
+void   QUEUEfree  ();
+
+void QUEUEinit (int V)
+{
+  queue = malloc (V * sizeof(int));
+  ini = end = 0;
+}
+
+int    QUEUEempty ()       { return ini >= end; }
+
+void   QUEUEput (vertex v) { queue[end++] = v; }
+
+vertex QUEUEget ()         { return queue[ini++]; }
+
+void   QUEUEfree ()        { free (queue); }
+
+/*********** GRAFOS ***********/
 
 /* Estrutura */
 typedef struct node *link;
@@ -31,10 +62,6 @@ static link   NEWnode             (vertex, link);
        void   UGRAPHinsertEdge    (UGraph, vertex, vertex);
        void   UGRAPHshow          (UGraph);
        UGraph UGRAPHrand          (vertex, int);
-       int    UGRAPHcc            (UGraph, int*);
-static void   dfsRcc              (UGraph, vertex, int*, int);
-       void   UGRAPHbridges       (UGraph);
-       void   bridgesR            (UGraph, vertex);
 
 /* Cria um novo nó para a lista de adjacências */
 static link NEWnode (vertex w, link next){
@@ -109,6 +136,8 @@ UGraph UGRAPHrand (vertex V, int E)
   
   return (UG);
 }
+
+
 
 int main (int argc, char *argv[])
 {

@@ -137,21 +137,67 @@ UGraph UGRAPHrand (vertex V, int E)
   return (UG);
 }
 
-
+void GRAPHminPaths (UGraph UG, vertex s, int *dist, vertex *parent)
+{
+  const int INF = UG->V;
+  vertex v;
+  
+  for (v = 0; v < UG->V; v++)
+  {
+    parent[v] = -1;
+    dist[v] = INF;
+  }
+  QUEUEinit (UG->V);
+  dist[s] = 0;
+  parent[s] = s;
+  QUEUEput (s);
+  
+  while (!QUEUEempty ())
+  {
+    link a;
+    v = QUEUEget ();
+    for (a = UG->adj[v]; a != NULL; a = a->next)
+    {
+      vertex w = a->w;
+      if (parent[w] == -1)
+      {
+        parent[w] = v;
+        dist[w] = dist[v] + 1;
+        QUEUEput (w);
+      }
+    }
+  }
+}
 
 int main (int argc, char *argv[])
 {
-  int V, E;
+  /*
+   * meanDistUG é a distância média entre dois vértices em um dado grafo
+   * meandistAllUG é a distância méida entre dois vértices de todos os grafos analisados
+   */
+  int i, V, E, *dist, meanDistUG, meanDistAllUG = 0;
+  vertex *parent, s, v;
   UGraph UG;
   
   V = atoi(argv[1]);
   E = atoi(argv[2]);
   
   srand (time (NULL));
-  
+  dist     = malloc ((UG->V) * sizeof (int));
+  parent   = malloc ((UG->V) * sizeof (vertex));
   UG = UGRAPHrand (V, E);
   
-  UGRAPHshow (UG);
+  for (s = 0; s < UG->V; s++)
+  {
+    meanDistUG = 0;
+    GRAPHminPaths (UG, s, dist, parent);
+    
+    for (v = 0; v < UG->V; v++)
+      meanDistUG += dist[v];
+    meanDistUG /= (UG->V - 1);
+    
+    meanDistAllUG += meanDistUG;
+  }
   
   return 0;
 }

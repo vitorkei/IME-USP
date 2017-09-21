@@ -187,6 +187,7 @@ int main (int argc, char *argv[])
   
   for (i = 0; i < 5; i++)
   {
+    printf ("*****\n\n");
     for (j = 0; j < 8; j++)
     {
       V = arrayV[i];
@@ -214,12 +215,8 @@ int main (int argc, char *argv[])
         
         if (!disconnected)
         {
-          printf ("s = %d\n", s);
           for (v = 0; v < UG->V; v++)
-          {
             meanDistUG += (double) dist[v];
-            printf ("dist[%d] = %d\n", v, dist[v]);
-          }
           meanDistUG /= (UG->V - 1);
           
           meanDistAllUG += meanDistUG;

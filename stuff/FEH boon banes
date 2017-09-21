@@ -1,7 +1,7 @@
 Sword 5*                : Red Tome 5*            : Red Dragon 5*
 ---------------------------------------------------------------------
 Eldigan   | Neutro      : Tharja  | Neutro       : YTiki | +HP/-DEF
-Marth     | +ATK/-DEF   :                        :
+Marth     | +ATK/-DEF   : Sanaki  | +DEF/-SPD    :
 Alm       | +SPD/-DEF   :                        :
 Lyn       | Neutro      :                        :
 Lucina    | +ATK/-SPD   :                        :
@@ -16,11 +16,13 @@ Cordelia  | +HP/-RES    : SLucina   | +HP/-DEF   :
 SRobin    | +HP/-RES    : RobinM    | +DEF/-RES  :
 Catria    | +ATK/-HP    :                        :
 Ephraim   | +SPD/-ATK   :                        :
+Nephenee  | +ATK/-DEF   :                        :
+Nephenee  | +RES/-ATK   :                        :
 
 
 Axe 5*                  : Green Tome 5*          : Green Dragon 5*
 ---------------------------------------------------------------------
-Sheena    | +HP/-SPD    : SCamilla  | +SPD/-ATK  : Fae  | +DEF/-RES
+Sheena    | +HP/-SPD    : SCamilla  | +SPD/-ATK  : Fae  | +RES/-ATK
 Titania   | +ATK/-HP    : Boey      | +HP/-ATK   :
 Cherche   | +ATK/-SPD   : Sonya     | +ATK/-HP   :
 Raven     | +ATK/-RES   :                        :
@@ -29,9 +31,9 @@ Minerva   | +SPD/-RES   :                        :
 
 Bow 5*                  : Dagger 5*              : Healer 5*
 ---------------------------------------------------------------------
-Takumi    | +DEF/-SPD   : SFrederick | +RES/-DEF : Maria | +SPD/-RES
-SGaius    | +SPD/-DEF   : Felicia    | +RES/-DEF :
-                        : Kagero     | +SPD/-RES :
+Takumi    | +DEF/-SPD   : SFrederick | +RES/-DEF : Maria  | +SPD/-RES
+SGaius    | +SPD/-DEF   : Felicia    | +RES/-DEF : Sakura | +RES/-DEF
+BLyn      | Neutra      : Kagero     | +SPD/-RES :
 
 
 ====================================

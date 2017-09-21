@@ -62,6 +62,7 @@ static link   NEWnode             (vertex, link);
        void   UGRAPHinsertEdge    (UGraph, vertex, vertex);
        void   UGRAPHshow          (UGraph);
        UGraph UGRAPHrand          (vertex, int);
+       void   UGRAPHminPaths      (UGraph, vertex, int*, vertex*);
 
 /* Cria um novo nó para a lista de adjacências */
 static link NEWnode (vertex w, link next){
@@ -137,7 +138,7 @@ UGraph UGRAPHrand (vertex V, int E)
   return (UG);
 }
 
-void GRAPHminPaths (UGraph UG, vertex s, int *dist, vertex *parent)
+void UGRAPHminPaths (UGraph UG, vertex s, int *dist, vertex *parent)
 {
   const int INF = UG->V;
   vertex v;
@@ -175,28 +176,71 @@ int main (int argc, char *argv[])
    * meanDistUG é a distância média entre dois vértices em um dado grafo
    * meandistAllUG é a distância méida entre dois vértices de todos os grafos analisados
    */
-  int i, V, E, *dist, meanDistUG, meanDistAllUG = 0;
+  int i, j, k, V, E, *dist, disconnected, count;
+  int arrayV[5] = {10, 20, 30, 40, 50};
+  double arrayE[8] = {.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0};
+  double meanDistUG, meanDistAllUG = 0;
   vertex *parent, s, v;
   UGraph UG;
   
-  V = atoi(argv[1]);
-  E = atoi(argv[2]);
-  
   srand (time (NULL));
-  dist     = malloc ((UG->V) * sizeof (int));
-  parent   = malloc ((UG->V) * sizeof (vertex));
-  UG = UGRAPHrand (V, E);
   
-  for (s = 0; s < UG->V; s++)
+  for (i = 0; i < 5; i++)
   {
-    meanDistUG = 0;
-    GRAPHminPaths (UG, s, dist, parent);
-    
-    for (v = 0; v < UG->V; v++)
-      meanDistUG += dist[v];
-    meanDistUG /= (UG->V - 1);
-    
-    meanDistAllUG += meanDistUG;
+    for (j = 0; j < 8; j++)
+    {
+      V = arrayV[i];
+      E = arrayV[i] * arrayE[j];
+      count = 0;
+      
+      printf("V = %d || E = %d\n", V, E);
+      
+      UG = UGRAPHrand (V, E);
+      dist     = malloc ((UG->V) * sizeof (int));
+      parent   = malloc ((UG->V) * sizeof (vertex));
+      
+      disconnected = 0;
+      for (s = 0; s < UG->V; s++)
+      {
+        meanDistUG = 0;
+        UGRAPHminPaths (UG, s, dist, parent);
+        
+        for (v = 0; v < UG->V && !disconnected; v++)
+          if (dist[v] == UG->V)
+          {
+            disconnected = 1;
+            break;
+          }
+        
+        if (!disconnected)
+        {
+          printf ("s = %d\n", s);
+          for (v = 0; v < UG->V; v++)
+          {
+            meanDistUG += (double) dist[v];
+            printf ("dist[%d] = %d\n", v, dist[v]);
+          }
+          meanDistUG /= (UG->V - 1);
+          
+          meanDistAllUG += meanDistUG;
+          count++;
+        }
+        else
+        {
+          printf ("Distância média = INF\n\n");
+          meanDistAllUG = -1;
+          break;
+        }
+      }
+      if (meanDistAllUG != -1)
+      {
+        meanDistAllUG /= count;
+        printf ("..Distância média = %f\n\n", meanDistAllUG);
+      }
+      
+      free (dist);
+      free (parent);
+    }
   }
   
   return 0;

@@ -1,0 +1,20 @@
+Nome: Vítor Kei Taira Tamada
+NUSP: 8516250
+Lista 5 - Exercício 7
+Algoritmos em Grafos
+
+Os experimentos foram feitos com 10, 20, 30, 40 e 50 vértices
+e número esperado de arestas de 0.5, 1, 1.5, 2, 2.5, 3, 3.5 e 4 vezes
+o número de vértices.
+
+Com os números de vértices e arestas utilizados, percebeu-se que
+a distância média entre dois vértices é, em geral, próxima de dois,
+normalmente tendendo para baixo. Raramente, a média é de quase
+três. Casos em que havia vértices desconexos (e, portanto, distância
+média infinita) são incomuns. Concluí-se então que os vértices
+estão, na maioria dos casos, a até duas arestas de distância um do
+outro quando se busca o caminho mínimo entre eles.
+Apesar de essa ter sido a distância mais comum, vale ressaltar que
+a distância foi maior em alguns testes, chegando a média 3.11 
+em um dos testes, o que significa que teve pelo menos uma
+distância de 4.

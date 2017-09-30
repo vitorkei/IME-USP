@@ -34,6 +34,7 @@ Bow 5*                  : Dagger 5*              : Healer 5*
 Takumi    | +DEF/-SPD   : SFrederick | +RES/-DEF : Maria  | +SPD/-RES
 SGaius    | +SPD/-DEF   : Felicia    | +RES/-DEF : Sakura | +RES/-DEF
 BLyn      | Neutra      : Kagero     | +SPD/-RES :
+Takumi    | +SPD/-DEF   :                        :
 
 
 ====================================
@@ -62,5 +63,4 @@ Axe 4*                  : Green Tome 4*          : Green Dragon 4*
 
 Bow 4*                  : Dagger 4*              : Healer 4*
 ---------------------------------------------------------------------
-Setsuna   | +SPD/-RES   ::                  
-                        : Kagero    | +RES/-ATK  :                  
+Setsuna   | +SPD/-RES   : Kagero    | +RES/-ATK  :                  

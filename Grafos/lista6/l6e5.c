@@ -276,6 +276,8 @@ int main(int argc, char *argv[])
     if(dist[v] == INF) printf("INF\n");
     else printf("%d\n", dist[v]);
   }
+  free(dist);
+  free(parent);
   
   return 0;
 }

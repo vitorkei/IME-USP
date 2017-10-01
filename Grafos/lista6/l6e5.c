@@ -165,7 +165,7 @@ void GRAPHshow(Graph G)
   vertex v;
   link p;
   
-  printf("Arcos (custos):\n");
+  printf("Arcos (custos do vértice):\n");
   for(v = 0; v < G->V; v++)
   {
     printf("%d (%d): ", v, G->cost[v]);
@@ -241,6 +241,11 @@ void GRAPHspt(Graph G, vertex s, vertex *parent, int *dist)
       }
     }
   }
+  
+  for(v = 0; v < G->V; v++)
+    if(dist[v] != INF)
+      dist[v] += G->cost[s];
+  
   PQfree();
   free(hook);
 }
@@ -264,7 +269,7 @@ int main(int argc, char *argv[])
   GRAPHspt(G, 0, parent, dist);  
   GRAPHshow(G);
   
-  printf("dist[]:");
+  printf("dist[]:\n");
   for(v = 0; v < V; v++)
   {
     printf("dist[%d] = ", v);

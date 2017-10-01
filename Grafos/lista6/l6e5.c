@@ -250,6 +250,8 @@ void GRAPHspt(Graph G, vertex s, vertex *parent, int *dist)
   free(hook);
 }
 
+/* ./l6e5 V E           */
+/* para rodar o programa*/
 int main(int argc, char *argv[])
 {
   int V, E, *dist, INF;

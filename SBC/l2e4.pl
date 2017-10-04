@@ -33,5 +33,35 @@ mae(barbara , ana).
 casados(filipe , carla ).
 casados(americo ,teresa ).
 casados(joaquim , maria ).
-pessoas(Lista) :- Lista = [].
-pessoas(Lista) :- Lista = .(X, Lista), homem(X), !.
+
+avof(Mul, Pess) :- mae(Mul, X), (mae(X, Pess); pai(X, Pess)).
+/*
+avof(Mul, Pess) :- mae(Mul, X), mae(X, Pess).
+avof(Mul, Pess) :- mae(Mul, X), pai(X, Pess).
+*/
+
+avom(Hom, Pess) :- pai(Hom, X), (mae(X, Pess); pai(X, Pess)).
+/*
+avom(Hom, Pess) :- pai(Hom, X), mae(X, Pess).
+avom(Hom, Pess) :- pai(Hom, X), pai(X, Pess).
+*/
+
+bisavom(Hom, Pess) :- pai(Hom, X), (avom(X, Pess); avof(X, Pess)).
+/*
+bisavom(Hom, Pess) :- pai(Hom, X), avom(X, Pess).
+bisavom(Hom, Pess) :- pai(Hom, X), avof(X, Pess).
+*/
+
+primo_1(P1, P2) :- (pai(X, P1); mae(X, P1)), (pai(Y, P2); mae(Y, P2)), irmaos(X, Y).
+/*
+primo_1(P1, P2) :- mae(X, P1), mae(Y, P2), irmaos(X, Y).
+primo_1(P1, P2) :- mae(X, P1), pai(Y, P2), irmaos(X, Y).
+primo_1(P1, P2) :- pai(X, P1), mae(Y, P2), irmaos(X, Y).
+primo_1(P1, P2) :- pai(X, P1), pai(Y, P2), irmaos(X, Y).
+*/
+
+maior_de_idade(Pess) :- idade(Pess, X), X >= 18.
+
+pessoas(Lista) :- findall(X, p(X), Lista).
+p(X) :- homem(X); mulher(X).
+

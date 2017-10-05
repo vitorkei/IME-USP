@@ -74,4 +74,32 @@ p(X) :- homem(X); mulher(X).
 pessoas(Lista) :- findall(X, p(X), Lista).
 
 /* h */
-/*mais_velho(Pess) :-*/
+max([], Max, Max).
+max([X|Rest], Y, Max) :- X > Y, max(Rest, X, Max).
+max([X|Rest], Y, Max) :- X =< Y, max(Rest, Y, Max).
+max([X|Rest], Max) :- max(Rest, X, Max).
+
+lista_idades(Lista) :- findall(Idade, idade(X, Idade), Lista).
+
+h(Max) :- lista_idades(Lista), max(Lista, Max).
+m_v(Pess, Max) :- h(Max), idade(Pess, Max).
+
+mais_velho(Pess) :- m_v(Pess, Max).
+
+/* i */
+m(X, Idade) :- idade(X, Idade), homem(X).
+f(X, Idade) :- idade(X, Idade), mulher(X).
+lista_pessoas(Lista, Sexo) :-
+  Sexo == 'm' -> findall([X, Idade], m(X, Idade), Lista) ;
+  Sexo == 'f' -> findall([X, Idade], f(X, Idade), Lista).
+
+/* j */
+/*
+adequados(Hom, Mul) :-
+  homem(Hom),
+  mulher(Mul),
+  idade(Hom, IdadeH),
+  idade(Mul, IdadeM),
+  IdadeH >= IdadeM - 2,
+  IdadeH <= IdadeM + 10,
+*/

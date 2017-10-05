@@ -81,8 +81,8 @@ max([X|Rest], Max) :- max(Rest, X, Max).
 
 lista_idades(Lista) :- findall(Idade, idade(X, Idade), Lista).
 
-h(Max) :- lista_idades(Lista), max(Lista, Max).
-m_v(Pess, Max) :- h(Max), idade(Pess, Max).
+maior_idade(Max) :- lista_idades(Lista), max(Lista, Max).
+m_v(Pess) :- maior_idade(Max), idade(Pess, Max).
 
 mais_velho(Pess) :- m_v(Pess, Max).
 

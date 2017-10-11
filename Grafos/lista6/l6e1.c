@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define vertex int
-#define greater(i, j) (prty[pq[i]] > prty[pq[j]] ? 1 : 0)
+#define greater(i, j) (prty[pq[i]] > prty[pq[j]] ? 0 : 1)
 
 /* Fila de prioridade */
 /* Algoritmo do site
@@ -114,7 +114,7 @@ struct graph{
 typedef struct graph *Graph;
 
 /* Protótipos */
-static link  NEWnode       (vertex, link);
+static link  NEWnode       (vertex, link, int);
        Graph GRAPHinit     (int);
        void  GRAPHinsertArc(Graph, vertex, vertex);
        void  GRAPHshow     (Graph);
@@ -191,38 +191,41 @@ Graph GRAPHrand(vertex V, int E)
 }
 
 /******************/
-void GRAPHspt3( Graph G, vertex s, vertex *parent, int *dist)
+void GRAPHspt1( Graph G, vertex s, vertex *parent, int *dist)
 {
    vertex *hook = malloc( G->V * sizeof (vertex));
-
+   vertex v, y, z, w;
+   link a;
+   int maxdist;
+   int cst;
+   
    // inicialização:
-   for (vertex v = 0; v < G->V; ++v)
-      parent[v] = -1, dist[v] = INFINITY; 
+   for (v = 0; v < G->V; v++)
+      parent[v] = -1, dist[v] = -1;
    parent[s] = s, dist[s] = 0;
-   for (link a = G->adj[s]; a != NULL; a = a->next) {
+   for (a = G->adj[s]; a != NULL; a = a->next) {
       dist[a->w] = a->cst;
       hook[a->w] = s;
    }
-   PQinit( G->V);
-   for (vertex v = 0; v < G->V; ++v)
-      if (v != s) PQinsert( v, dist);
 
-   while (!PQempty( )) {
-      vertex y = PQdelmin( dist);
-      if (dist[y] == INFINITY) break;
+   while (1) {
+      // cálculo de y:
+      maxdist = -1;
+      for (z = 0; z < G->V; z++)
+         if (parent[z] == -1 && dist[z] > maxdist)
+            maxdist = dist[z], y = z;
+      if (maxdist == -1) break;
       parent[y] = hook[y];
       // atualização de dist[]:
-      for (link a = G->adj[y]; a != NULL; a = a->next) {
-         vertex w = a->w;
-         int cst = a->cst;
-         if (!(dist[y] + cst >= dist[w])) {
+      for (a = G->adj[y]; a != NULL; a = a->next) {
+         w = a->w;
+         cst = a->cst;
+         if ((dist[y] + cst > dist[w])) {
             dist[w] = dist[y] + cst; // relaxa y-w
-            PQdec( w, dist);
             hook[w] = y;
          }
       }
    }
-   PQfree( );
    free( hook);
 }
 
@@ -234,8 +237,6 @@ int main(int argc, char *argv[])
   vertex *parent, v;
   Graph G;
   
-  srand(time(NULL));
-  
   V = atoi(argv[1]);
   E = atoi(argv[2]);
   INF = V * V;
@@ -243,8 +244,10 @@ int main(int argc, char *argv[])
   dist = malloc(V * sizeof(int));
   parent = malloc(V * sizeof(vertex));
   
+  srand(1);
+  
   G = GRAPHrand(V, E);
-  GRAPHspt(G, 0, parent, dist);  
+  GRAPHspt1(G, 0, parent, dist);  
   GRAPHshow(G);
   
   printf("dist[]:\n");

@@ -1,1 +1,2 @@
 gcc -o l6e5 l6e5.c
+gcc -o l6e1 l6e1.c

@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #define vertex int
 #define greater(i, j) (prty[pq[i]] > prty[pq[j]] ? 0 : 1)
 
@@ -202,7 +203,7 @@ void GRAPHspt1( Graph G, vertex s, vertex *parent, int *dist)
    // inicialização:
    for (v = 0; v < G->V; v++)
       parent[v] = -1, dist[v] = -1;
-   parent[s] = s, dist[s] = 0;
+   parent[s] = s, dist[s] = 0, hook[s] = s;
    for (a = G->adj[s]; a != NULL; a = a->next) {
       dist[a->w] = a->cst;
       hook[a->w] = s;
@@ -216,11 +217,12 @@ void GRAPHspt1( Graph G, vertex s, vertex *parent, int *dist)
             maxdist = dist[z], y = z;
       if (maxdist == -1) break;
       parent[y] = hook[y];
+      printf("y = %d\n", y);
       // atualização de dist[]:
       for (a = G->adj[y]; a != NULL; a = a->next) {
          w = a->w;
          cst = a->cst;
-         if ((dist[y] + cst > dist[w])) {
+         if (dist[y] + cst > dist[w]) {
             dist[w] = dist[y] + cst; // relaxa y-w
             hook[w] = y;
          }
@@ -236,6 +238,9 @@ int main(int argc, char *argv[])
   int V, E, *dist, INF;
   vertex *parent, v;
   Graph G;
+  time_t t;
+  
+  srand(time(&t));
   
   V = atoi(argv[1]);
   E = atoi(argv[2]);
@@ -243,8 +248,6 @@ int main(int argc, char *argv[])
   
   dist = malloc(V * sizeof(int));
   parent = malloc(V * sizeof(vertex));
-  
-  srand(1);
   
   G = GRAPHrand(V, E);
   GRAPHspt1(G, 0, parent, dist);  

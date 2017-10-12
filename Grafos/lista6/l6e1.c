@@ -195,7 +195,6 @@ Graph GRAPHrand(vertex V, int E)
 void GRAPHspt1( Graph G, vertex s, vertex *parent, int *dist)
 {
    vertex *hook = malloc( G->V * sizeof (vertex));
-   vertex *frontier = malloc(G->V * sizeof(vertex)); /* frontier[v] = 0 não está, = 1 caso contrário*/
    vertex v, y, z, w;
    link a;
    int maxdist;
@@ -203,12 +202,11 @@ void GRAPHspt1( Graph G, vertex s, vertex *parent, int *dist)
    
    // inicialização:
    for (v = 0; v < G->V; v++)
-      parent[v] = -1, dist[v] = -1, frontier[v] = 0;
+      parent[v] = -1, dist[v] = -1;
    parent[s] = s, dist[s] = 0, hook[s] = s;
    for (a = G->adj[s]; a != NULL; a = a->next) {
       dist[a->w] = a->cst;
       hook[a->w] = s;
-      frontier[a->w] = 1;
    }
 
    while (1) {
@@ -219,15 +217,16 @@ void GRAPHspt1( Graph G, vertex s, vertex *parent, int *dist)
             maxdist = dist[z], y = z;
       if (maxdist == -1) break;
       parent[y] = hook[y];
-      frontier[y] = 0;
       // atualização de dist[]:
       for (a = G->adj[y]; a != NULL; a = a->next) {
          w = a->w;
-         cst = a->cst;
-         frontier[w] = 1;
-         if (dist[y] + cst > dist[w]) {
-            dist[w] = dist[y] + cst; // relaxa y-w
-            hook[w] = y;
+         if (parent[w] == -1)
+         {
+           cst = a->cst;
+           if (dist[y] + cst > dist[w]) {
+              dist[w] = dist[y] + cst; // relaxa y-w
+              hook[w] = y;
+           }
          }
       }
    }

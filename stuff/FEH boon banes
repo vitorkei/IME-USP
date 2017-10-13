@@ -6,6 +6,7 @@ Alm       | +SPD/-DEF   :                        :
 Lyn       | Neutro      :                        :
 Lucina    | +ATK/-SPD   :                        :
 CorrinM   | +HP/-ATK    :                        :
+Olivia    | Neutra      :                        :
 
 
 Lance 5*                : Blue Tome 5*           : Blue Dragon 5*
@@ -25,15 +26,15 @@ Axe 5*                  : Green Tome 5*          : Green Dragon 5*
 Sheena    | +HP/-SPD    : SCamilla  | +SPD/-ATK  : Fae  | +RES/-ATK
 Titania   | +ATK/-HP    : Boey      | +HP/-ATK   :
 Cherche   | +ATK/-SPD   : Sonya     | +ATK/-HP   :
-Raven     | +ATK/-RES   :                        :
+Raven     | +ATK/-RES   : Inigo     | +DEF/-ATK  :
 BIke      | +HP/-ATK    :                        :
 Minerva   | +SPD/-RES   :                        :
 
 Bow 5*                  : Dagger 5*              : Healer 5*
 ---------------------------------------------------------------------
-Takumi    | +DEF/-SPD   : SFrederick | +RES/-DEF : Maria  | +SPD/-RES
-SGaius    | +SPD/-DEF   : Felicia    | +RES/-DEF : Sakura | +RES/-DEF
-BLyn      | Neutra      : Kagero     | +SPD/-RES :
+Takumi    | +DEF/-SPD   : SFrederick | +RES/-DEF : Maria    | +SPD/-RES
+SGaius    | +SPD/-DEF   : Felicia    | +RES/-DEF : Sakura   | +RES/-DEF
+BLyn      | Neutra      : Kagero     | +SPD/-RES : Lachesis | +???/-???
 Takumi    | +SPD/-DEF   :                        :
 
 

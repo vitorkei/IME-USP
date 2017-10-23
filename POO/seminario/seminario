@@ -34,23 +34,45 @@ https://en.wikipedia.org/wiki/Aspect-oriented_programming
 
 
 Necessário:
--Definir o que é um "aspecto"
--Definir o que é um "interesse" (concern)
--Definir separação de interesses (separation of concerns)
--Definir o que são interesses/características transversais (cross-cutting concerns)
--Definir modularidade (modularity)
--Definir paradigma de programação (programming paradigm)
--Definir programação orientada a aspectos (POA)
--Definir "aspect weaver"
+1-Definir o que é um "aspecto"
+2-Definir o que é um "interesse" (concern)
+3-Definir separação de interesses (separation of concerns)
+4-Definir o que são interesses/características transversais (cross-cutting concerns)
+5-Definir modularidade (modularity)
+6-Definir paradigma de programação (programming paradigm)
+7-Definir programação orientada a aspectos (POA)
+8-Definir "aspect weaver"
+
+1- O que é um aspecto?
+    Aspecto é um subprograma associado a uma propriedade específica do programa.
+    Conforme essa propriedade varia, o efeito se propaga pelo programa inteiro.
+    Ele é usado como parte de um novo tipo de compilador chamado de "aspect weaver". [1]
+    
+    O aspecto de um programa é uma característica ligada a várias partes do programa,
+    mas que não está relacionada a funcionalidade primária dele. [2.1]
+    
+    Aspecto é uma característica comum que está normalmente espalhado em vários métodos, classes,
+    hierarquias de objetos ou até mesmo modelos inteiros de objetos. Seu comportament faz parecer
+    que precisaria de uma estrutura para si mesmo, mas é muito difícil ou até mesmo impossível de
+    espressas essa estrutura em código tradicional de programação orientada à objetos. [3]
+    
+    Um aspecto é uma proriedade que não pode ser encapsulada organizadamente em um procedimento
+    generalizado. [5, pag. 8]
+
+4- Quando duas propriedades do programa precisam ser construídas de forma diferente,
+   mas agir coordenadamente, dizemos que elas fazem "cross-cut" uma na outra. [5, pag. 8]
+
+
 
 Links encontrados ao buscar "aspect oriented programming" no google:
 
-http://whatis.techtarget.com/definition/aspect-oriented-programming-AOP
+[1] http://whatis.techtarget.com/definition/aspect-oriented-programming-AOP
 
-https://en.wikipedia.org/wiki/Aspect-oriented_programming
+[2] https://en.wikipedia.org/wiki/Aspect-oriented_programming
+    [2.1] https://en.wikipedia.org/wiki/Aspect_(computer_programming)
 
-https://docs.jboss.org/aop/1.0/aspect-framework/userguide/en/html/what.html
+[3] https://docs.jboss.org/aop/1.0/aspect-framework/userguide/en/html/what.html
 
-https://stackoverflow.com/questions/242177/what-is-aspect-oriented-programming
+[4] https://stackoverflow.com/questions/242177/what-is-aspect-oriented-programming
 
-
+[5] https://lists.gnu.org/archive/html/gnumed-devel/2005-12/pdfDUNizNkWN6.pdf

@@ -1,0 +1,56 @@
+http://whatis.techtarget.com/definition/aspect-oriented-programming-AOP
+-Programação orientada a aspectos (POA) é uma forma de programar que permite que
+ propriedades globais do programa determinem como ele será compilado em um
+ executável. Pode ser usado com programação orientada a objetos (POO)
+
+-Aspecto é um subprograma associado a uma propriedade específica do programa.
+ Conforme a propriedade varia, seu efeito se espalha pelo programa inteiro.
+ O subprograma aspecto é usado como parte de um novo tipo de compilador
+ chamado aspect weaver.
+
+-Uma analogia para POA é a manufatura de panos em que as linhas se transam
+ automaticamente. Sem POA, o programador teria que costurá-las manualmente.
+
+https://en.wikipedia.org/wiki/Aspect-oriented_programming
+-Paradigma de programação que tem como objetivo aumentar a modularização
+ ao permitir a separação de "cross-cutting concerns" (interesses/características transversais).
+-Características transversais são aspectos de um prograam que afetam outras
+ características que, muitas vezes, não podem ser descompostas de forma clara
+ do resto do sistema tanto do ponto de vista de design quanto de implementação,
+ podendo resultar em duplicação de código e/ou dependências significativas
+ entre os sistemas.
+-Aspectos são característica de um programa que se ligam à várias outras
+ partes, mas que não está relacionado à função primária do programa.
+ Uma vez que um aspecto interpõe ("crosscuts") o interesse/característica
+ principal do programa, ele viola o interesse de separação que tenta encapsular
+ funções não relacionadas.
+-Interesse de separação é um princípio de design de programação que busca separar
+ o programa em setores distintos de tal forma que cada um lida com interesses separados.
+-Interesse é um conjunto específico de informações que tem efeito no código de um programa.
+ Ele pode ser tão genérico quanto genérico quanto os detalhes das interações de uma base de
+ ou tão específico quanto calculos primitivos (adição, subtração, ...).
+ Normalmente, um código consegue ser separado em seções lógicas, cada uma lidando
+ com interesses diferentes, 
+
+
+Necessário:
+-Definir o que é um "aspecto"
+-Definir o que é um "interesse" (concern)
+-Definir separação de interesses (separation of concerns)
+-Definir o que são interesses/características transversais (cross-cutting concerns)
+-Definir modularidade (modularity)
+-Definir paradigma de programação (programming paradigm)
+-Definir programação orientada a aspectos (POA)
+-Definir "aspect weaver"
+
+Links encontrados ao buscar "aspect oriented programming" no google:
+
+http://whatis.techtarget.com/definition/aspect-oriented-programming-AOP
+
+https://en.wikipedia.org/wiki/Aspect-oriented_programming
+
+https://docs.jboss.org/aop/1.0/aspect-framework/userguide/en/html/what.html
+
+https://stackoverflow.com/questions/242177/what-is-aspect-oriented-programming
+
+

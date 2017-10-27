@@ -1,0 +1,17 @@
+Fábio Henrique Tanaka - 9297982
+João Daniel - 7578279
+Lucas Stefan Abe - 8531612
+Luiz Felipe Moumdjian Girotto - 8941189
+Vítor Kei Taira Tamada - 8516250
+
+Breve explicações de cada arquivo:
+-crud.md:
+    Descrição do CRUD de todas as tabelas envolvidas no projeto.
+-consultas.sql:
+    Arquivo de consulta ao banco de dados.
+-create_schema.sql:
+    Arquivo para criação do banco de dados.
+-populate_database.sql:
+    Arquivo para popular o banco de dados com informações.
+-scripts_sql.sh:
+    Script para criar um banco de dados e popula-lo. Excute por: $./script_sql.sh

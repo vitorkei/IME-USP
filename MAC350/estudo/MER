@@ -1,0 +1,32 @@
+Modelo Entidade-Relacionamento (MER)
+
+-Modelo de dados de alto nível para representar semântica associada a dados do minimundo
+-Utilizado em projeto conceitual
+-Conceitos intuitivos
+-Diagrama Entidade-Relacionamento (DER) = esquema conceitual que usa MER
+
+-MER: conjunto de conceitos e elementos de modelagem
+-DER: Resultado do processo de modelagem usando MER
+
+-Entidade: objeto mais elementar que o MER representa. É algo de existência independente do mundo real.
+-Atributo: propriedade particular de uma entidade
+-Atributo composto: atributo que pode ser divididos em sub partes com significados independentes
+--EXEMPLO: Endereço
+           >>endereço da rua
+             >>nome da rua
+             >>número
+             >>apartamento
+           >>cidade
+           >>estado
+           >>CEP
+-Atributos podem ter mais de um valor (EX.: uma pessoa pode ter diversos números de telefone para contato)
+-Atributos derivados são atributos obtidos após processas informações do banco de dados (EX.: idade = atual - nascimento)
+-Atributo de valor nulo: quando um atributo não possui valor aplicável
+-Atributo-chave: todo tipo de entidade precisa de um e devem ser distintos
+-Grau de tipo de relacionamento: número de tipos de entidades envolvidas no relacionamento
+-Relacionamento pode ser visto como um atributo (multivalorado ou não)
+-Razão de cardinalidade: 1:1, 1:N, N:N e etc
+-Participação: se a existência de uma entidade depende de estar relacionada a outra (total/parcial)
+-Restrição estrutural: uma entidade é (MIN, MAX) se participa em no mínimo MIN e no máximo MAX relacionamentos
+-Tipos de relacionamentos também podem ter atributos
+-

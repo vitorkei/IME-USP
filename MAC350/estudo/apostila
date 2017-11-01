@@ -1,0 +1,54 @@
+Capítulo 1 - Base de dados
+
+-Modelo hierárquico
+    Dados estruturados em hierarquias ou árvores;
+    Nós das hierarquias contêm ocorrências de registros;
+    Registros são coleções de atributos;
+    Ligação é associação entre dois registros;
+    Cardinalidade: 1:1, 1:N, N:N e etc;
+    Registros podem estar associados a vários registros diferentes, mas pode causa
+      inconsistência de dados e desperdício de espaço;
+    Registros são acessados a partir da raíz até a folha;
+    No diagrama, caixas representam registros e linhas as associações correspondentes;
+    Orientado a registros - acesso a base de dados é feito em um registro de cada vez;
+
+-Modelo em rede
+    Extensão do hierárquico;
+    Elimina conceito de hierarquia e permite que um registro esteja envolvido em
+      várias associações;
+    Organização em grafos;
+    Um único tipo de associação;
+    Possibilidade de acesso a qualquer nó sem passar pela raíz;
+    No diagrama, caixas representam registros e linhas as associações correspondentes;
+    Orientado a registros - acesso a base de dados é feito em um registro de cada vez;
+
+-Modelo relacional
+    Surgiu por necessidade de:
+      > aumentar independência de dados no SGBD;
+      > prover um conjunto de funções apoiadas em álgebra relacional para
+          armazenamento recuperação de dados;
+      > permitir processamento dedicado;
+    Baseia-se na teoria dos conjuntos e álgebra relacional;
+    Mais flexível e adequado ao solucionar problemas em nível de concepção e implementação
+      da base de dados;
+    Estrutura fundamental: relação (tabela) que possui um ou mais atributos (campos);
+    Cada instância (linha) é um registro;
+    Não possui caminhos pré-definidos para acessar os dados;
+    Possui restrições para evitar aspectos indesejáveis (repetição de informação,
+      incapacidade de representar informação e perda de informação por exemplo):
+      > integridade referencial;
+      > chaves;
+      > integridade de junções de relações;
+
+-Modelo orientado a objetos
+    Motivação: limite de armazenamento e representação semântica imposta pelo relacional;
+    Diagrama de classes UML serve geralmente como esquema para o modelo de dados
+      orientado a objetos;
+    Bancos de dados orientados a objetos;
+
+-Sistemas objeto-relacionais
+    Tenta suprir dificuldades dos sistemas relacionais convencionais;
+    Visa ser mais representativo em semântica e construções de modelagens;
+    Propõe adicionar facilidades como SQL para manusear tais dados;
+
+

@@ -29,4 +29,3 @@ Modelo Entidade-Relacionamento (MER)
 -Participação: se a existência de uma entidade depende de estar relacionada a outra (total/parcial)
 -Restrição estrutural: uma entidade é (MIN, MAX) se participa em no mínimo MIN e no máximo MAX relacionamentos
 -Tipos de relacionamentos também podem ter atributos
--

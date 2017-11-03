@@ -1,5 +1,7 @@
 Capítulo 1 - Base de dados
 
+1.1 - Modelos de dados
+
 -Modelo hierárquico
     Dados estruturados em hierarquias ou árvores;
     Nós das hierarquias contêm ocorrências de registros;
@@ -51,4 +53,33 @@ Capítulo 1 - Base de dados
     Visa ser mais representativo em semântica e construções de modelagens;
     Propõe adicionar facilidades como SQL para manusear tais dados;
 
+====================================================
 
+1.2 - Arquitetura de bancos de dados
+
+-Projetos lógico e funcional de bancos de dados precisam ser capazes de prever
+    o volume de informação armazenado a curto, médio e longo prazo e grande
+    capacidade de adaptação;
+-Precisa de generalidade e alto grau de abstração;
+-Inteface ágil;
+-Compatibilidade com diversas plataformas;
+-Independência de implementação da interface;
+-Conversão e mapeamento de diferenças semânticas entre paradigmas;
+
+-Arquitetura cliente-servidor foi desenvolvida para dividir o ambiente
+    de computação onde um grande número de máquinas, servidores e equipamentos
+    estão conectador por rede;
+-A ideia é definir servidores especializados;
+-Alguns dos motivos que levaram ao uso desta arquitetura foram:
+    > facilidade de implementação por conta da separação das funcionalidades e servidores;
+    > servidor utilizado de forma inteligente pela forma de delegar tarefas;
+    > usuário pode executar interface gráfica familiar e não do servidor;
+
+Vantagens SGBD vs processament tradicional de arquivos
+-Controle de redundância
+-Compartilhamento de dados
+-Restrições de acesso multiusuário
+-Fornecimento de múltiplas interfaces para diferentes tipos de usuários
+-Representação de relacionamento complexo entre dados
+-Reforçar restrições de integridade de dados
+-Fornecer backup e restauração

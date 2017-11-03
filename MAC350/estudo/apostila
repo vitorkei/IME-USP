@@ -1,4 +1,4 @@
-Capítulo 1 - Base de dados
+1 - Base de dados
 
 1.1 - Modelos de dados
 
@@ -53,8 +53,6 @@ Capítulo 1 - Base de dados
     Visa ser mais representativo em semântica e construções de modelagens;
     Propõe adicionar facilidades como SQL para manusear tais dados;
 
-====================================================
-
 1.2 - Arquitetura de bancos de dados
 
 -Projetos lógico e funcional de bancos de dados precisam ser capazes de prever
@@ -75,11 +73,44 @@ Capítulo 1 - Base de dados
     > servidor utilizado de forma inteligente pela forma de delegar tarefas;
     > usuário pode executar interface gráfica familiar e não do servidor;
 
-Vantagens SGBD vs processament tradicional de arquivos
--Controle de redundância
--Compartilhamento de dados
--Restrições de acesso multiusuário
--Fornecimento de múltiplas interfaces para diferentes tipos de usuários
--Representação de relacionamento complexo entre dados
--Reforçar restrições de integridade de dados
--Fornecer backup e restauração
+====================================================
+
+2 - SGBD
+
+Vantagens SGBD vs processament tradicional de arquivos:
+-Controle de redundância;
+-Compartilhamento de dados;
+-Restrições de acesso multiusuário;
+-Fornecimento de múltiplas interfaces para diferentes tipos de usuários;
+-Representação de relacionamento complexo entre dados;
+-Reforçar restrições de integridade de dados;
+-Fornecer backup e restauração;
+
+Vantagens de usar banco de dados:
+-Potencial para obrigar padronização;
+-Flexibilidade;
+-Redução do tempo de desenvolvimento de aplicações
+-Disponibilidade de informações atualizadas;
+-Economia de escala
+
+Não utilizar SGBD quando:
+-bases de dados e aplicações simples e sem expectativa de mudanças
+-restrição de tempo que não pode ser satisfeita por SGBD
+-sem necessidade de acesso multiusuário
+
+====================================================
+
+3 - Conceitos e arquiteturas de SGBDs
+
+-Modelo de dados: conjunto de conceitos que podem ser usados para descrever
+    a estrutura de uma base de dados;
+-Estrutura de base de dados: tipos de dados, relacionamentos e restrições
+    pertinentes aos dados;
+-Modelos de alto-nível: conceitos mais próximos à percepção dos usuários. Utilizam
+    entidade, atributos e relacionamentos;
+-Modelos de baixo-nível: descreve como os dados são armazenados no computador. Utilizam
+    registros, ordem dos registros e caminhos de acesso;
+-Descrição de base de dados: esquema da base de dados, especificado durante o projeto
+    da base de dados, quando a expectativa de mudanças não é grande. Utiliza diagrama de
+    esquema e convenções para mostrar esquemas espcíficos no modelo;
+

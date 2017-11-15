@@ -1,25 +1,28 @@
 -- O que é e Motivação --
 
-Paradigma de programação que visa aumentar a modularização e resolver o problema
-  de cross-cutting concern.
+Paradigma de programação construído para resolver limitações de POO, visando
+  aumentar a modularização e resolver o problema de cross-cutting concern
 
 Aspecto é uma característica de um programa que está ligada a várias partes dele,
-  mas que não está relacionada a função principal do programa. Exemplo do que é um
-  aspecto é mais claro quando ligado a ideia de cross-cuttin concern.
+  mas que não está relacionada a sua função principal. Exemplo do que é um
+  aspecto é mais claro quando ligado a ideia de cross-cutting concern.
 
 Cross-cutting concern são aspectos que afetam outros interesses (concerns) do programa.
   Esses interesses normalmente não podem ser facilmente separados e encapsulados do
   resto do sistema, tanto do ponto de vista de design quanto de implementação, e que
   podem resultar em duplicação de código (scattering) e dependências significativas
-  entre sistemas (tangling). Um exemplo clássico é log de dados
+  entre sistemas (tangling). Um exemplo clássico é log de dados. Como quase todos os
+  métodos precisam registrar alguns dados em log, as chamadas para a classe de log
+  de dados fica espalhada por todo o código, dificultando a manutenção.
 
 -- História --
 
-Orientação a aspecto foi introduzido por Gregor Kiczales e sua equipe na
-  Palo Alto Research Company (PARC), conhecida na época como Xerox PARC.
-  Também foram os primeiros a desenvolver o conceito explícito de de POA
-  e uma das linguagens de POA mais populares e aceitas, o AspectJ, que é
-  uma extensão de Java.
+Orientação a aspecto foi introduzido por Gregor Kiczales, professor de
+  ciência da computação da Universidade de British Columbia, Canada,
+  e sua equipe na Palo Alto Research Company (PARC), conhecida na época
+  como Xerox PARC. Também foram os primeiros a desenvolver o conceito 
+  explícito de POA e uma das linguagens de POA mais populares e aceitas,
+  o AspectJ, que é uma extensão de Java.
 
 Atualmente, há diversas linguagens que utilizam orientação a aspectos como
   parte de sua estrutura ou como bibliotecas externas, como Python, Racket,
@@ -33,7 +36,10 @@ Assim como POO levou ao desenvolvimento de diversas metodologias de desen-
 
 Atualmente, possui uma conferência anual para discutir sobre o assunto,
   a Conferência Internacional de Desenvolvimento de Software Orientado a
-  Aspectos, que teve sua primeira edição em 2002, em Enschede, Holanda
+  Aspectos, que teve sua primeira edição em 2002, em Enschede, Holanda.
+  A edição de 2017 ocorreu em Dubai, nos Emirados Árabes Unidos, nos dias
+  25 e 26 de Setembro. A edição de 2018 ocorrerá no mesmo lugar, nos dias
+  24 e 25 de Setembro.
 
 -- Futuro --
 

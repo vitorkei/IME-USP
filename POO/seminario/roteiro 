@@ -1,7 +1,12 @@
--- O que é e Motivação --
+-- O que é --
 
 Paradigma de programação construído para resolver limitações de POO, visando
-  aumentar a modularização e resolver o problema de cross-cutting concern
+  aumentar a modularização e resolver o problema de cross-cutting concern.
+  Sua vantagem é o que ela faz: modularizar o código e resolver o problema de
+  cross-cutting concern.
+  Por outro lado, por ser algo relativamente recente, o desenvolvimento de
+  tecnologias sobre o assunto é mais escasso em relação a POO, bem como menos
+  pessoas que habilidosas no assunto ou que sequer o conhecem.
 
 Aspecto é uma característica de um programa que está ligada a várias partes dele,
   mas que não está relacionada a sua função principal. Exemplo do que é um
@@ -17,12 +22,14 @@ Cross-cutting concern são aspectos que afetam outros interesses (concerns) do p
 
 -- História --
 
-Orientação a aspecto foi introduzido por Gregor Kiczales, professor de
-  ciência da computação da Universidade de British Columbia, Canada,
-  e sua equipe na Palo Alto Research Company (PARC), conhecida na época
-  como Xerox PARC. Também foram os primeiros a desenvolver o conceito 
-  explícito de POA e uma das linguagens de POA mais populares e aceitas,
-  o AspectJ, que é uma extensão de Java.
+O termo "programação orientada a aspectos" foi introduzido por Gregor
+  Kiczales e sua equipe na Palo Alto Research Company (PARC), conhecida
+  como Xerox PARC na época. Sua equipe foi a primeira a desenvolver o
+  conceito explícito de POA e uma das linguagens mais populares desse
+  paradigma atualmente, o AspectJ, que é uma extensão de Java. A saber, 
+  Gregor é também professor da Universidade de British Columbia, Canadá,
+  e a PARC é uma companhia de pesquisa e desenvolvimento tecnológico de
+  Palo Alto, California.
 
 Atualmente, há diversas linguagens que utilizam orientação a aspectos como
   parte de sua estrutura ou como bibliotecas externas, como Python, Racket,
@@ -33,6 +40,10 @@ Assim como POO levou ao desenvolvimento de diversas metodologias de desen-
   de diversas tecnologias de engenharia de software, incluindo mas não se
   limitando a metodologias que lidam com aspectos, técnicas de modelagem e
   tecnologias de testes.
+
+Conceitos semelhantes de paradigma de programação estavam em desenvolvimento
+  na Universidade de Twente, Holanda, na IBM, na Universidade do Texas e na
+  Northeastern University, EUA.
 
 Atualmente, possui uma conferência anual para discutir sobre o assunto,
   a Conferência Internacional de Desenvolvimento de Software Orientado a

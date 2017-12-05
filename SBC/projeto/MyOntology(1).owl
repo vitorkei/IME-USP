@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#"
+     xml:base="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology"
+     xmlns:MyOntology="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:ns="http://www.w3.org/2003/06/sw-vocab-status/ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:renata="http://www.ime.usp.br/~renata/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:wot="http://xmlns.com/wot/0.1/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology">
+        <owl:imports rdf:resource="http://www.ime.usp.br/~renata/FOAF-modified"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#actedBy -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#actedBy">
+        <rdfs:subPropertyOf rdf:resource="http://www.ime.usp.br/~renata/FOAF-modifiedmaker"/>
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#actorOf"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Movie"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Actor"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#actorOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#actorOf">
+        <rdfs:subPropertyOf rdf:resource="http://www.ime.usp.br/~renata/FOAF-modifiedmade"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Actor"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Movie"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#directedBy -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#directedBy">
+        <rdfs:subPropertyOf rdf:resource="http://www.ime.usp.br/~renata/FOAF-modifiedmaker"/>
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#directorOf"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Movie"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Director"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#directorOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#directorOf">
+        <rdfs:subPropertyOf rdf:resource="http://www.ime.usp.br/~renata/FOAF-modifiedmade"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Director"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Movie"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#movieTitle -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#movieTitle"/>
+    
+
+
+    <!-- http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#releaseYear -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#releaseYear"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Actor -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Actor">
+        <rdfs:subClassOf rdf:resource="http://www.ime.usp.br/~renata/FOAF-modifiedPerson"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Director -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Director">
+        <rdfs:subClassOf rdf:resource="http://www.ime.usp.br/~renata/FOAF-modifiedPerson"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Movie -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Movie">
+        <rdfs:subClassOf rdf:resource="http://www.ime.usp.br/~renata/FOAF-modifiedProject"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Ator_1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Ator_1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Actor"/>
+        <renata:FOAF-modifiedfamilyName>Sobrenome</renata:FOAF-modifiedfamilyName>
+        <renata:FOAF-modifiedfirstName>Nome</renata:FOAF-modifiedfirstName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Diretor_1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Diretor_1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Director"/>
+        <renata:FOAF-modifiedfamilyName>Sobrenome</renata:FOAF-modifiedfamilyName>
+        <renata:FOAF-modifiedfirstName>Nome</renata:FOAF-modifiedfirstName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Filme_1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Filme_1">
+        <rdf:type rdf:resource="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Movie"/>
+        <actedBy rdf:resource="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Ator_1"/>
+        <directedBy rdf:resource="http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#Diretor_1"/>
+        <movieTitle>Nome do filme</movieTitle>
+        <releaseYear rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2017</releaseYear>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
+

@@ -1,0 +1,96 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX foaf: <https://www.ime.usp.br/~renata/FOAF-modified#>
+PREFIX my: <http://www.semanticweb.org/glasso/ontologies/2017/10/MyOntology#>
+
+1
+SELECT ?actor
+    WHERE {
+        ?actor my:actorOf my:Isle_of_Dogs .
+    }
+
+2
+SELECT ?movie
+    WHERE {
+        ?movie my:directedBy my:Marco_Pontecorvo .
+    }
+
+3
+SELECT ?movie
+    WHERE {
+        ?movie my:actedBy my:Sylvester_Stallone .
+    }
+
+4
+SELECT ?movie
+    WHERE {
+        ?movie my:actedBy my:Sylvester_Stallone .
+        ?movie my:actedBy my:Charlton_Heston .
+    }
+
+5
+SELECT ?director
+    WHERE {
+        ?director my:directorOf ?movie .
+        ?movie my:actedBy my:Sylvester_Stallone .
+        ?movie my:actedBy my:Charlton_Heston .
+    }
+
+6
+SELECT ?director
+    WHERE {
+    }
+
+7
+
+8.
+SELECT ?director
+    WHERE {
+        ?movie my:actedBy my:X .
+        ?movie my:actedBy my:Y .
+        ?movie my:directedBy ?director .
+        ?movie my:releaseDate ?date .
+        FILTER (
+	          ?date > N1 &&
+	          ?date < N2
+	      ) .
+} 
+
+9.
+SELECT ?actor
+    WHERE {
+        ?movie my:actedBy my:X .
+        ?movie my:actedBy my:Y .
+        ?movie my:actedBy ?actor .
+        ?movie my:releaseDate ?date .
+        FILTER (
+	          ?date > N1 &&
+	          ?date < N2 &&
+	          ?actor != my:X &&
+	          ?actor != my:Y
+	      ) .
+} 
+
+10
+SELECT ?movie
+    WHERE {
+        ?director my:directorOf my:Isle_of_Dogs .
+        ?director my:directorOf ?movie .
+        {
+            ?movie my:actedBy my:Sylvester_Stallone
+        } UNION {
+            ?movie my:actedBy my:Charlton_Heston
+        }
+}
+
+10/2
+SELECT ?movie
+    WHERE {
+        ?director my:directorOf my:Isle_of_Dogs .
+        ?director my:directorOf ?movie .
+        FILTER (?movie my:actedBy my:Sylvester_Stallone ||
+                ?movie my:actedBy my:Charlon_Heston) .
+    }
+}

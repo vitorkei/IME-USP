@@ -1,0 +1,27 @@
+8.
+SELECT ?director WHERE {
+  ?movie my:actedBy my:X .
+  ?movie my:actedBy my:Y .
+  ?movie my:directedBy ?director .
+  ?movie my:releaseDate ?date
+  FILTER (
+	?date > N1 &&
+	?date < N2
+	 )
+} 
+
+9.
+SELECT ?actor WHERE {
+  ?movie my:actedBy my:X .
+  ?movie my:actedBy my:Y .
+  ?movie my:actedBy ?actor .
+  ?movie my:releaseDate ?date
+  FILTER (
+	?date > N1 &&
+	?date < N2
+	?actor != my:X
+	?actor != my:Y
+	 )
+} 
+
+

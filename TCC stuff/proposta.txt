@@ -1,0 +1,17 @@
+Proposta de TCC
+
+Contextualização e motivaçao:
+
+  Inteligência Artificial (IA) é um campo da ciência e da engenharia recente, especialmente se comparado com alguns dos mais tradicionais,
+  como física e matemática. Por ser um campo que abrange diversas subáreas, IA possui diversas definições, das quais vale mencionar as
+  que se relacionam com processo de pensamento, raciocínio, e comportamento.
+
+  Desde que comecei a estudar inteligência artificial na graduação, sua aplicação a jogos eletrônicos é um tópico que capturou meu interesse.
+  Porém, enquanto é muito comum utilizarem um conjunto de regras pré-determinados para controlar os NPCs (non-playable characters) em jogos
+  eletrônicos, meu interesse é em uma IA que seja capaz de aprender a jogar sozinha no lugar de um ser humano, capaz de perceber o ambiente,
+  raciocinar e agir, similar ao que uma pessoa faria.
+
+Proposta:
+
+  A proposta do trabalho é desenvolver uma inteligência artificial capaz de aprender, utilizando aprendizado por reforço, a jogar o jogo
+  Asteroids.

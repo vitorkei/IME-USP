@@ -1,3 +1,5 @@
+// Nome: Vítor Kei Taira Tamada
+// NUSP: 8516250
 // StdDraw é uma biblioteca do IntroCS
 // API: https://introcs.cs.princeton.edu/java/15inout/javadoc/StdDraw.html
 
@@ -44,7 +46,7 @@ public class lista5
     Random rand = new Random();
     for(int k = 0; k < 3; k++)
     {
-      if(k == 0)      StdDraw.setPenColor(StdDraw.BLACK);
+      if     (k == 0) StdDraw.setPenColor(StdDraw.BLACK);
       else if(k == 1) StdDraw.setPenColor(StdDraw.RED);
       else if(k == 2) StdDraw.setPenColor(StdDraw.BLUE);
 

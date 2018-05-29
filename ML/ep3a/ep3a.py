@@ -1,79 +1,27 @@
-# notebook feito para a versão 0.4.0
 import numpy as np
 import torch
 
-print("PyTorch version = {} ".format(torch.__version__))
+def graph1(a_np, b_np, c_np):
+  x = a_np * c_np
+  y = a_np + b_np
 
-print("tensor A\n")
-A = torch.Tensor([[1., 1.], [1., 2.]])
-print("type = ", A.type())
-print("shape = ", A.shape)
-print(A)
+  f = torch.DoubleTensor(x / y)
+  f.requires_grad = True
+  fGrad = torch.sum(f)
+  fGrad.backward()
 
-print("\ntensor B\n");
-B = torch.Tensor([[2., 2.], [3., 4.]])
-print("type = ", B.type())
-print("shape = ", B.shape)
-print(B)
+  auto_grad = f.grad
+  user_grad = 0
 
-print("\ntensor C\n")
-C = torch.Tensor((4, 2, 2))
-print("type = ", C.type())
-print("shape = ", C.shape)
-print(C)
+  return f, auto_grad, user_grad
 
-print("\ntensor D\n")
-D = torch.rand((3, 3))
-print("type = ", D.type())
-print("shape = ", D.shape)
-print(D)
+for _ in range(1000):
+  a_np = np.random.rand(1)
+  b_np = np.random.rand(1)
+  c_np = np.random.rand(1)
 
-print("\n##########################\n\n")
+  f, auto_grad, user_grad = graph1(a_np, b_np, c_np)
+  manual_f = (a_np * c_np) / (a_np + b_np)
 
-A_flat = A.view((4, 1))
-A_flat = A_flat.type(torch.ShortTensor)
-print("tensor A_flat\n")
-print("type = ", A_flat.type())
-print("shape = ", A_flat.shape)
-print(A_flat)
-
-B_flat = B.view((4, 1))
-B_flat = B_flat.type(torch.ByteTensor)
-print("\ntensor B_flat\n")
-print("type = ", B_flat.type())
-print("shape = ", B_flat.shape)
-print(B_flat)
-
-print("\n\n")
-
-print("A[0][0] = ", A[0][0])
-print("A[0:1,:] = ", A[0:1,:])
-print("A[1,:] = ", A[1,:])
-print("B_flat[-1] = ", B_flat[-1])
-
-print("\n##########################\n\n")
-
-print("A = ", A)
-print()
-print("B = ", B)
-
-print()
-print("- (soma)\n A + B = \n", A+B)
-
-print()
-print("- (multiplicação por escalar)\n A * 9.2 = \n", A * 9.2)
-
-print()
-print("- (hadammar product -- multiplicação elemento a elemento)\n A * B = \n", A * B)
-
-print()
-print("- (redução por soma)\n torch.sum(A) = \n", torch.sum(A))
-
-print()
-print("- (redução por média)\n torch.mean(B) = \n", torch.mean(B))
-
-print()
-def sigmoid(x):
-  return 1/(1 + np.exp(-x))
-print("- (aplicando uma função escalar num tensor)\n sigmoid(A) = \n", sigmoid(A))
-
+  assert np.isclose(f.data.numpy()[0], manual_f, atol=1e-4), "Valor do f com problemas"
+  assert np.isclose(auto_grad.numpy()[0], user_grad()), "Derivada parcial com problemas"

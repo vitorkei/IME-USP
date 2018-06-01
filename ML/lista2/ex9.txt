@@ -1,0 +1,11 @@
+a) Segundo o exercício, o problema de regressão é de uma dimensão,
+   ou seja, o x tem apenas uma dimensão. Portanto, o valor de y é dado
+   por y = a*x + b, sendo a e b os pesos. Ou seja, y é dado por
+   y = w1 * x + w2, tendo 2 pesos.
+   No problema de classificação, por outro lado, a classificação é
+   feita de acordo com o sinal do resultado de w1*x + w2*y + threshold.
+   Em outras palavras, o problema de classificação possui 3 pesos.
+   Podemos dizer que, para o problema de regressão, o número de pesos
+   é igual a d+1; enquanto, para o problema de classificação, o
+   número de pesos é igual a d+2, sendo, em ambos os casos, d igual
+   ao número de dimensões de x.

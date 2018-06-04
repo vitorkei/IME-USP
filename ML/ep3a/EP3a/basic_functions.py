@@ -134,28 +134,38 @@ def SGD_with_momentum(X,
     # YOUR CODE HERE:
     w = torch.from_numpy(inital_w)
     w.requires_grad = True
-    
+
     weights_history = []
     cost_history = []
     z = 0
+
     for t in range(iterations):
-        # J(w) = 1/N * (Xw - y)^T * (Xw - y)
-        Xm = torch.from_numpy(X[0:batch_size]) # minibatch de m exemplos de X
-        ym = torch.from_numpy(y[0:batch_size]) # y correspondentes aos m exemplos do minibatch de X
-        
-        step1 = torch.matmul(Xm, w)           # Xw
-        step2 = step1 - ym                    # Xw - y
-        step2T = torch.transpose(step2, 0, 1) # (Xw - y)^T
-        step3 = torch.matmul(step2T, step2)   # (Xw - y)^T * (Xw - y)
-        J = step3 / batch_size                # 1/N * (Xw - y)^T * (Xw - y)
+        weights_history.append(w.clone())
+
+        # gera um minibatch de batch_size elementos escolhidos aleatoriamente
+        Xm = []
+        ym = []
+        ids = np.random.choice(np.arange(X.shape[0]), batch_size, replace=False)
+        for i in ids:
+            Xm.append(X[i])
+            ym.append(y[i])
+        Xm = torch.DoubleTensor(Xm)
+        ym = torch.DoubleTensor(ym)
+
+        # calcula o custo (J) e o grande de J em w
+        step1 = torch.matmul(Xm, w)
+        step2 = step1 - ym
+        step2T = torch.transpose(step2, 0, 1)
+        step3 = torch.matmul(step2T, step2)
+        J = step3 / batch_size
         J.backward()
-        dJdw = w.grad # derivada de J em w
-        
+        dJdw = w.grad
+
         z = momentum * z + dJdw
         w.data -= learning_rate * z
-        weights_history.append(w.view(-1))
         cost_history.append(J[0][0])
-    
+        w.grad.zero_()
+
     w_np = w.detach().numpy()
     # END YOUR CODE
 
